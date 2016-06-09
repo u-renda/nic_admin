@@ -1,0 +1,282 @@
+/*
+ * GLOBAL
+ */
+label {
+    font-weight: 400;
+}
+.right {
+    text-align: right;
+}
+.fullwidth {
+    width: 100%;
+}
+.floatleft {
+    float: left;
+}
+.maxwidth400 {
+    max-width: 400px;
+}
+.maxheight300 {
+    max-height: 300px;
+}
+.height150 {
+    height: 150px !important;
+}
+.height250 {
+    height: 250px !important;
+}
+.font16 {
+    font-size: 16px;
+}
+.font20 {
+    font-size: 20px;
+}
+.font40 {
+    font-size: 40px;
+}
+.fontblack {
+    color: #000000;
+}
+.fontred {
+    color: #ff0000;
+}
+.fontorange {
+    color: #f5ab35;
+}
+.fontblue {
+    color: #0000ff;
+}
+.fontwhite {
+    color: #ffffff;
+}
+.fontgreen {
+    color: #2ecc71;
+}
+.fontbold {
+	font-weight: bold;
+}
+.padding10 {
+    padding: 10px;
+}
+.paddinglr0 {
+    padding-left: 0;
+    padding-right: 0;
+}
+.paddinglr15 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+.paddingtop0 {
+    padding-top: 0;
+}
+.paddingright0 {
+    padding-right: 0;
+}
+.paddingright15 {
+    padding-right: 15px !important;
+}
+.paddingbottom0 {
+    padding-bottom: 0;
+}
+.paddingleft0 {
+    padding-left: 0;
+}
+.paddingleft15 {
+    padding-left: 15px;
+}
+.paddingbottom15 {
+    padding-bottom: 15px;
+}
+.margin15 {
+    margin: 15px;
+}
+.margintb10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.margintb15 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.marginlr0 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+.marginlr15 {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+}
+.margintop10 {
+    margin-top: 10px;
+}
+.margintop15 {
+    margin-top: 15px;
+}
+.marginbottom0 {
+    margin-bottom: 0;
+}
+.marginbottom15 {
+    margin-bottom: 15px;
+}
+.bg-emerald {
+    background-color: #2ecc71;
+}
+.bg-peter-river {
+    background-color: #3498db;
+}
+.bg-alizarin {
+    background-color: #e74c3c;
+}
+.bg-concrete {
+    background-color: #95a5a6;
+}
+.bg-sun-flower {
+    background-color: #f1c40f;
+}
+.bg-wet-asphalt {
+    background-color: #34495e;
+}
+.bg-amethyst {
+    background-color: #9b59b6;
+}
+.bg-primary {
+    background-color: #0088CC;
+}
+.bg-white {
+    background-color: #fff;
+}
+.hand-pointer {
+    cursor: pointer;
+}
+
+/*
+ * LEFT MENU
+ */
+.left-menu {
+    min-height: 300px;
+}
+.left-logo {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+.panel-default > a,
+.list-group > a {
+    color: inherit;
+}
+.panel-default > a:hover,
+.panel-default > a:focus,
+.list-group > a:hover,
+.list-group > a:focus {
+    text-decoration: none;
+}
+.panel-heading {
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+}
+.navigation .panel-heading:hover,
+.navigation .panel-heading.active {
+    background-color: #1c5282;
+    color: #ffffff;
+}
+.list-group-item:hover {
+    color: #337ab7;
+}
+.list-group-item.active,
+.list-group-item.active:focus,
+.list-group-item.active:hover {
+    z-index: 2;
+    color: #000;
+    background-color: #f5f5d0;
+    border-color: #337ab7;
+}
+
+/*
+ * Form
+ */
+.btn {
+    border-radius: 0;
+}
+.btn + .btn {
+    margin-left: 5px;
+}
+.blue.btn {
+    color: #ffffff;
+    background-color: #3598dc;
+}
+.blue.btn:hover,
+.blue.btn:focus,
+.blue.btn:active,
+.blue.btn.active {
+    background-color: #2386ca;
+}
+.btn.default:hover,
+.btn.default:focus,
+.btn.default:active,
+.btn.default.active {
+    background-color: lightgray;
+}
+.form-actions {
+    padding: 20px 10px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
+}
+.form-button {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 10px;
+}
+.form-horizontal.form-row-stripped .form-group:nth-child(even) {
+    background-color: #fcfcfc;
+}
+.content-wait {
+    display: none;
+}
+.form-control {
+    border-radius: 4px;
+}
+body .btn-primary,
+body .btn-primary:active,
+body .btn-primary:focus {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #0088CC;
+    border-color: #0088CC;
+}
+body .btn-primary:hover {
+    border-color: #0099e6 !important;
+    background-color: #0099e6;
+}
+.radio-inline.radio-custom:last-child,
+.radio-inline.radio-custom:last-of-type {
+    margin-bottom: 7px;
+}
+
+/*
+ * Main Content
+ */
+.panel-featured-primary {
+    border-color: #0088CC;
+}
+.page-header {
+    background: transparent;
+    border-left: none;
+    box-shadow: none;
+    border-bottom: 4px solid #CCC;
+}
+.page-header h2 {
+    color: inherit;
+    border-bottom: none;
+}
+.label-primary {
+    background-color: #0088CC;
+}
+.a-default:hover {
+    color: #23527c;
+}
+
+/*
+ * Footer
+ */
+.page-footer {
+    padding: 8px 20px;
+    background-color: #f5f5f5;
+}
