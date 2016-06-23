@@ -237,12 +237,12 @@ class Member extends MY_Controller {
             }
         }
 
-        $data['code_id_card_type'] = $this->config->item('code_id_card_type');
-        $data['code_gender'] = $this->config->item('code_gender');
-        $data['code_marital_status'] = $this->config->item('code_marital_status');
-        $data['code_religion'] = $this->config->item('code_religion');
+        $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
+        $data['code_member_gender'] = $this->config->item('code_member_gender');
+        $data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
+        $data['code_member_religion'] = $this->config->item('code_member_religion');
         $data['code_member_status'] = $this->config->item('code_member_status');
-        $data['code_shirt_size'] = $this->config->item('code_shirt_size');
+        $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
         $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
         $data['view_content'] = 'member/member_create';
         $this->load->view('templates/frame', $data);
@@ -441,12 +441,12 @@ class Member extends MY_Controller {
                 }
             }
 			
-            $data['code_id_card_type'] = $this->config->item('code_id_card_type');
-            $data['code_gender'] = $this->config->item('code_gender');
-            $data['code_marital_status'] = $this->config->item('code_marital_status');
-            $data['code_religion'] = $this->config->item('code_religion');
+            $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
+            $data['code_member_gender'] = $this->config->item('code_member_gender');
+            $data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
+            $data['code_member_religion'] = $this->config->item('code_member_religion');
             $data['code_member_status'] = $this->config->item('code_member_status');
-            $data['code_shirt_size'] = $this->config->item('code_shirt_size');
+            $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
             $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
             $data['member'] = $get->result;
             $data['kota'] = $kota_info->result;
@@ -497,7 +497,7 @@ class Member extends MY_Controller {
             }
         }
 
-        $code_shirt_size = $this->config->item('code_shirt_size');
+        $code_member_shirt_size = $this->config->item('code_member_shirt_size');
         $code_member_status = $this->config->item('code_member_status');
         $get = get_member(array('idcard_type' => $id_card_type, 'religion' => $religion, 'status' => $status, 'gender' => $gender, 'marital_status' => $marital_status, 'shirt_size' => $shirt_size, 'q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
         $jsonData = array('total' => $get->total, 'results' => array());
@@ -531,7 +531,7 @@ class Member extends MY_Controller {
                 'no' => $i,
                 'name' => ucwords($row->name),
                 'member_card' => strtoupper($row->member_card),
-                'shirt_size' => $code_shirt_size[$row->shirt_size],
+                'shirt_size' => $code_member_shirt_size[$row->shirt_size],
                 'member_number' => $row->member_number,
                 'status' => $status_template,
                 'created_date' => date('d M Y', strtotime($row->created_date)),
@@ -548,12 +548,12 @@ class Member extends MY_Controller {
 	function member_lists()
 	{
         $data = array();
-        $data['code_id_card_type'] = $this->config->item('code_id_card_type');
-        $data['code_religion'] = $this->config->item('code_religion');
+        $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
+        $data['code_member_religion'] = $this->config->item('code_member_religion');
         $data['code_member_status'] = $this->config->item('code_member_status');
-        $data['code_gender'] = $this->config->item('code_gender');
-        $data['code_marital_status'] = $this->config->item('code_marital_status');
-        $data['code_shirt_size'] = $this->config->item('code_shirt_size');
+        $data['code_member_gender'] = $this->config->item('code_member_gender');
+        $data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
+        $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
         $data['gender'] = $this->input->get_post('gender');
         $data['status'] = $this->input->get_post('status');
         $data['view_content'] = 'member/member_lists';
@@ -607,31 +607,31 @@ class Member extends MY_Controller {
 		if ($get->code == 200)
 		{
             $member = $get->result;
-            $code_id_card_type = $this->config->item('code_id_card_type');
-            $code_gender = $this->config->item('code_gender');
-            $code_marital_status = $this->config->item('code_marital_status');
-            $code_religion = $this->config->item('code_religion');
-            $code_shirt_size = $this->config->item('code_shirt_size');
+            $code_member_idcard_type = $this->config->item('code_member_idcard_type');
+            $code_member_gender = $this->config->item('code_member_gender');
+            $code_member_marital_status = $this->config->item('code_member_marital_status');
+            $code_member_religion = $this->config->item('code_member_religion');
+            $code_member_shirt_size = $this->config->item('code_member_shirt_size');
             $code_member_status = $this->config->item('code_member_status');
             
             $data = array();
             $data['name'] = ucwords($member->name);
             $data['email'] = $member->email;
             $data['username'] = $member->username;
-            $data['idcard_type'] = $code_id_card_type[$member->idcard_type];
+            $data['idcard_type'] = $code_member_idcard_type[$member->idcard_type];
             $data['idcard_number'] = $member->idcard_number;
             $data['idcard_photo'] = $member->idcard_photo;
             $data['idcard_address'] = $member->idcard_address;
             $data['shipment_address'] = $member->shipment_address;
             $data['postal_code'] = $member->postal_code;
-            $data['gender'] = $code_gender[$member->gender];
+            $data['gender'] = $code_member_gender[$member->gender];
             $data['phone_number'] = $member->phone_number;
             $data['birth_place'] = ucwords($member->birth_place);
             $data['birth_date'] = date('d M Y', strtotime($member->birth_date));
-            $data['marital_status'] = $code_marital_status[$member->marital_status];
+            $data['marital_status'] = $code_member_marital_status[$member->marital_status];
             $data['occupation'] = ucwords($member->occupation);
-            $data['religion'] = $code_religion[$member->religion];
-            $data['shirt_size'] = $code_shirt_size[$member->shirt_size];
+            $data['religion'] = $code_member_religion[$member->religion];
+            $data['shirt_size'] = $code_member_shirt_size[$member->shirt_size];
             $data['photo'] = $member->photo;
             $data['status'] = $code_member_status[$member->status];
             $data['member_card'] = $member->member_card;

@@ -563,7 +563,7 @@ $config['link_secret_santa_random'] = $config['base_url'].'secret_santa_random';
 $config['link_web_transfer'] = 'http://www.nezindaclub.com/';
 
 // Code
-$config['code_id_card_type'] = array(
+$config['code_member_idcard_type'] = array(
     1 => 'KTP',
     2 => 'SIM',
     3 => 'Passport',
@@ -571,7 +571,7 @@ $config['code_id_card_type'] = array(
     5 => 'Lainnya'
 );
 
-$config['code_religion'] = array(
+$config['code_member_religion'] = array(
     1 => 'Islam',
     2 => 'Kristen',
     3 => 'Katolik',
@@ -590,17 +590,17 @@ $config['code_member_status'] = array(
     6 => 'Deleted'
 );
 
-$config['code_gender'] = array(
+$config['code_member_gender'] = array(
     0 => 'Male',
     1 => 'Female'
 );
 
-$config['code_marital_status'] = array(
+$config['code_member_marital_status'] = array(
     0 => 'Single',
     1 => 'Married'
 );
 
-$config['code_shirt_size'] = array(
+$config['code_member_shirt_size'] = array(
     0 => 'M',
     1 => 'XL'
 );
@@ -674,6 +674,12 @@ $config['code_admin_role'] = array(
     1 => 'Administrator'
 );
 
+$config['code_admin_group'] = array(
+    1 => 'Leadership',
+    2 => 'Relation & Media',
+    3 => 'Event'
+);
+
 $config['code_month'] = array(
     1 => 'Jan',
     2 => 'Feb',
@@ -687,4 +693,63 @@ $config['code_month'] = array(
     10 => 'Okt',
     11 => 'Nov',
     12 => 'Des'
+);
+
+$config['code_cart_status'] = array(
+    1 => 'Ordered',
+    2 => 'Finished',
+    3 => 'Canceled'
+);
+
+$config['code_event_status'] = array(
+    0 => 'Hidden',
+    1 => 'Show'
+);
+
+$config['code_faq_category'] = array(
+    1 => 'Website',
+    2 => 'NIC'
+);
+
+$config['code_member_point_status'] = array(
+    1 => 'Not Attended',
+    2 => 'Attended',
+    3 => 'Registered',
+    4 => 'Canceled'
+);
+
+$config['code_member_transfer_type'] = array(
+    1 => 'Membership',
+    2 => 'Event',
+    3 => 'Charity'
+);
+
+$config['code_member_transfer_status'] = array(
+    1 => 'Waiting Transfer',
+    2 => 'Paid'
+);
+
+$config['code_product_status'] = array(
+    1 => 'Sale',
+    2 => 'Limited',
+    3 => 'Pre-order',
+    4 => 'Sold'
+);
+
+$config['code_product_image_status'] = array(
+    0 => 'Not Available',
+    1 => 'Available'
+);
+
+$config['code_order_status'] = array(
+    1 => 'Ordered',
+    2 => 'Paid',
+    3 => 'Process by Admin',
+    4 => 'Sent',
+    5 => 'Received'
+);
+
+$config['code_order_transfer_status'] = array(
+    1 => 'Waiting Transfer',
+    2 => 'Paid'
 );

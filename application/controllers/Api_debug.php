@@ -75,11 +75,11 @@ class Api_debug extends MY_Controller {
         $data['code_api_endpoint'] = $this->config->item('code_api_endpoint');
         $data['code_api_member_order'] = $this->config->item('code_api_member_order');
         $data['code_api_sort'] = $this->config->item('code_api_sort');
-        $data['code_id_card_type'] = $this->config->item('code_id_card_type');
-        $data['code_gender'] = $this->config->item('code_gender');
-        $data['code_marital_status'] = $this->config->item('code_marital_status');
-        $data['code_religion'] = $this->config->item('code_religion');
-        $data['code_shirt_size'] = $this->config->item('code_shirt_size');
+        $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
+        $data['code_member_gender'] = $this->config->item('code_member_gender');
+        $data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
+        $data['code_member_religion'] = $this->config->item('code_member_religion');
+        $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
         $data['code_member_status'] = $this->config->item('code_member_status');
         $data['view_content'] = 'api_debug/api_member';
         $this->load->view('templates/frame', $data);
