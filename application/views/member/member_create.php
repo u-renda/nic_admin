@@ -38,7 +38,7 @@
                                 <select class="form-control" name="idcard_type" id="idcard_type">
                                     <option value="">-- Select One --</option>
                                     <?php
-                                    foreach ($code_id_card_type as $key => $val)
+                                    foreach ($code_member_idcard_type as $key => $val)
                                     {
                                         echo '<option value="'.$key.'"'.set_select('idcard_type', $key).'>'.$val.'</option>';
                                     }
@@ -75,7 +75,7 @@
                                 <label>Gender</label><span class="fontred"> *</span>
                                 <div class="input-group col-sm-12">
                                     <?php
-                                    foreach ($code_gender as $key => $val)
+                                    foreach ($code_member_gender as $key => $val)
                                     {
                                         echo '<div class="radio-inline radio-custom"><input type="radio" name="gender" id="gender_'.$key.'" value="'.$key.'" '.set_radio('gender', $key).'/><label for="gender_'.$key.'">'.$val.'</label></div>';
                                     }
@@ -100,23 +100,23 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
-                                <label>Kota</label><span class="fontred"> *</span>
+                                <label>Provinsi & Kota</label><span class="fontred"> *</span>
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <select class="form-control" name="provinsi" id="provinsi">
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="id_provinsi" id="id_provinsi">
                                             <option value="">-- Select Provinsi --</option>
                                             <?php
                                             foreach ($provinsi_lists as $key => $val)
                                             {
-                                                echo '<option id="'.$val->id_provinsi.'" value="'.$val->id_provinsi.'"'.set_select('provinsi', $val->id_provinsi).'>'.ucwords($val->provinsi).'</option>';
+                                                echo '<option id="'.$val->id_provinsi.'" value="'.$val->id_provinsi.'"'.set_select('id_provinsi', $val->id_provinsi).'>'.ucwords($val->provinsi).'</option>';
                                             }
                                             ?>
                                         </select>
-                                        <?php echo form_error('provinsi', '<div class="fontred">', '</div>'); ?>
+                                        <?php echo form_error('id_provinsi', '<div class="fontred">', '</div>'); ?>
                                     </div>
-                                    <div class="col-sm-6 paddingleft0">
-                                        <div id="kota"></div>
-                                        <?php echo form_error('kota', '<div class="fontred">', '</div>'); ?>
+                                    <div class="col-sm-12 margintop10">
+                                        <div id="area"></div>
+										<?php echo form_error('id_kota', '<div class="fontred">', '</div>'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +143,7 @@
                                 <select class="form-control" name="marital_status" id="marital_status">
                                     <option value="">-- Select One --</option>
                                     <?php
-                                    foreach ($code_marital_status as $key => $val)
+                                    foreach ($code_member_marital_status as $key => $val)
                                     {
                                         echo '<option value="'.$key.'"'.set_select('marital_status', $key).'>'.$val.'</option>';
                                     }
@@ -165,7 +165,7 @@
                                 <select class="form-control" name="religion" id="religion">
                                     <option value="">-- Select One --</option>
                                     <?php
-                                    foreach ($code_religion as $key => $val)
+                                    foreach ($code_member_religion as $key => $val)
                                     {
                                         echo '<option value="'.$key.'"'.set_select('religion', $key).'>'.$val.'</option>';
                                     }
@@ -180,7 +180,7 @@
                                 <select class="form-control" name="shirt_size" id="shirt_size">
                                     <option value="">-- Select One --</option>
                                     <?php
-                                    foreach ($code_shirt_size as $key => $val)
+                                    foreach ($code_member_shirt_size as $key => $val)
                                     {
                                         echo '<option value="'.$key.'"'.set_select('shirt_size', $key).'>'.$val.'</option>';
                                     }
@@ -190,7 +190,16 @@
                             </div>
                             <div class="col-sm-6 marginbottom15">
                                 <label>Status</label><span class="fontred"> *</span>
-                                <div class="fontgreen"><strong>Approved</strong></div>
+                                <select class="form-control" name="status" id="status">
+                                    <option value="">-- Select One --</option>
+                                    <?php
+                                    foreach ($code_member_status as $key => $val)
+                                    {
+                                        echo '<option value="'.$key.'"'.set_select('status', $key).'>'.$val.'</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -247,33 +256,3 @@
     </div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#provinsi").change(function() {
-            var provinsi = $(this).find("option:selected").attr("id");
-            var dataString = 'id_provinsi='+ provinsi;
-            $.ajax({
-                url: '<?php echo base_url()."dropdown_kota_lists"; ?>',
-                type: "POST",
-                data: dataString,
-                beforeSend : function (){
-                    $('#kota').html('<i class="fa fa-spinner fa-spin"></i>');
-                },
-                success: function(data) {
-                    $('#kota').html(data);
-                }
-            });
-        });
-
-        $('.date-picker').datepicker({
-            orientation: "auto left",
-            endDate: "-10y",
-            format: "dd M yyyy"
-        });
-
-        $('#submit_member_create').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    });
-</script>

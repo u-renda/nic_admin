@@ -2,7 +2,7 @@
 <div class="page-footer">
     <div class="page-footer-inner"><?php echo $this->config->item('title')." "; ?><span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span><?php echo " ".date('Y'); ?></div>
 </div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,6 +13,8 @@
         </div>
     </div>
 </div>
+<!-- jQuery -->
+<script src="<?php echo base_url('assets/js').'/jquery-1.11.1.min.js'; ?>"></script>
 <!-- Bootstrap -->
 <script src="<?php echo base_url('assets/js').'/bootstrap.min.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/bootstrap-fileupload.min.js'; ?>" type="text/javascript"></script>
@@ -23,6 +25,9 @@
 <script src="<?php echo base_url('assets/js/noty').'/jquery.noty.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js/noty').'/notydefault.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js/noty').'/notytop.js'; ?>"></script>
+<!-- Kendo -->
+<script src="<?php echo base_url('assets/js/kendo').'/kendo.all.min.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/js').'/modernizr.js'; ?>"></script>
 <!-- TinyMCE -->
 <script src="<?php echo base_url('assets/js/tinymce').'/tinymce.min.js'; ?>" type="text/javascript"></script>
 <!-- Scroll di left menu -->
@@ -36,6 +41,7 @@
 <script src="<?php echo base_url('assets/js').'/theme.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/theme.init.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app.js'; ?>"></script>
+<script src="<?php echo base_url('assets/js').'/app-table.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app-table-btn.js'; ?>"></script>
 </body>
 </html>

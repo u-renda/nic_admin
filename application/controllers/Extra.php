@@ -7,11 +7,22 @@ class Extra extends MY_Controller {
     {
         parent::__construct();
     }
-
-	function dropdown_kota_lists()
+	
+	function check_kota_lists()
 	{
-        $data = array();
-        $data['kota_lists'] = get_kota(array('id_provinsi' => $this->input->post('id_provinsi'), 'limit' => 200, 'offset' => 0, 'order' => 'kota', 'sort' => 'asc'))->result;
-        $this->load->view('select_options_kota', $data);
+		$id_provinsi = $this->input->post('id_provinsi');
+		
+		$result = get_kota(array('id_provinsi' => $id_provinsi, 'limit' => 100));
+	
+		if ($result->code == 200)
+		{
+			$data = array();
+			$data['kota_lists'] = $result->result;
+			$this->load->view('select_options_kota', $data);
+		}
+		else
+		{
+            echo 'false';
+        }
 	}
 }

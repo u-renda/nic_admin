@@ -726,7 +726,8 @@ $config['code_member_transfer_type'] = array(
 
 $config['code_member_transfer_status'] = array(
     1 => 'Waiting Transfer',
-    2 => 'Paid'
+    2 => 'Paid',
+    3 => 'Sent'
 );
 
 $config['code_product_status'] = array(
@@ -751,5 +752,6 @@ $config['code_order_status'] = array(
 
 $config['code_order_transfer_status'] = array(
     1 => 'Waiting Transfer',
-    2 => 'Paid'
+    2 => 'Paid',
+    3 => 'Sent'
 );

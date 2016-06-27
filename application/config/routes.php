@@ -71,7 +71,7 @@ $route['member_request_transfer'] = 'member/member_request_transfer';
 $route['member_view'] = 'member/member_view';
 
 // EXTRA
-$route['dropdown_kota_lists'] = 'extra/dropdown_kota_lists';
+$route['check_kota_lists'] = 'extra/check_kota_lists';
 
 // POST
 $route['post_create'] = 'post/post_create';

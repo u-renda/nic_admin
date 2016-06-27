@@ -134,14 +134,15 @@ class Member extends MY_Controller {
             $this->form_validation->set_rules('gender', 'gender', 'required');
             $this->form_validation->set_rules('postal_code', 'postal code', 'required|numeric');
             $this->form_validation->set_rules('phone_number', 'phone number', 'required|numeric');
-            $this->form_validation->set_rules('provinsi', 'provinsi', 'required');
-            $this->form_validation->set_rules('kota', 'kota', 'required');
+            $this->form_validation->set_rules('id_provinsi', 'provinsi', 'required');
+            $this->form_validation->set_rules('id_kota', 'kota', 'required');
             $this->form_validation->set_rules('birth_place', 'birth place', 'required');
             $this->form_validation->set_rules('birth_date', 'birth date', 'required');
             $this->form_validation->set_rules('marital_status', 'marital status', 'required');
             $this->form_validation->set_rules('occupation', 'occupation', 'required');
             $this->form_validation->set_rules('religion', 'religion', 'required');
             $this->form_validation->set_rules('shirt_size', 'shirt size', 'required');
+            $this->form_validation->set_rules('status', 'status', 'required');
             $this->form_validation->set_rules('photo', 'photo', 'callback_check_photo');
 			
             if ($this->form_validation->run() == TRUE)
@@ -177,7 +178,7 @@ class Member extends MY_Controller {
 				$username = get_member_username(strtolower($this->input->post('name')));
                 
                 $param = array();
-                $param['id_kota'] = $this->input->post('kota');
+                $param['id_kota'] = $this->input->post('id_kota');
                 $param['name'] = $this->input->post('name');
                 $param['email'] = $this->input->post('email');
                 $param['idcard_type'] = $this->input->post('idcard_type');
@@ -195,7 +196,7 @@ class Member extends MY_Controller {
                 $param['religion'] = $this->input->post('religion');
                 $param['shirt_size'] = $this->input->post('shirt_size');
                 $param['photo'] = $photo;
-                $param['status'] = 4;
+                $param['status'] = $this->input->post('status');
                 $param['username'] = $username;
                 $param['password'] = random_string('alnum', 8);
                 $param['member_number'] = $member_number;
@@ -253,6 +254,7 @@ class Member extends MY_Controller {
         $data = array();
         $data['id'] = $this->input->post('id');
         $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
 
         $get = $this->member_model->info(array('id_member' => $data['id']));
 
@@ -262,8 +264,7 @@ class Member extends MY_Controller {
             {
                 $param1 = array();
                 $param1['id_member'] = $data['id'];
-                $param1['status'] = 6;
-                $query = $this->member_model->update($param1);
+                $query = $this->member_model->delete($param1);
 
                 if ($query->code == 200)
                 {
@@ -528,14 +529,14 @@ class Member extends MY_Controller {
             }
             
             $entry = array(
-                'no' => $i,
-                'name' => ucwords($row->name),
-                'member_card' => strtoupper($row->member_card),
-                'shirt_size' => $code_member_shirt_size[$row->shirt_size],
-                'member_number' => $row->member_number,
-                'status' => $status_template,
-                'created_date' => date('d M Y', strtotime($row->created_date)),
-                'action' => $action
+                'No' => $i,
+                'Name' => ucwords($row->name),
+                'MemberCard' => strtoupper($row->member_card),
+                'ShirtSize' => $code_member_shirt_size[$row->shirt_size],
+                'MemberNumber' => $row->member_number,
+                'Status' => $status_template,
+                'ApprovedDate' => date('d M Y', strtotime($row->approved_date)),
+                'Action' => $action
             );
             
             $jsonData['results'][] = $entry;

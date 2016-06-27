@@ -28,6 +28,15 @@ class Member_model extends CI_Model {
 		return $result;
     }
 
+    function delete($params)
+    {
+        $result = null;
+        $url = $this->config->item('nic_api'). $this->page . '/delete';
+        $params = array_merge($params, $this->key);
+        $result = $this->rest->post($url, $params);
+		return $result;
+    }
+
     function info($params)
     {
         $result = null;

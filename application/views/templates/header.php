@@ -18,11 +18,6 @@
     <link href="<?php echo base_url('assets/css').'/bootstrap-fileupload.min.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/theme.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/style.css'; ?>" rel="stylesheet">
-    <!-- jQuery -->
-<script src="<?php echo base_url('assets/js').'/jquery-1.11.1.min.js'; ?>"></script>
-<!-- Kendo -->
-<script src="<?php echo base_url('assets/js/kendo').'/kendo.all.min.js'; ?>" type="text/javascript"></script>
-    <script src="<?php echo base_url('assets/js').'/modernizr.js'; ?>"></script>
     <!-- Kendo -->
     <link href="<?php echo base_url('assets/css/kendo').'/kendo.common.min.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css/kendo').'/kendo.default.min.css'; ?>" rel="stylesheet">

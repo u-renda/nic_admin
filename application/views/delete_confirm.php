@@ -9,7 +9,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#yes').click(function() {
-			var dataString = 'id=<?php echo $id; ?>&delete=yes'
+			var dataString = 'id=<?php echo $id; ?>&delete=yes';
+			var grid = '<?php echo $grid; ?>';
 			$.ajax(
 			{
 				type: "POST",
@@ -24,8 +25,8 @@
 				{
 					var response = $.parseJSON(data);
                     $('#myModal').modal('hide');
-                    $('#multipleSort').data('kendoGrid').dataSource.read();
-                    $('#multipleSort').data('kendoGrid').refresh();
+                    $('#' + grid).data('kendoGrid').dataSource.read();
+					$('#' + grid).data('kendoGrid').refresh();
                     noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 5000});
 				}
 			});

@@ -7,7 +7,11 @@ class MY_Controller extends CI_Controller
     function __construct()
     {
         parent::__construct();
-
+        if ($this->session->userdata('is_login') == FALSE)
+        {
+            redirect($this->config->item('link_login'));
+        }
+        
         // DEVELOPMENT MODE
         if ($this->config->item('development_mode') == TRUE)
         {
