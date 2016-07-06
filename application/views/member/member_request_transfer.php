@@ -14,7 +14,7 @@
                             }
                         } ?>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Name</label>
+                            <label class="col-sm-2 control-label">Nama</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static"><?php echo ucwords($member->name); ?></p>
                             </div>
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Email Content</label>
+                            <label class="col-sm-2 control-label">Isi Email</label>
                             <div class="col-sm-10">
                                 <textarea class="form-control height250 mceEditor" name="email_content" id="email_content"><?php echo set_value('email_content', $email_content); ?></textarea>
                                 <?php echo form_error('email_content', '<div class="fontred">', '</div>'); ?>
@@ -45,29 +45,3 @@
     </div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#submit_member_request_transfer').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-
-        tinymce.init({
-            mode: "specific_textareas",
-            editor_selector: "mceEditor",
-            forced_root_block: false,
-            content_style: ".mce-content-body  {font-size: 14px; font-family: 'Open Sans', sans-serif;}",
-            height: 250,
-            plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks",
-                "insertdatetime table contextmenu paste"
-            ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-        });
-    });
-
-    function goBack() {
-        window.history.back();
-    }
-</script>

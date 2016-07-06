@@ -513,6 +513,7 @@ if(is_bool(LOCALHOST) || LOCALHOST == 'localhost')
     define('API_HOST', 'http://localhost/nic_api/');
     define('UPLOAD_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/upload_nic/member/');
     define('UPLOAD_MEMBER_HOST', 'http://localhost/upload_nic/member/');
+    define('WEB_HOST', 'http://localhost/nic_web/');
 }
 else
 {
@@ -560,7 +561,7 @@ $config['link_secret_santa_create'] = $config['base_url'].'secret_santa_create';
 $config['link_secret_santa_delete'] = $config['base_url'].'secret_santa_delete';
 $config['link_secret_santa_lists'] = $config['base_url'].'secret_santa_lists';
 $config['link_secret_santa_random'] = $config['base_url'].'secret_santa_random';
-$config['link_web_transfer'] = 'http://www.nezindaclub.com/';
+$config['link_web_transfer'] = WEB_HOST.'konfirmasi_transfer';
 
 // Code
 $config['code_member_idcard_type'] = array(
@@ -586,8 +587,7 @@ $config['code_member_status'] = array(
     2 => 'Awaiting Transfer',
     3 => 'Awaiting Approval',
     4 => 'Approved',
-    5 => 'Invalid',
-    6 => 'Deleted'
+    5 => 'Invalid'
 );
 
 $config['code_member_gender'] = array(

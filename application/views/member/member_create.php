@@ -115,7 +115,7 @@
                                         <?php echo form_error('id_provinsi', '<div class="fontred">', '</div>'); ?>
                                     </div>
                                     <div class="col-sm-12 margintop10">
-                                        <div id="area"></div>
+                                        <div id="id_kota"></div>
 										<?php echo form_error('id_kota', '<div class="fontred">', '</div>'); ?>
                                     </div>
                                 </div>

@@ -37,15 +37,15 @@ class Others extends MY_Controller {
                         <a title="Delete" id="'.$row->id_preferences.'" class="delete '.$row->id_preferences.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
 
             // Potong panjang content
-            $strip = strip_tags($row->value);
+            $strip = strip_tags(replace_new_line($row->value));
             $content = substr($strip, 0, 200).' ...';
 
             $entry = array(
-                'no' => $i,
-                'key' => $row->key,
+                'No' => $i,
+                'Key' => $row->key,
                 'value' => $content,
-                'description' => ucwords($row->description),
-                'action' => $action
+                'Description' => $row->description,
+                'Action' => $action
             );
 
             $jsonData['results'][] = $entry;
@@ -143,7 +143,7 @@ class Others extends MY_Controller {
                     $param['key'] = $this->input->post('key');
                     $param['value'] = $this->input->post('value');
                     $param['type'] = $this->input->post('type');
-                    $param['description'] = $this->input->post('description');
+                    $param['description'] = replace_new_line($this->input->post('description'));
                     $query = $this->preferences_model->update($param);
 
                     if ($query->code == 200)

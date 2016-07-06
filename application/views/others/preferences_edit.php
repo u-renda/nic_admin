@@ -45,7 +45,7 @@
                             <div class="col-sm-12 marginbottom15">
                                 <label>Value</label><span class="fontred"> *</span>
                                 <div class="input-group col-sm-12">
-                                    <textarea class="form-control height250 mceEditor" name="value" id="value"><?php echo set_value('value', $preferences->value); ?></textarea>
+                                    <textarea class="form-control height250 mceEditor" name="value" id="value"><?php echo set_value('value', stripcslashes($preferences->value)); ?></textarea>
                                     <?php echo form_error('value', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
@@ -63,26 +63,3 @@
     </div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#submit_preferences_edit').click(function () {
-            tinyMCE.triggerSave();
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-
-        tinymce.init({
-            mode: "specific_textareas",
-            editor_selector: "mceEditor",
-            forced_root_block: false,
-            content_style: ".mce-content-body  {font-size: 14px; font-family: 'Open Sans', sans-serif;}",
-            height: 250,
-            plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks",
-                "insertdatetime table contextmenu paste"
-            ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-        });
-    });
-</script>

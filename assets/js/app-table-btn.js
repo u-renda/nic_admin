@@ -82,5 +82,10 @@ $(function () {
             });
             return false;
         });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
+        });
     }
 });

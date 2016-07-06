@@ -12,41 +12,6 @@ class Member extends MY_Controller {
         $this->load->model('preferences_model');
     }
 
-    function check_email()
-    {
-        $email = $this->input->post('email');
-
-        $query = $this->member_model->info(array('email' => $email));
-
-        if ($query->code == 200)
-        {
-            $this->form_validation->set_message('check_email', '%s sudah terdaftar.');
-            return FALSE;
-        }
-        else
-        {
-            return TRUE;
-        }
-    }
-
-    function check_email_edit()
-    {
-        $selfemail = $this->input->post('selfemail');
-        $email = $this->input->post('email');
-
-        $query = $this->member_model->info(array('email' => $email));
-
-        if ($query->code == 200 && $selfemail != $email)
-        {
-            $this->form_validation->set_message('check_email_edit', '%s sudah terdaftar.');
-            return FALSE;
-        }
-        else
-        {
-            return TRUE;
-        }
-    }
-
     function check_idcard_photo()
     {
         if (isset($_FILES['idcard_photo']))
@@ -58,9 +23,6 @@ class Member extends MY_Controller {
                 $imageFileType = strtolower(pathinfo($_FILES["idcard_photo"]["name"],PATHINFO_EXTENSION));
 
                 $param2 = array();
-/*
-                $param2['target_file'] = '/var/www/html/uploads/' . $name . '.' . $imageFileType;
-*/
                 $param2['target_file'] = UPLOAD_FOLDER . $name . '.' . $imageFileType;
                 $param2['imageFileType'] = $imageFileType;
                 $param2['tmp_name'] = $_FILES["idcard_photo"]["tmp_name"];
@@ -82,6 +44,74 @@ class Member extends MY_Controller {
         }
     }
 
+    function check_member_email()
+    {
+        $selfemail = $this->input->post('selfemail');
+		$email = $this->input->post('email');
+		$get = $this->member_model->info(array('email' => $email));
+		
+        if ($get->code == 200 && $selfemail != $email)
+        {
+            $this->form_validation->set_message('check_member_email', '%s already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
+    function check_member_idcard_number()
+	{
+		$selfidcard_number = $this->input->post('selfidcard_number');
+		$idcard_number = $this->input->post('idcard_number');
+		$get = $this->member_model->info(array('idcard_number' => $idcard_number));
+		
+        if ($get->code == 200 && $selfidcard_number != $idcard_number)
+        {
+            $this->form_validation->set_message('check_member_idcard_number', '%s already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
+    function check_member_name()
+	{
+		$selfname = $this->input->post('selfname');
+		$name = $this->input->post('name');
+		$get = $this->member_model->info(array('name' => $name));
+		
+        if ($get->code == 200 && $selfname != $name)
+        {
+            $this->form_validation->set_message('check_member_name', '%s already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
+    function check_member_phone_number()
+	{
+		$selfphone_number = $this->input->post('selfphone_number');
+		$phone_number = $this->input->post('phone_number');
+		$get = $this->member_model->info(array('phone_number' => $phone_number));
+		
+        if ($get->code == 200 && $selfphone_number != $phone_number)
+        {
+            $this->form_validation->set_message('check_member_phone_number', '%s already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
     function check_photo()
     {
         if (isset($_FILES['photo']))
@@ -93,9 +123,6 @@ class Member extends MY_Controller {
                 $imageFileType = strtolower(pathinfo($_FILES["photo"]["name"],PATHINFO_EXTENSION));
 
                 $param2 = array();
-/*
-                $param2['target_file'] = '/var/www/html/uploads/' . $name . '.' . $imageFileType;
-*/
                 $param2['target_file'] = UPLOAD_FOLDER . $name . '.' . $imageFileType;
                 $param2['imageFileType'] = $imageFileType;
                 $param2['tmp_name'] = $_FILES["photo"]["tmp_name"];
@@ -120,20 +147,20 @@ class Member extends MY_Controller {
     function member_create()
     {
         $data = array();
-        if ($this->input->post('submit'))
+        if ($this->input->post('submit') == TRUE)
         {
             $this->load->helper('string');
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('name', 'name', 'required');
-            $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_email');
+            $this->form_validation->set_rules('name', 'name', 'required|callback_check_member_name');
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_member_email');
             $this->form_validation->set_rules('idcard_type', 'ID card type', 'required');
-            $this->form_validation->set_rules('idcard_number', 'ID card number', 'required|numeric');
+            $this->form_validation->set_rules('idcard_number', 'ID card number', 'required|numeric|callback_check_member_idcard_number');
             $this->form_validation->set_rules('idcard_address', 'ID card address', 'required');
             $this->form_validation->set_rules('idcard_photo', 'ID card photo', 'callback_check_idcard_photo');
             $this->form_validation->set_rules('shipment_address', 'shipment address', 'required');
             $this->form_validation->set_rules('gender', 'gender', 'required');
             $this->form_validation->set_rules('postal_code', 'postal code', 'required|numeric');
-            $this->form_validation->set_rules('phone_number', 'phone number', 'required|numeric');
+            $this->form_validation->set_rules('phone_number', 'phone number', 'required|numeric|callback_check_member_phone_number');
             $this->form_validation->set_rules('id_provinsi', 'provinsi', 'required');
             $this->form_validation->set_rules('id_kota', 'kota', 'required');
             $this->form_validation->set_rules('birth_place', 'birth place', 'required');
@@ -166,16 +193,25 @@ class Member extends MY_Controller {
                         $idcard_photo = UPLOAD_MEMBER_HOST . $name . '.' . $imageFileType;
                     }
                 }
-				
-				$member_number = get_member_number();
                 
-				$param2 = array();
-				$param2['birth_date'] = $this->input->post('birth_date');
-				$param2['member_number'] = $member_number;
-				$param2['gender'] = $this->input->post('gender');
-				
-                $member_card = get_member_card($param2);
-				$username = get_member_username(strtolower($this->input->post('name')));
+                $username = '';
+                $member_number = '';
+                $member_card = '';
+                $member_card = '';
+                $approved_date = '';
+                if ($this->input->post('status') == 4) // 4 = approved
+                {
+                    $member_number = get_member_number();
+                
+                    $param2 = array();
+                    $param2['birth_date'] = $this->input->post('birth_date');
+                    $param2['member_number'] = $member_number;
+                    $param2['gender'] = $this->input->post('gender');
+                    
+                    $member_card = get_member_card($param2);
+                    $username = get_member_username(strtolower($this->input->post('name')));
+                    $approved_date = date('Y-m-d H:i:s');
+                }
                 
                 $param = array();
                 $param['id_kota'] = $this->input->post('id_kota');
@@ -201,7 +237,7 @@ class Member extends MY_Controller {
                 $param['password'] = random_string('alnum', 8);
                 $param['member_number'] = $member_number;
                 $param['member_card'] = $member_card;
-                $param['approved_date'] = date('Y-m-d H:i:s');
+                $param['approved_date'] = $approved_date;
                 $query = $this->member_model->create($param);
                 
                 if ($query->code == 200)
@@ -228,8 +264,16 @@ class Member extends MY_Controller {
                     $param3['updated_date'] = date('Y-m-d H:i:s');
                     $query2 = $this->member_transfer_model->create($param3);
                     
-                    // redirect ke send email approved => link_member_approved
-                    redirect($this->config->item('link_member_lists'));
+                    if ($query2->code == 200)
+                    {
+                        $response = '?type=success';
+                    }
+                    else
+                    {
+                        $response = '?type=error';
+                    }
+                    
+                    redirect($this->config->item('link_member_lists').$response);
                 }
                 else
                 {
@@ -312,8 +356,8 @@ class Member extends MY_Controller {
                 $this->form_validation->set_rules('gender', 'gender', 'required');
                 $this->form_validation->set_rules('postal_code', 'postal code', 'required|numeric');
                 $this->form_validation->set_rules('phone_number', 'phone number', 'required|numeric');
-                $this->form_validation->set_rules('provinsi', 'provinsi', 'required');
-                $this->form_validation->set_rules('kota', 'kota', 'required');
+                $this->form_validation->set_rules('id_provinsi', 'provinsi', 'required');
+                $this->form_validation->set_rules('id_kota', 'kota', 'required');
                 $this->form_validation->set_rules('birth_place', 'birth place', 'required');
                 $this->form_validation->set_rules('birth_date', 'birth date', 'required');
                 $this->form_validation->set_rules('marital_status', 'marital status', 'required');
@@ -350,7 +394,7 @@ class Member extends MY_Controller {
                     }
 
                     $param['id_member'] = $id;
-                    $param['id_kota'] = $this->input->post('kota');
+                    $param['id_kota'] = $this->input->post('id_kota');
                     $param['name'] = $this->input->post('name');
                     $param['email'] = $this->input->post('email');
 					$param['idcard_type'] = $this->input->post('idcard_type');
@@ -431,8 +475,6 @@ class Member extends MY_Controller {
 
                     if ($query->code == 200)
                     {
-                        
-                        
                         redirect($this->config->item('link_member_lists'));
                     }
                     else
@@ -506,7 +548,7 @@ class Member extends MY_Controller {
         foreach ($get->result as $row)
         {
             $action = '<a title="View Detail" id="'.$row->id_member.'" class="view '.$row->id_member.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="member_edit?id='.$row->id_member.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;';
+                        <a title="Edit" href="member_edit?id='.$row->id_member.'" id="'.$row->id_member.'" class="edit '.$row->id_member.'-edit"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;';
 
             if ($row->status != 6)
             {
@@ -528,14 +570,32 @@ class Member extends MY_Controller {
                 $status_template = '<span class="label label-success">'.$code_member_status[$row->status].'</span>';
             }
             
+            $approved_date = '-';
+            $member_card = '-';
+            $member_number = '-';
+            if ($row->approved_date != '0000-00-00 00:00:00' && $row->approved_date != '' && $row->approved_date != null)
+            {
+                $approved_date = date('d M Y', strtotime($row->approved_date));
+            }
+            
+            if ($row->member_card != '')
+            {
+                $member_card = strtoupper($row->member_card);
+            }
+            
+            if ($row->member_number != '00000')
+            {
+                $member_number = $row->member_number;
+            }
+            
             $entry = array(
                 'No' => $i,
                 'Name' => ucwords($row->name),
-                'MemberCard' => strtoupper($row->member_card),
+                'MemberCard' => $member_card,
                 'ShirtSize' => $code_member_shirt_size[$row->shirt_size],
-                'MemberNumber' => $row->member_number,
+                'MemberNumber' => $member_number,
                 'Status' => $status_template,
-                'ApprovedDate' => date('d M Y', strtotime($row->approved_date)),
+                'ApprovedDate' => $approved_date,
                 'Action' => $action
             );
             
@@ -548,6 +608,13 @@ class Member extends MY_Controller {
 
 	function member_lists()
 	{
+        $type = $this->input->get('type');
+        
+        if ($type == TRUE)
+        {
+            
+        }
+        
         $data = array();
         $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
         $data['code_member_religion'] = $this->config->item('code_member_religion');
@@ -570,19 +637,19 @@ class Member extends MY_Controller {
         {
             $get_template = get_email_template_info(array('key' => 'email_req_transfer'), $get->result);
 
-            if ($this->input->post('submit'))
+            if ($this->input->post('submit') == TRUE)
             {
                 // send email
                 $param = array();
                 $param['subject'] = $this->config->item('title').' - Informasi Transfer Membership';
-                $param['email'] = $get->row()->email;
+                $param['email'] = $get->result->email;
                 $send_email = send_email($param, $get_template);
 
                 if ($send_email == TRUE)
                 {
                     $update = $this->member_model->update(array('id_member' => $id, 'status' => 2));
 
-                    if ($update)
+                    if ($update->code == 200)
                     {
                         redirect($this->config->item('link_member_lists'));
                     }

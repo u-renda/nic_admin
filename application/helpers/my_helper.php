@@ -500,6 +500,22 @@ if ( ! function_exists('is_logged_in')) {
     }
 }
 
+/*
++-------------------------------------+
+    Name: replace_new_line
+    Purpose: replace \r\n into HTML tag
+    @param return : HTML tag
++-------------------------------------+
+*/
+if ( ! function_exists('replace_new_line'))
+{
+    function replace_new_line($param)
+    {
+        $CI =& get_instance();
+		return str_replace(array("\\r\\n", "\\r", "\\n"), "<br />", $param);
+	}
+}
+
 if ( ! function_exists('save_resize'))
 {
     function save_resize($param, $width)

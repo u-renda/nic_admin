@@ -75,7 +75,7 @@
                                 <label>ID Card Type</label><span class="fontred"> *</span>
                                 <select class="form-control" name="idcard_type" id="idcard_type">
                                     <option value="">-- Select One --</option>
-                                    <?php foreach ($code_id_card_type as $key => $val) { ?>
+                                    <?php foreach ($code_member_idcard_type as $key => $val) { ?>
                                     <option value="<?php echo $key; ?>" <?php if ($member->idcard_type == $key) { echo 'selected="selected"'; } echo set_select('idcard_type', $key); ?>><?php echo $val; ?></option>
                                     <?php } ?>
                                 </select>
@@ -93,14 +93,14 @@
                             <div class="col-sm-6 marginbottom15">
                                 <label>ID Card Address</label><span class="fontred"> *</span>
                                 <div class="input-group col-sm-12">
-                                    <textarea class="form-control height150" name="idcard_address" id="idcard_address"><?php echo set_value('idcard_address', $member->idcard_address); ?></textarea>
+                                    <textarea class="form-control height150" name="idcard_address" id="idcard_address"><?php echo set_value('idcard_address', stripcslashes($member->idcard_address)); ?></textarea>
                                     <?php echo form_error('idcard_address', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
                                 <label>Shipment Address</label><span class="fontred"> *</span>
                                 <div class="input-group col-sm-12">
-                                    <textarea class="form-control height150" name="shipment_address" id="shipment_address"><?php echo set_value('shipment_address', $member->shipment_address); ?></textarea>
+                                    <textarea class="form-control height150" name="shipment_address" id="shipment_address"><?php echo set_value('shipment_address', stripcslashes($member->shipment_address)); ?></textarea>
                                     <?php echo form_error('shipment_address', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
@@ -109,9 +109,9 @@
                             <div class="col-sm-6 marginbottom15">
                                 <label>Gender</label><span class="fontred"> *</span>
                                 <div class="input-group col-sm-12">
-                                    <?php foreach ($code_gender as $key => $val) { ?>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="gender" id="gender" value="<?php echo $key; ?>" <?php if ($member->gender == $key) { echo 'checked="checked"'; } echo set_radio('gender', $key) .'>'. $val; ?>
+                                    <?php foreach ($code_member_gender as $key => $val) { ?>
+                                        <label class="radio-inline radio-custom">
+                                            <input type="radio" name="gender" id="gender" value="<?php echo $key; ?>" <?php if ($member->gender == $key) { echo 'checked="checked"'; } echo set_radio('gender', $key) .'><label>'. $val . '</label>'; ?>
                                         </label>
                                     <?php } ?>
                                 </div>
@@ -134,10 +134,10 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
-                                <label>Kota</label><span class="fontred"> *</span>
+                                <label>Provinsi & Kota</label><span class="fontred"> *</span>
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <select class="form-control" name="provinsi" id="provinsi">
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="id_provinsi" id="id_provinsi">
                                             <option value="">-- Select Provinsi --</option>
                                             <?php foreach ($provinsi_lists as $key => $val) { ?>
                                                 <option id="<?php echo $val->id_provinsi; ?>" value="<?php echo $val->id_provinsi; ?>" <?php if ($kota->id_provinsi == $val->id_provinsi) { echo 'selected="selected"'; } echo set_select('provinsi', $val->id_provinsi); ?>><?php echo ucwords($val->provinsi); ?></option>
@@ -145,8 +145,8 @@
                                         </select>
                                         <?php echo form_error('provinsi', '<div class="fontred">', '</div>'); ?>
                                     </div>
-                                    <div class="col-sm-6 paddingleft0">
-                                        <select class="form-control" name="kota" id="kota">
+                                    <div class="col-sm-12 margintop10">
+                                        <select class="form-control" name="id_kota" id="id_kota">
                                             <option value="">-- Select Kota --</option>
                                             <?php foreach ($kota_lists as $key => $val) { ?>
                                                 <option value="<?php echo $val->id_kota; ?>" <?php if ($member->id_kota == $val->id_kota) { echo 'selected="selected"'; } echo set_select('kota', $val->id_kota); ?>><?php echo ucwords($val->kota).' - '.$member->kota->price; ?></option>
@@ -178,7 +178,7 @@
                                 <label>Marital Status</label><span class="fontred"> *</span>
                                 <select class="form-control" name="marital_status" id="marital_status">
                                     <option value="">-- Select One --</option>
-                                    <?php foreach ($code_marital_status as $key => $val) { ?>
+                                    <?php foreach ($code_member_marital_status as $key => $val) { ?>
                                         <option value="<?php echo $key; ?>" <?php if ($member->marital_status == $key) { echo 'selected="selected"'; } echo set_select('marital_status', $key); ?>><?php echo $val; ?></option>
                                     <?php } ?>
                                 </select>
@@ -197,7 +197,7 @@
                                 <label>Religion</label><span class="fontred"> *</span>
                                 <select class="form-control" name="religion" id="religion">
                                     <option value="">-- Select One --</option>
-                                    <?php foreach ($code_religion as $key => $val) { ?>
+                                    <?php foreach ($code_member_religion as $key => $val) { ?>
                                         <option value="<?php echo $key; ?>" <?php if ($member->religion == $key) { echo 'selected="selected"'; } echo set_select('religion', $key); ?>><?php echo $val; ?></option>
                                     <?php } ?>
                                 </select>
@@ -209,7 +209,7 @@
                                 <label>Shirt Size</label><span class="fontred"> *</span>
                                 <select class="form-control" name="shirt_size" id="shirt_size">
                                     <option value="">-- Select One --</option>
-                                    <?php foreach ($code_shirt_size as $key => $val) { ?>
+                                    <?php foreach ($code_member_shirt_size as $key => $val) { ?>
                                         <option value="<?php echo $key; ?>" <?php if ($member->shirt_size == $key) { echo 'selected="selected"'; } echo set_select('shirt_size', $key); ?>><?php echo $val; ?></option>
                                     <?php } ?>
                                 </select>
@@ -292,33 +292,3 @@
     </div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#provinsi").change(function() {
-            var provinsi = $(this).find("option:selected").attr("id");
-            var dataString = 'id_provinsi='+ provinsi;
-            $.ajax({
-                url: '<?php echo base_url()."dropdown_kota_lists"; ?>',
-                type: "POST",
-                data: dataString,
-                beforeSend : function (){
-                    $('#kota').html('<i class="fa fa-spinner fa-spin"></i>');
-                },
-                success: function(data) {
-                    $('#kota').html(data);
-                }
-            });
-        });
-
-        $('.date-picker').datepicker({
-            orientation: "auto left",
-            endDate: "-10y",
-            format: "dd M yyyy"
-        });
-
-        $('#submit_member_edit').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    });
-</script>
