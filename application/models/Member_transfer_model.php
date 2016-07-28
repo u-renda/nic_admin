@@ -19,10 +19,28 @@ class Member_transfer_model extends CI_Model {
 		return $result;
     }
 
+    function delete($params)
+    {
+        $result = null;
+        $url = $this->config->item('nic_api'). $this->page . '/delete';
+        $params = array_merge($params, $this->key);
+        $result = $this->rest->post($url, $params);
+		return $result;
+    }
+
     function info($params)
     {
         $result = null;
         $url = $this->config->item('nic_api'). $this->page . '/info';
+        $params = array_merge($params, $this->key);
+        $result = $this->rest->get($url, $params);
+		return $result;
+    }
+
+    function lists($params)
+    {
+        $result = null;
+        $url = $this->config->item('nic_api'). $this->page . '/lists';
         $params = array_merge($params, $this->key);
         $result = $this->rest->get($url, $params);
 		return $result;

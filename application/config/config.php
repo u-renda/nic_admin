@@ -524,7 +524,7 @@ $config['development_mode'] = FALSE;
 $config['title'] = 'NEZindaCLUB';
 $config['nic_api'] = API_HOST;
 $config['nic_key'] = 'bd6fb882067e6896c1c193376cd411ee';
-$config['email_admin'] = 'admin@nezindaclub.com';
+$config['email_admin'] = 'nezindaclub.official@gmail.com';
 $config['registration_fee'] = 150000;
 
 // Link

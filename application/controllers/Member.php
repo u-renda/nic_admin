@@ -144,6 +144,38 @@ class Member extends MY_Controller {
         }
     }
 
+    function check_transfer_photo()
+    {
+        if (isset($_FILES['transfer_photo']))
+        {
+            if ($_FILES["transfer_photo"]["error"] == 0)
+            {
+                $name = md5(basename($_FILES["transfer_photo"]["name"]) . date('Y-m-d H:i:s'));
+                $target_dir = UPLOAD_MEMBER_HOST;
+                $imageFileType = strtolower(pathinfo($_FILES["transfer_photo"]["name"],PATHINFO_EXTENSION));
+
+                $param2 = array();
+                $param2['target_file'] = UPLOAD_FOLDER . $name . '.' . $imageFileType;
+                $param2['imageFileType'] = $imageFileType;
+                $param2['tmp_name'] = $_FILES["transfer_photo"]["tmp_name"];
+                $param2['tmp_file'] = $target_dir . $name . '.' . $imageFileType;
+                $param2['size'] = $_FILES["transfer_photo"]["size"];
+
+                $check_image = check_image($param2);
+
+                if ($check_image == 'true')
+                {
+                    return TRUE;
+                }
+                else
+                {
+                    $this->form_validation->set_message('check_transfer_photo', $check_image);
+                    return FALSE;
+                }
+            }
+        }
+    }
+
     function member_create()
     {
         $data = array();
@@ -194,27 +226,9 @@ class Member extends MY_Controller {
                     }
                 }
                 
-                $username = '';
-                $member_number = '';
-                $member_card = '';
-                $member_card = '';
-                $approved_date = '';
-                if ($this->input->post('status') == 4) // 4 = approved
-                {
-                    $member_number = get_member_number();
-                
-                    $param2 = array();
-                    $param2['birth_date'] = $this->input->post('birth_date');
-                    $param2['member_number'] = $member_number;
-                    $param2['gender'] = $this->input->post('gender');
-                    
-                    $member_card = get_member_card($param2);
-                    $username = get_member_username(strtolower($this->input->post('name')));
-                    $approved_date = date('Y-m-d H:i:s');
-                }
-                
                 $param = array();
                 $param['id_kota'] = $this->input->post('id_kota');
+                $param['id_admin'] = $this->session->userdata('id_admin');
                 $param['name'] = $this->input->post('name');
                 $param['email'] = $this->input->post('email');
                 $param['idcard_type'] = $this->input->post('idcard_type');
@@ -233,60 +247,34 @@ class Member extends MY_Controller {
                 $param['shirt_size'] = $this->input->post('shirt_size');
                 $param['photo'] = $photo;
                 $param['status'] = $this->input->post('status');
-                $param['username'] = $username;
-                $param['password'] = random_string('alnum', 8);
-                $param['member_number'] = $member_number;
-                $param['member_card'] = $member_card;
-                $param['approved_date'] = $approved_date;
                 $query = $this->member_model->create($param);
                 
                 if ($query->code == 200)
                 {
-                    // create member transfer
-                    $query3 = $this->kota_model->info(array('id_kota' => $this->input->post('kota')));
-                    $ongkir = 0;
-                    
-                    if ($query3->code == 200)
-                    {
-                        $ongkir = $query3->result->price;
-                    }
-                    
-                    $param3 = array();
-                    $param3['id_member'] = $query->result->id_member;
-                    $param3['total'] = $this->config->item('registration_fee') + $ongkir;
-                    $param3['date'] = date('Y-m-d');
-                    $param3['photo'] = '-';
-                    $param3['account_name'] = '-';
-                    $param3['other_information'] = 'Pendaftaran on the spot - cash';
-                    $param3['type'] = 1;
-                    $param3['status'] = 2;
-                    $param3['created_date'] = date('Y-m-d H:i:s');
-                    $param3['updated_date'] = date('Y-m-d H:i:s');
-                    $query2 = $this->member_transfer_model->create($param3);
-                    
-                    if ($query2->code == 200)
-                    {
-                        $response = '?type=success';
-                    }
-                    else
-                    {
-                        $response = '?type=error';
-                    }
-                    
-                    redirect($this->config->item('link_member_lists').$response);
+					if ($this->input->post('status') == 2)
+					{
+						redirect($this->config->item('link_member_request_transfer').'?id='.$query->result->id_member);
+					}
+					elseif ($this->input->post('status') == 4)
+					{
+						redirect($this->config->item('link_member_approved').'?id='.$query->result->id_member);
+					}
+					
+                    $response = '?type=success&msg=create';
                 }
                 else
                 {
-                    $data['error'] = $query->result;
+                    $response = '?type=error&msg=create';
                 }
+				
+				redirect($this->config->item('link_member_lists').$response);
             }
         }
-
+		
         $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
         $data['code_member_gender'] = $this->config->item('code_member_gender');
         $data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
         $data['code_member_religion'] = $this->config->item('code_member_religion');
-        $data['code_member_status'] = $this->config->item('code_member_status');
         $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
         $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
         $data['view_content'] = 'member/member_create';
@@ -337,17 +325,15 @@ class Member extends MY_Controller {
     {
         $id = $this->input->get_post('id');
         $get = $this->member_model->info(array('id_member' => $id));
-
+		$data = array();
+		
         if ($get->code == 200)
         {
-            $kota_info = $this->kota_model->info(array('id_kota' => $get->result->id_kota));
-            $member_transfer = $this->member_transfer_model->info(array('id_member' => $id, 'type' => 1));
-            
             if ($this->input->post('submit'))
             {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('name', 'name', 'required');
-                $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_email_edit');
+                $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_member_email');
                 $this->form_validation->set_rules('idcard_type', 'ID card type', 'required');
                 $this->form_validation->set_rules('idcard_number', 'ID card number', 'required|numeric');
                 $this->form_validation->set_rules('idcard_address', 'ID card address', 'required');
@@ -416,73 +402,44 @@ class Member extends MY_Controller {
                     $param['username'] = $this->input->post('username');
                     $param['member_number'] = $this->input->post('member_number');
                     $param['member_card'] = $this->input->post('member_card');
-
+					
                     if ($this->input->post('password') != '')
                     {
                         $param['password'] = md5($this->input->post('password'));
                     }
-                    
-                    // Merubah beberapa data jika status berubah
-                    if ($this->input->post('status') == 1) // awaiting review
-                    {
-                        // Kosongkan username & password
-                        $param['username'] = '';
-                        $param['password'] = '';
-                        
-                        // Delete member transfer jika ada
-                        if ($member_transfer->code == 200)
-                        {
-                            $query3 = $this->member_transfer_model->delete(array('id_member_transfer' => $query2->result->id_member_transfer));
-                        }
-                    }
-                    elseif ($this->input->post('status') == 2) // awaiting transfer
-                    {
-                        // Kosongkan username & password
-                        $param['username'] = '';
-                        $param['password'] = '';
-                        
-                        // Ubah jumlah transfer, sesuai dengan data yang udah di update
-                        if ($member_transfer->code == 200)
-                        {
-                            // Get kode unik transfer
-                            $query4 = $this->preferences_model->info(array('key' => 'unique_trf_id'));
-                            $kode_unik = 0;
-                            
-                            if ($query4->code == 200)
-                            {
-                                $kode_unik = $query4->result->value;
-                                
-                                // Update valuenya
-                                $param3 = array();
-                                $param3['id_preferences'] = $query4->result->id_preferences;
-                                $param3['value'] = $kode_unik + 1;
-                                $query5 = $this->preferences_model->update($param3);
-                            }
-                            
-                            $param2 = array();
-                            $param2['id_member_transfer'] = $member_transfer->result->id_member_transfer;
-                            $param2['total'] = $this->config->item('registration_fee') + $kota_info->result->price + $kode_unik;
-                            $param2['status'] = 1;
-                            $query2 = $this->member_transfer_model->update($param2);
-                        }
-                    }
-                    elseif ($this->input->post('status') == 2) // awaiting transfer
-                    {
-                        
-                    }
-                    
+					
                     $query = $this->member_model->update($param);
 
                     if ($query->code == 200)
                     {
-                        redirect($this->config->item('link_member_lists'));
+						$response = '?type=success&msg=edit';
                     }
                     else
                     {
-                        $data['error'] = $query->result;
+                        $response = '?type=error&msg=edit';
                     }
+					
+					redirect($this->config->item('link_member_lists').$response);
                 }
             }
+			
+			// Get provinsi from id_kota
+			$kota_info = '';
+			$query6 = $this->kota_model->info(array('id_kota' => $get->result->kota->id_kota));
+			
+			if ($query6->code == 200)
+			{
+				$kota_info = $query6->result;
+			}
+			
+			// Get member transfer
+			$member_transfer = array();
+			$query2 = $this->member_transfer_model->lists(array('id_member' => $id, 'type' => 1));
+			
+			if ($query2->code == 200)
+			{
+				$member_transfer = $query2->result;
+			}
 			
             $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
             $data['code_member_gender'] = $this->config->item('code_member_gender');
@@ -492,9 +449,9 @@ class Member extends MY_Controller {
             $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
             $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
             $data['member'] = $get->result;
-            $data['kota'] = $kota_info->result;
+            $data['kota'] = $kota_info;
             $data['kota_lists'] = get_kota(array('limit' => 200, 'id_provinsi' => $data['kota']->id_provinsi))->result;
-            $data['member_transfer'] = $member_transfer->result;
+			$data['member_transfer'] = (object) $member_transfer;
             $data['view_content'] = 'member/member_edit';
             $this->display_view('templates/frame', $data);
         }
@@ -541,7 +498,6 @@ class Member extends MY_Controller {
         }
 
         $code_member_shirt_size = $this->config->item('code_member_shirt_size');
-        $code_member_status = $this->config->item('code_member_status');
         $get = get_member(array('idcard_type' => $id_card_type, 'religion' => $religion, 'status' => $status, 'gender' => $gender, 'marital_status' => $marital_status, 'shirt_size' => $shirt_size, 'q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
         $jsonData = array('total' => $get->total, 'results' => array());
 
@@ -555,24 +511,11 @@ class Member extends MY_Controller {
                 $action .= '<a title="Delete" id="'.$row->id_member.'" class="delete '.$row->id_member.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
             }
 
-            $status_template = $code_member_status[$row->status];
-
-            if ($row->status == 1)
-            {
-                $status_template = '<span class="label label-warning">'.$code_member_status[$row->status].'</span>';
-            }
-            elseif ($row->status == 3)
-            {
-                $status_template = '<span class="label label-primary">'.$code_member_status[$row->status].'</span>';
-            }
-            elseif ($row->status == 4)
-            {
-                $status_template = '<span class="label label-success">'.$code_member_status[$row->status].'</span>';
-            }
-            
+            $status_template = color_member_status($row->status);
             $approved_date = '-';
             $member_card = '-';
             $member_number = '-';
+			
             if ($row->approved_date != '0000-00-00 00:00:00' && $row->approved_date != '' && $row->approved_date != null)
             {
                 $approved_date = date('d M Y', strtotime($row->approved_date));
@@ -608,14 +551,10 @@ class Member extends MY_Controller {
 
 	function member_lists()
 	{
-        $type = $this->input->get('type');
-        
-        if ($type == TRUE)
-        {
-            
-        }
-        
         $data = array();
+		$type = $this->input->get('type') ? $this->input->get('type') : '';
+		$msg = $this->input->get('msg') ? $this->input->get('msg') : '';
+		
         $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
         $data['code_member_religion'] = $this->config->item('code_member_religion');
         $data['code_member_status'] = $this->config->item('code_member_status');
@@ -624,6 +563,8 @@ class Member extends MY_Controller {
         $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
         $data['gender'] = $this->input->get_post('gender');
         $data['status'] = $this->input->get_post('status');
+		$data['alert_type'] = $type;
+		$data['alert_msg'] = $msg;
         $data['view_content'] = 'member/member_lists';
         $this->display_view('templates/frame', $data);
 	}
@@ -636,24 +577,21 @@ class Member extends MY_Controller {
         if ($get->code == 200)
         {
             $get_template = get_email_template_info(array('key' => 'email_req_transfer'), $get->result);
-
+			
             if ($this->input->post('submit') == TRUE)
             {
-                // send email
-                $param = array();
-                $param['subject'] = $this->config->item('title').' - Informasi Transfer Membership';
-                $param['email'] = $get->result->email;
-                $send_email = send_email($param, $get_template);
+				$update = $this->member_model->update(array('id_member' => $id, 'status' => 2));
 
-                if ($send_email == TRUE)
-                {
-                    $update = $this->member_model->update(array('id_member' => $id, 'status' => 2));
-
-                    if ($update->code == 200)
-                    {
-                        redirect($this->config->item('link_member_lists'));
-                    }
-                }
+				if ($update->code == 200)
+				{
+					$response = '?type=success&msg=send email request transfer to';
+				}
+				else
+				{
+					$response = '?type=error&msg=send email request transfer to';
+				}
+				
+				redirect($this->config->item('link_member_lists').$response);
             }
 
             $data['email_content'] = $get_template;

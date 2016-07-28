@@ -98,6 +98,20 @@
                     </form>
                     <div class="fontred"><em>* Search for: name, email, member_card</em></div>
                 </div>
+                <?php
+                if ($alert_type == 'success')
+                {
+                    echo '<div class="alert alert-success">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
+                    echo '<strong>Well done!</strong> Success '.$alert_msg.' member.</div>';
+                }
+                elseif ($alert_type == 'error')
+                {
+                    echo '<div class="alert alert-danger">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
+                    echo '<strong>Oh snap!</strong> Failed '.$alert_msg.' member.</div>';
+                }
+                ?>
                 <div id="grid_member"></div>
             </div>
         </div>

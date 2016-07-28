@@ -67,6 +67,49 @@ $(function () {
             endDate: "-10y",
             format: "dd M yyyy"
         });
+        
+        $('#change_photo').hide();
+        $('#change_idcard_photo').hide();
+        $('#change_password').hide();
+        $('#change_transfer_photo').hide();
+        $('#change_status').hide();
+        $('#checkboxPhoto').click(function(){
+            if($(this).is(":checked")){
+                $('#change_photo').show();
+            } else {
+                $('#change_photo').hide();
+            }
+        });
+        $('#checkboxIDcard').click(function(){
+            if($(this).is(":checked")) {
+                $('#change_idcard_photo').show();
+            } else {
+                $('#change_idcard_photo').hide();
+            }
+        });
+        $('#checkboxPassword').click(function(){
+            if($(this).is(":checked")) {
+                $('#change_password').show();
+            } else {
+                $('#change_password').hide();
+            }
+        });
+        $('#checkboxPhotoTransfer').click(function(){
+            if($(this).is(":checked")) {
+                $('#change_transfer_photo').show();
+            } else {
+                $('#change_transfer_photo').hide();
+            }
+        });
+        $("#status").change(function() {
+            if ($(this).val() == 3 || $(this).val() == 4) {
+                $('#change_status').show();
+            }
+            else
+            {
+                $('#change_status').hide();
+            }
+        });
 
         $('#submit_member_edit').click(function () {
             $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');

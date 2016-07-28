@@ -86,6 +86,37 @@ if ( ! function_exists('check_image')) {
 
 /*
 +-------------------------------------+
+    Name: color_member_status
+    Purpose: memberikan warna label untuk status yang berbeda
+    @param return : colored label
++-------------------------------------+
+*/
+if ( ! function_exists('color_member_status')) {
+	function color_member_status($status)
+	{ 
+		$CI =& get_instance();
+		$code_member_status = $CI->config->item('code_member_status');
+		$status_template = $code_member_status[$status];
+		
+		if ($status == 1)
+		{
+			$status_template = '<span class="label label-warning">'.$code_member_status[$status].'</span>';
+		}
+		elseif ($status == 3)
+		{
+			$status_template = '<span class="label label-primary">'.$code_member_status[$status].'</span>';
+		}
+		elseif ($status == 4)
+		{
+			$status_template = '<span class="label label-success">'.$code_member_status[$status].'</span>';
+		}
+		
+		return $status_template;
+	}
+}
+
+/*
++-------------------------------------+
     Name: decode
     Purpose: ungenerate value
     @param return : ungenerated value
@@ -200,10 +231,10 @@ if ( ! function_exists('get_email_template_info')) {
         if ($query->code == 200)
         {
             $email_content = $query->result->value;
-
+			
             if ($param['key'] == 'email_req_transfer')
             {
-                $query3 = $CI->kota_model->info(array('id_kota' => $member->id_kota));
+                $query3 = $CI->kota_model->info(array('id_kota' => $member->kota->id_kota));
                 $query4 = $CI->preferences_model->info(array('key' => 'unique_trf_id'));
                 $registration_fee = $CI->config->item('registration_fee');
                 $delivery_cost = '';
@@ -567,7 +598,8 @@ if ( ! function_exists('send_email')) {
     function send_email($param, $email_content)
     {
         $CI =& get_instance();
-
+		$CI->load->library('email');
+		
         $config['useragent'] = 'nezindaclub.com';
         $config['wordwrap'] = FALSE;
         $config['mailtype'] = 'html';
@@ -577,8 +609,9 @@ if ( ! function_exists('send_email')) {
         $CI->email->to($param['email']);
         $CI->email->subject($param['subject']);
         $CI->email->message('<html><head></head><body>'.$email_content.'</body></html>');
-
+		
         $send = $CI->email->send();
+		//print_r($CI->email->print_debugger(array('headers')));die();
         return $send;
     }
 }

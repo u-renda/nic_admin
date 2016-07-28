@@ -1,0 +1,162 @@
+// Jika status diubah manual, maka ada beberapa info yang harus diubah
+					if ($this->input->post('status') == 1) // awaiting review
+					{
+						// kosongin username, password, member number, member card
+						$param['username'] = '-';
+						$param['password'] = '-';
+						$param['member_number'] = 0;
+						$param['member_card'] = '-';
+						$param['approved_date'] = '';
+						
+						// delete member transfer (jika ada)
+						if ($query2->code == 200)
+						{
+							foreach ($query2->result as $row)
+							{
+								$this->member_transfer_model->delete(array('id_member_transfer' => $row->id_member_transfer));
+							}
+						}
+					}
+					elseif ($this->input->post('status') == 2) // awaiting transfer
+					{
+						// kosongin username, password, member number, member card
+						$param['username'] = '-';
+						$param['password'] = '-';
+						$param['member_number'] = 0;
+						$param['member_card'] = '-';
+						$param['approved_date'] = '';
+						
+						// ambil unique code dan update valuenya (+1)
+						if ($query4->code == 200)
+						{
+							$unique_code = $query4->result->value;
+							
+							// update unique code (+1)
+							$param4 = array();
+							$param4['id_preferences'] = $query4->result->id_preferences;
+							$param4['value'] = $query4->result->value + 1;
+							$this->preferences_model->update($param4);
+						}
+						
+						// delete member transfer
+						if ($query2->code == 200)
+						{
+							foreach ($query2->result as $row)
+							{
+								$this->member_transfer_model->delete(array('id_member_transfer' => $row->id_member_transfer));
+							}
+						}
+						
+						// create member transfer
+						$param3 = array();
+						$param3['id_member'] = $get->result->id_member;
+						$param3['total'] = $this->config->item('registration_fee') + $unique_code + $get->result->kota->price;
+						$param3['type'] = 1;
+						$param3['status'] = 1;
+						$this->member_transfer_model->create($param3);
+					}
+					elseif ($this->input->post('status') == 3) // awaiting approval
+					{
+						// kosongin username, password, member number, member card
+						$param['username'] = '-';
+						$param['password'] = '-';
+						$param['member_number'] = 0;
+						$param['member_card'] = '-';
+						$param['approved_date'] = '';
+						
+						// create/edit data member transfer
+						$transfer_photo = '';
+
+						if (isset($_FILES['transfer_photo']))
+						{
+							if ($_FILES["transfer_photo"]["error"] == 0)
+							{
+								$name = md5(basename($_FILES["transfer_photo"]["name"]) . date('Y-m-d H:i:s'));
+								$imageFileType = strtolower(pathinfo($_FILES["transfer_photo"]["name"],PATHINFO_EXTENSION));
+								$transfer_photo = UPLOAD_MEMBER_HOST . $name . '.' . $imageFileType;
+							}
+						}
+						
+						if ($query2->code == 200)
+						{
+							if (count($query2->result > 0))
+							{
+								foreach ($query2->result as $row)
+								{
+									$param2 = array();
+									$param2['id_member_transfer'] = $row->id_member_transfer;
+									$param2['date'] = date('Y-m-d', strtotime($this->input->post('transfer_date2')));
+									$param2['photo'] = $transfer_photo;
+									$param2['account_name'] = $this->input->post('account_name2');
+									$param2['other_information'] = $this->input->post('other_information2');
+									$param2['status'] = 2;
+									print_r($this->input->post());die();
+									$this->member_transfer_model->update($param2);
+								}
+							}
+							else
+							{
+								if ($query4->code == 200)
+								{
+									$unique_code = $query4->result->value;
+								
+									// update unique code (+1)
+									$param4 = array();
+									$param4['id_preferences'] = $query4->result->id_preferences;
+									$param4['value'] = $query4->result->value + 1;
+									$this->preferences_model->update($param4);
+								}
+								
+								$param5 = array();
+								$param5['id_member'] = $get->result->id_member;
+								$param5['total'] = $this->config->item('registration_fee') + $unique_code + $get->result->kota->price;
+								$param5['date'] = date('Y-m-d', strtotime($this->input->post('transfer_date')));
+								$param5['photo'] = $transfer_photo;
+								$param5['account_name'] = $this->input->post('account_name');
+								$param5['other_information'] = $this->input->post('other_information');
+								$param5['type'] = 1;
+								$param5['status'] = 2;
+								$this->member_transfer_model->create($param5);
+							}
+						}
+					}
+					elseif ($this->input->post('status') == 4) // approved
+					{
+						// tambah username, password, member_number, member_card
+						// create/edit data member transfer
+					}
+					else // invalid
+					{
+						
+					}
+                    
+
+
+
+
+// Get member transfer info
+			if ($query2->code == 200)
+			{
+				if (count($query2->result) > 0)
+				{
+					foreach ($query2->result as $row)
+					{
+						$member_transfer = $row;
+					}
+				}
+			}
+			
+			$total_transfer = 0;
+			// Get total transfer
+			if ($member_transfer == TRUE)
+			{
+				$total_transfer = $member_transfer->total;
+			}
+			else
+			{
+				if ($query4->code == 200)
+				{
+					$unique_code = $query4->result->value;
+					$total_transfer = $this->config->item('registration_fee') + $unique_code + $get->result->kota->price;
+				}
+			}
