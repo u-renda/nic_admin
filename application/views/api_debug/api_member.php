@@ -161,17 +161,9 @@
                 <h3 class="panel-title">Result</h3>
             </div>
             <div class="panel-body">
-				<?php print_r($query_result); ?>
+				<pre><?php print_r($query_result); ?></pre>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#submit_api_member').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    });
-</script>

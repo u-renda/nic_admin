@@ -25,6 +25,11 @@ var newPathname = winOrigin + "/" + winPath[1] + "/";
 			panel_heading.addClass('active');
         }
     });
+    
+    if (pathname === '/nic_admin/member_edit' || pathname === '/nic_admin/member_request_transfer' || pathname === '/nic_admin/member_approved' || pathname === '/nic_admin/member_invalid') {
+        var panel_heading = $('#collapseListGroupHeading2');
+        panel_heading.addClass('active');
+    }
 	
 	/*
 	Flot: Bars

@@ -19,6 +19,12 @@ class Api_debug extends MY_Controller {
 			$this->load->library('form_validation');
             $this->form_validation->set_rules('endpoint', 'endpoint', 'required');
             
+			if ($this->input->post('endpoint') == 'info')
+			{
+				$this->form_validation->set_rules('find_by', 'find by', 'required');
+				$this->form_validation->set_rules('id_admin', 'id admin', 'required');
+			}
+			
             if ($this->form_validation->run() == TRUE)
             {
 				$endpoint = $this->input->post('endpoint');
@@ -29,6 +35,7 @@ class Api_debug extends MY_Controller {
                 $param['order'] = $this->input->post('order');
                 $param['sort'] = $this->input->post('sort');
                 $param['admin_role'] = $this->input->post('admin_role');
+                $param['id_admin'] = $this->input->post('id_admin');
                 
                 $data['query_result'] = $this->api_model->admin($endpoint, $param);
             }

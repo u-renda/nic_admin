@@ -159,6 +159,7 @@ class Post extends MY_Controller {
         {
             if ($this->input->post('submit'))
             {
+				print_r($this->input->post());die();
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('title', 'title', 'required');
                 $this->form_validation->set_rules('status', 'status', 'required');
@@ -221,21 +222,18 @@ class Post extends MY_Controller {
             }
 
             $video = '';
-            $new_data = $get->result;
+            $new_data = (array) $get->result;
             
-            if ($new_data->media_type == 1)
+            if ($new_data['media_type'] == 1)
             {
-                if ($new_data->media != '')
+                if ($new_data['media'] != '')
                 {
-					$explode = explode('v=', $new_data->media);
-				
-					foreach ($new_data as $key => $val)
-					{
-						$new_data[$key]= $val;
-						$new_data['video'] = $explode[1];
-					}
+					$explode = explode('v=', $new_data['media']);
+					$new_data['video'] = $explode[1];
 				}
             }
+			
+			$new_data['new_content'] = html_entity_decode($new_data['content']);
 			
             $data['code_post_status'] = $this->config->item('code_post_status');
             $data['code_post_type'] = $this->config->item('code_post_type');
@@ -291,7 +289,7 @@ class Post extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" href="post_view?id='.$row->id_post.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
+            $action = '<a title="View Detail" id="'.$row->id_post.'" class="view '.$row->id_post.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Edit" href="post_edit?id='.$row->id_post.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;';
 
             if ($row->status != 3)
@@ -320,14 +318,14 @@ class Post extends MY_Controller {
 			}
 			
             $entry = array(
-                'no' => $i,
-                'title' => ucwords($row->title),
-                'content' => $content,
-                'type' => $code_post_type[$row->type],
-                'is_event' => $code_yes_no[$row->is_event],
-                'status' => $status_template,
-                'created_date' => date('d M Y', strtotime($row->created_date)),
-                'action' => $action
+                'No' => $i,
+                'Title' => ucwords($row->title),
+                'Content' => $content,
+                'Type' => $code_post_type[$row->type],
+                'Event' => $code_yes_no[$row->is_event],
+                'Status' => $status_template,
+                'CreatedDate' => date('d M Y', strtotime($row->created_date)),
+                'Action' => $action
             );
 
             $jsonData['results'][] = $entry;
@@ -348,4 +346,34 @@ class Post extends MY_Controller {
         $data['view_content'] = 'post/post_lists';
         $this->display_view('templates/frame', $data);
 	}
+    
+    function post_view()
+    {
+		$id = $this->input->post('id');
+		$get = $this->post_model->info(array('id_post' => $id));
+		
+		if ($get->code == 200)
+		{
+            $result = $get->result;
+            $code_post_type = $this->config->item('code_post_type');
+            $code_post_status = $this->config->item('code_post_status');
+            $code_yes_no = $this->config->item('code_yes_no');
+            
+            $data = array();
+            $data['title'] = ucwords($result->title);
+            $data['slug'] = $result->slug;
+            $data['content'] = replace_new_line(htmlspecialchars_decode($result->content));
+            $data['media'] = $result->media;
+            $data['media_type'] = $result->media_type;
+            $data['type'] = $code_post_type[$result->type];
+            $data['status'] = $code_post_status[$result->status];
+            $data['is_event'] = $code_yes_no[$result->is_event];
+            $data['created_date'] = $result->created_date;
+			$this->load->view('post/post_view', $data);
+		}
+		else
+		{
+			echo "Data Not Found";
+		}
+    }
 }

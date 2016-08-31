@@ -540,6 +540,7 @@ $config['link_dashboard'] = $config['base_url'].'dashboard';
 $config['link_email_template_lists'] = $config['base_url'].'email_template_lists';
 $config['link_login'] = $config['base_url'].'index';
 $config['link_logout'] = $config['base_url'].'logout';
+$config['link_member_approved'] = $config['base_url'].'member_approved';
 $config['link_member_create'] = $config['base_url'].'member_create';
 $config['link_member_delete'] = $config['base_url'].'member_delete';
 $config['link_member_edit'] = $config['base_url'].'member_edit';
@@ -557,11 +558,12 @@ $config['link_provinsi_create'] = $config['base_url'].'provinsi_create';
 $config['link_provinsi_delete'] = $config['base_url'].'provinsi_delete';
 $config['link_provinsi_edit'] = $config['base_url'].'provinsi_edit';
 $config['link_provinsi_lists'] = $config['base_url'].'provinsi_lists';
+$config['link_reg_invalid'] = WEB_HOST.'member_invalid';
 $config['link_secret_santa_create'] = $config['base_url'].'secret_santa_create';
 $config['link_secret_santa_delete'] = $config['base_url'].'secret_santa_delete';
 $config['link_secret_santa_lists'] = $config['base_url'].'secret_santa_lists';
 $config['link_secret_santa_random'] = $config['base_url'].'secret_santa_random';
-$config['link_web_transfer'] = WEB_HOST.'konfirmasi_transfer';
+$config['link_web_transfer'] = WEB_HOST.'transfer_confirmation';
 
 // Code
 $config['code_member_idcard_type'] = array(
@@ -593,6 +595,11 @@ $config['code_member_status'] = array(
 $config['code_member_gender'] = array(
     0 => 'Male',
     1 => 'Female'
+);
+
+$config['code_member_gender_initial'] = array(
+    0 => 'M',
+    1 => 'F'
 );
 
 $config['code_member_marital_status'] = array(

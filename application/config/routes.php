@@ -61,6 +61,7 @@ $route['logout'] = 'login/logout';
 $route['dashboard'] = 'home/dashboard';
 
 // MEMBER
+$route['member_approved'] = 'member/member_approved';
 $route['member_create'] = 'member/member_create';
 $route['member_delete'] = 'member/member_delete';
 $route['member_edit'] = 'member/member_edit';
@@ -79,6 +80,7 @@ $route['post_delete'] = 'post/post_delete';
 $route['post_edit'] = 'post/post_edit';
 $route['post_get'] = 'post/post_get';
 $route['post_lists'] = 'post/post_lists';
+$route['post_view'] = 'post/post_view';
 
 // ADMIN
 $route['admin_create'] = 'admin/admin_create';

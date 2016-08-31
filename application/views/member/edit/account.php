@@ -113,7 +113,7 @@
             <div class="row">
                 <div class="col-sm-6 marginbottom15">
                     <label>Close Up Photo</label><span class="fontred"> *</span>
-                    <div class="input-group col-sm-12">
+                    <div class="col-sm-12 paddinglr0">
                         <img src="<?php echo $member->photo; ?>" alt="<?php echo ucwords($member->name); ?>" title="<?php echo ucwords($member->name); ?>" class="marginbottom15 img-responsive height250">
                         <div class="checkbox-custom checkbox-default">
                             <input type="checkbox" id="checkboxPhoto" value="yes">
@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-sm-6 marginbottom15">
                     <label>ID Card Photo</label><span class="fontred"> *</span>
-                    <div class="input-group col-sm-12">
+                    <div class="col-sm-12 paddinglr0">
                         <img src="<?php echo $member->idcard_photo; ?>" alt="<?php echo ucwords($member->name); ?>" title="<?php echo ucwords($member->name); ?>" class="marginbottom15 img-responsive height250">
                         <div class="checkbox-custom checkbox-default">
                             <input type="checkbox" id="checkboxIDcard" value="yes">

@@ -150,6 +150,26 @@ if ( ! function_exists('encode')) {
     @param return : data admin atau FALSE
 +-------------------------------------+
 */
+if ( ! function_exists('generate_username'))
+{
+	function generate_username($param)
+	{
+		$CI =& get_instance();
+		
+		$username = str_replace(" ", "", ucwords($param->name));
+		$username = substr($username, 0, 8);
+		$username .= date('md', strtotime($param->birth_date));
+		return $username;
+	}
+}
+
+/*
++-------------------------------------+
+    Name: get_admin
+    Purpose: mendapatkan data admin
+    @param return : data admin atau FALSE
++-------------------------------------+
+*/
 if ( ! function_exists('get_admin')) {
     function get_admin($param)
     {
@@ -220,10 +240,11 @@ if ( ! function_exists('get_email_template')) {
 +-------------------------------------+
 */
 if ( ! function_exists('get_email_template_info')) {
-    function get_email_template_info($param, $member)
+    function get_email_template_info($param, $member, $get_member_card = '', $generate_username = '')
     {
         $CI =& get_instance();
         $CI->load->model('member_model');
+        $CI->load->model('member_transfer_model');
         $CI->load->model('preferences_model');
 
         $query = $CI->preferences_model->info($param);
@@ -247,7 +268,24 @@ if ( ! function_exists('get_email_template_info')) {
 
                 if ($query4->code == 200)
                 {
-                    $unique_code = $query4->result->value;
+					$query2 = $CI->member_transfer_model->lists(array('id_member' => $member->id_member, 'type' => 1));
+					
+					if ($query2->count > 0)
+					{
+						foreach ($query2->result as $row)
+						{
+							$total = $row->total;
+							$unique_code = ltrim(substr($total, -3), 0);
+						}
+					}
+					elseif ($param['from'] == 'create')
+					{
+						$unique_code = $query4->result->value - 1;
+					}
+					else
+					{
+						$unique_code = $query4->result->value;
+					}
                 }
 
                 $content = array();
@@ -257,13 +295,28 @@ if ( ! function_exists('get_email_template_info')) {
                 $content['unique_code'] = $unique_code;
                 $content['total_transfer'] = number_format($registration_fee + $delivery_cost + $unique_code, 0, '', '.');
                 $content['link_web_transfer'] = $CI->config->item('link_web_transfer');
-
-                foreach ($content as $key => $value)
-                {
-                    $k = "{" . $key . "}";
-                    $email_content = str_replace($k, $value, $email_content);
-                }
             }
+			elseif ($param['key'] == 'email_approve_member')
+			{
+				$content = array();
+                $content['member_name'] = ucwords($member->name);
+                $content['member_card'] = $get_member_card;
+                $content['username'] = $generate_username;
+                $content['link_web_nic'] = WEB_HOST;
+				
+			}
+			elseif ($param['key'] == 'email_inv_data')
+			{
+				$content = array();
+                $content['member_name'] = ucwords($member->name);
+                $content['link_reg_invalid'] = $CI->config->item('link_reg_invalid').'?id='.$member->id_member;
+			}
+			
+			foreach ($content as $key => $value)
+			{
+				$k = "{" . $key . "}";
+				$email_content = str_replace($k, $value, $email_content);
+			}
 
             return $email_content;
         }
@@ -335,47 +388,32 @@ if ( ! function_exists('get_member')) {
 	*
 +-------------------------------------+
 */
-if ( ! function_exists('get_member_card')) {
-    function get_member_card($param)
-    {
+if ( ! function_exists('get_member_card'))
+{
+	function get_member_card($param, $id_admin)
+	{
 		$CI =& get_instance();
-
-		$queue_num = $param['member_number'];
+		$CI->load->model('admin_model');
+		$CI->load->model('member_model');
+		$code_member_gender_initial = $CI->config->item('code_member_gender_initial');
+		$query = $CI->admin_model->info(array('id_admin' => $id_admin));
 		
-		if (strlen($param['member_number']) == 1)
+		if ($query->code == 200)
 		{
-			$queue_num = "0000" . $param['member_number'];
-		}
-		elseif (strlen($param['member_number']) == 2)
-		{
-			$queue_num = "000" . $param['member_number'];
-		}
-		else if (strlen($param['member_number']) == 3)
-		{
-			$queue_num = "00" . $param['member_number'];
-		}
-		else if (strlen($param['member_number']) == 4)
-		{
-			$queue_num = "0" . $param['member_number'];
-		}
-		
-		if ($param['gender'] == 1)
-		{
-			$gender = 'F';
+			$birth_date = date('my', strtotime($param->birth_date));
+			$gender = $code_member_gender_initial[$param->gender];
+			$initial = $query->result->admin_initial;
+			$year = date('y');
+			$get_member_number = get_member_number();
+			
+			$data = $birth_date.$gender.'W'.$initial.$year.$get_member_number;
+			return $data;
 		}
 		else
 		{
-			$gender = 'M';
+			return FALSE;
 		}
-		
-		$birth_month = date('m', strtotime($param['birth_date']));
-		$birth_year = date('y', strtotime($param['birth_date']));
-		$now_year = date('y');
-		
-		$member_card = $birth_month.$birth_year.$gender.'W'.$CI->session->userdata('admin_initial').$now_year.$queue_num;
-		
-		return $member_card;
-    }
+	}
 }
 
 /*
@@ -385,34 +423,31 @@ if ( ! function_exists('get_member_card')) {
     @param return : no member atau FALSE
 +-------------------------------------+
 */
-if ( ! function_exists('get_member_number')) {
-    function get_member_number()
-    {
-        $CI =& get_instance();
-        $CI->load->model('member_model');
+if ( ! function_exists('get_member_number'))
+{
+	function get_member_number()
+	{
+		$CI =& get_instance();
+		$CI->load->model('member_model');
 		
-		$param = array();
-		$param['status'] = 4;
-		$param['order'] = 'member_number';
-		$param['sort'] = 'desc';
-		$param['limit'] = 1;
-        $query = $CI->member_model->lists($param);
+		$param2 = array();
+		$param2['order'] = 'member_number';
+		$param2['sort'] = 'desc';
+		$param2['limit'] = 1;
+		$param2['offset'] = 0;
+		$query = $CI->member_model->lists($param2);
 		
 		if ($query->code == 200)
 		{
-			foreach ($query->result as $row)
-			{
-				$member_number = $row->member_number;
-			}
-			
-			$member_number++;
-			return $member_number;
+			$member_number = $query->result[0]->member_number + 1;
+			$new_number = str_pad($member_number, 5, 0, STR_PAD_LEFT);
+			return $new_number;
 		}
 		else
 		{
 			return FALSE;
 		}
-    }
+	}
 }
 
 /*
@@ -422,19 +457,19 @@ if ( ! function_exists('get_member_number')) {
     @param return : data username
 +-------------------------------------+
 */
-if ( ! function_exists('get_member_username')) {
-    function get_member_username($name)
-    {
-        $CI =& get_instance();
-        
-        $date = date('dm');
-        $name = str_replace(" ", "", $name);
-		$name = substr($name, 0, 8);
-		$username = $name.$date;
-		
-		return $username;
-    }
-}
+//if ( ! function_exists('get_member_username')) {
+//    function get_member_username($name)
+//    {
+//        $CI =& get_instance();
+//        
+//        $date = date('dm');
+//        $name = str_replace(" ", "", $name);
+//		$name = substr($name, 0, 8);
+//		$username = $name.$date;
+//		
+//		return $username;
+//    }
+//}
 
 /*
 +-------------------------------------+

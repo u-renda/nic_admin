@@ -273,6 +273,14 @@
 												<?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
 											</div>
 										</div>
+										<div class="row">
+											<div class="col-sm-6 marginbottom15">
+												<label>Notes</label>
+												<div class="col-sm-12 paddinglr0">
+													<textarea class="form-control height150" name="notes" id="notes"><?php echo set_value('notes'); ?></textarea>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

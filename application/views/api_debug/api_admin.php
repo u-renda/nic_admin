@@ -25,28 +25,28 @@
                                 </select>
                                 <?php echo form_error('endpoint', '<div class="fontred">', '</div>'); ?>
                             </div>
-                            <div class="col-sm-6 marginbottom15">
+                            <div class="col-sm-6 marginbottom15 admin_lists">
                                 <label>Admin Role</label>
-                                <div class="input-group col-sm-12">
+                                <div class="col-sm-12 paddinglr0">
                                     <input type="text" class="form-control" placeholder="1" name="admin_role" id="admin_role" value="<?php echo set_value('admin_role'); ?>">
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row admin_lists">
                             <div class="col-sm-6 marginbottom15">
                                 <label>Limit</label>
-                                <div class="input-group col-sm-12">
+                                <div class="col-sm-12 paddinglr0">
                                     <input type="text" class="form-control" placeholder="20" name="limit" id="limit" value="<?php echo set_value('limit'); ?>">
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
                                 <label>Offset</label>
-                                <div class="input-group col-sm-12">
+                                <div class="col-sm-12 paddinglr0">
                                     <input type="text" class="form-control" placeholder="0" name="offset" id="offset" value="<?php echo set_value('offset'); ?>">
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row admin_lists">
                             <div class="col-sm-6 marginbottom15">
                                 <label>Order</label>
                                 <select class="form-control" name="order" id="order">
@@ -64,6 +64,27 @@
                                 </select>
                             </div>
                         </div>
+						<div class="row admin_info">
+							<div class="col-sm-6 marginbottom15">
+                                <label>Choose Find By</label><span class="fontred"> *</span>
+                                <select class="form-control" name="find_by" id="find_by">
+                                    <?php
+                                    foreach ($code_api_admin_find_by as $key => $val)
+                                    {
+                                        echo '<option value="'.$key.'"'.set_select('find_by', $key).'>'.$val.'</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <?php echo form_error('find_by', '<div class="fontred">', '</div>'); ?>
+                            </div>
+							<div class="col-sm-6 marginbottom15">
+                                <label>ID Admin / Username / Email / Name / Twitter</label><span class="fontred"> *</span>
+                                <div class="col-sm-12 paddinglr0">
+                                    <input type="text" class="form-control" name="id_admin" id="id_admin" value="<?php echo set_value('id_admin'); ?>">
+                                <?php echo form_error('id_admin', '<div class="fontred">', '</div>'); ?>
+                                </div>
+                            </div>
+						</div>
                         <div class="form-actions">
                             <button type="submit" name="submit" value="Submit" class="btn blue" id="submit_api_admin">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Query
@@ -83,17 +104,9 @@
                 <h3 class="panel-title">Result</h3>
             </div>
             <div class="panel-body">
-				<?php print_r($query_result); ?>
+				<pre><?php print_r($query_result); ?></pre>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#submit_api_admin').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    });
-</script>

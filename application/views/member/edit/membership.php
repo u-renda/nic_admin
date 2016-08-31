@@ -68,37 +68,27 @@
                     <?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-6 marginbottom15">
+                    <label>Notes</label>
+                    <div class="col-sm-12 paddinglr0">
+                        <textarea class="form-control height150" name="notes" id="notes"><?php echo set_value('notes', stripcslashes($member->notes)); ?></textarea>
+                    </div>
+                </div>
+            </div>
             <div id="change_status">
                 <hr><h3>Transfer Info</h3>
                 <h5 class="fontred">* Please fill form below</h5>
                 <div class="row">
                     <div class="col-sm-6 marginbottom15">
                         <label>Jumlah Transfer</label>
-                        <p class="form-control-static"><?php echo 'Rp '.$total_transfer; ?></p>
-                    </div>
-                    <div class="col-sm-6 marginbottom15">
-                        <label>No Resi Pengiriman</label>
-                        <input type="text" class="form-control" name="resi" id="resi" value="<?php echo set_value('resi'); ?>">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 marginbottom15">
-                        <label>Bukti Transfer</label><span class="fontred">*</span>
-                        <div class="input-group col-sm-12">
-                            <input type="file" class="form-control" name="transfer_photo" id="transfer_photo">
-                        </div>
-                    </div>
-                    <div class="col-sm-6 marginbottom15">
-                        <label>Other Information</label><span class="fontred">*</span>
-                        <div class="input-group col-sm-12">
-                            <textarea class="form-control height150" name="other_information" id="other_information"><?php echo set_value('other_information'); ?></textarea>
-                        </div>
+                        <p class="form-control-static"><?php echo 'Rp '.$member_transfer->total; ?></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 marginbottom15">
                         <label>Tanggal Transfer</label><span class="fontred">*</span>
-                        <div class="input-group paddingright15 date date-picker">
+                        <div class="input-group date date-picker">
                             <input type="text" class="form-control form-filter" id="transfer_date" name="transfer_date" value="<?php echo set_value('transfer_date'); ?>" />
                             <span class="input-group-addon hand-pointer">
                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
@@ -108,6 +98,20 @@
                     <div class="col-sm-6 marginbottom15">
                         <label>Nama Pemilik Rekening</label><span class="fontred">*</span>
                         <input type="text" class="form-control" name="account_name" id="account_name" value="<?php echo set_value('account_name'); ?>">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 marginbottom15">
+                        <label>Bukti Transfer</label><span class="fontred">*</span>
+                        <div class="col-sm-12 paddinglr0">
+                            <input type="file" class="form-control" name="transfer_photo" id="transfer_photo">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 marginbottom15">
+                        <label>Other Information</label>
+                        <div class="col-sm-12 paddinglr0">
+                            <textarea class="form-control height150" name="other_information" id="other_information"><?php echo set_value('other_information'); ?></textarea>
+                        </div>
                     </div>
                 </div>
             </div>

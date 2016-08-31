@@ -175,6 +175,53 @@ class Member extends MY_Controller {
             }
         }
     }
+	
+	function member_approved()
+	{
+		$id = $this->input->get_post('id');
+        $get = $this->member_model->info(array('id_member' => $id));
+
+        if ($get->code == 200)
+        {
+			// generate username & nomor member card
+			$generate_username = generate_username($get->result);
+			$get_member_number = get_member_number();
+			$get_member_card = get_member_card($get->result, $this->session->userdata('id_admin'));
+				
+            $get_template = get_email_template_info(array('key' => 'email_approve_member'), $get->result, $get_member_card, $generate_username);
+			
+            if ($this->input->post('submit') == TRUE)
+            {
+				$param = array();
+				$param['id_member'] = $id;
+				$param['status'] = 4;
+				$param['username'] = $generate_username;
+				$param['member_number'] = $get_member_number;
+				$param['member_card'] = $get_member_card;
+				$update = $this->member_model->update($param);
+
+				if ($update->code == 200)
+				{
+					$response = '?type=success&msg=send email approved to';
+				}
+				else
+				{
+					$response = '?type=error&msg=send email approved to';
+				}
+				
+				redirect($this->config->item('link_member_lists').$response);
+            }
+
+            $data['email_content'] = $get_template;
+            $data['member'] = $get->result;
+            $data['view_content'] = 'member/member_approved';
+            $this->display_view('templates/frame', $data);
+        }
+        else
+        {
+            echo "Data not found";
+        }
+	}
 
     function member_create()
     {
@@ -247,13 +294,14 @@ class Member extends MY_Controller {
                 $param['shirt_size'] = $this->input->post('shirt_size');
                 $param['photo'] = $photo;
                 $param['status'] = $this->input->post('status');
+                $param['notes'] = $this->input->post('notes');
                 $query = $this->member_model->create($param);
                 
                 if ($query->code == 200)
                 {
 					if ($this->input->post('status') == 2)
 					{
-						redirect($this->config->item('link_member_request_transfer').'?id='.$query->result->id_member);
+						redirect($this->config->item('link_member_request_transfer').'?id='.$query->result->id_member.'&from=create');
 					}
 					elseif ($this->input->post('status') == 4)
 					{
@@ -352,7 +400,14 @@ class Member extends MY_Controller {
                 $this->form_validation->set_rules('shirt_size', 'shirt size', 'required');
                 $this->form_validation->set_rules('photo', 'photo', 'callback_check_photo');
                 $this->form_validation->set_rules('status', 'status', 'required');
-
+				
+				if ($this->input->post('status') == 3)
+				{
+					$this->form_validation->set_rules('transfer_photo', 'transfer photo', 'callback_check_transfer_photo');
+					$this->form_validation->set_rules('transfer_date', 'transfer date', 'required');
+					$this->form_validation->set_rules('account_name', 'account name', 'required');
+				}
+				
                 if ($this->form_validation->run() == TRUE)
                 {
                     $param = array();
@@ -378,8 +433,24 @@ class Member extends MY_Controller {
                             $idcard_photo = UPLOAD_MEMBER_HOST . $name . '.' . $imageFileType;
                         }
                     }
+					
+					if ($this->input->post('status') == 3)
+					{
+						if ($_FILES["transfer_photo"]["error"] == 0)
+                        {
+                            $name = md5(basename($_FILES["transfer_photo"]["name"]) . date('Y-m-d H:i:s'));
+                            $imageFileType = strtolower(pathinfo($_FILES["transfer_photo"]["name"],PATHINFO_EXTENSION));
+                            $transfer_photo = UPLOAD_MEMBER_HOST . $name . '.' . $imageFileType;
+                        }
+						
+						$param['other_information'] = $this->input->post('other_information');
+						$param['account_name'] = $this->input->post('account_name');
+						$param['transfer_date'] = date('Y-m-d', strtotime($this->input->post('transfer_date')));
+						$param['transfer_photo'] = $transfer_photo;
+					}
 
                     $param['id_member'] = $id;
+                    $param['id_admin'] = $this->session->userdata('id_admin');
                     $param['id_kota'] = $this->input->post('id_kota');
                     $param['name'] = $this->input->post('name');
                     $param['email'] = $this->input->post('email');
@@ -402,14 +473,15 @@ class Member extends MY_Controller {
                     $param['username'] = $this->input->post('username');
                     $param['member_number'] = $this->input->post('member_number');
                     $param['member_card'] = $this->input->post('member_card');
+                    $param['notes'] = $this->input->post('notes');
 					
                     if ($this->input->post('password') != '')
                     {
-                        $param['password'] = md5($this->input->post('password'));
+                        $param['password'] = $this->input->post('password');
                     }
 					
                     $query = $this->member_model->update($param);
-
+					
                     if ($query->code == 200)
                     {
 						$response = '?type=success&msg=edit';
@@ -438,7 +510,16 @@ class Member extends MY_Controller {
 			
 			if ($query2->code == 200)
 			{
-				$member_transfer = $query2->result;
+				foreach ($query2->result as $row)
+				{
+					$member_transfer['id_member_transfer'] = $row->id_member_transfer;
+					$member_transfer['total'] = $row->total;
+					$member_transfer['resi'] = $row->resi;
+					$member_transfer['photo'] = $row->photo;
+					$member_transfer['other_information'] = $row->other_information;
+					$member_transfer['date'] = $row->date;
+					$member_transfer['account_name'] = $row->account_name;
+				}
 			}
 			
             $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
@@ -549,6 +630,42 @@ class Member extends MY_Controller {
         echo json_encode($jsonData);
     }
 
+    function member_invalid()
+    {
+        $id = $this->input->get_post('id');
+        $get = $this->member_model->info(array('id_member' => $id));
+
+        if ($get->code == 200)
+        {
+            $get_template = get_email_template_info(array('key' => 'email_inv_data'), $get->result);
+			
+            if ($this->input->post('submit') == TRUE)
+            {
+				$update = $this->member_model->update(array('id_member' => $id, 'status' => 2));
+
+				if ($update->code == 200)
+				{
+					$response = '?type=success&msg=send email request transfer to';
+				}
+				else
+				{
+					$response = '?type=error&msg=send email request transfer to';
+				}
+				
+				redirect($this->config->item('link_member_lists').$response);
+            }
+
+            $data['email_content'] = $get_template;
+            $data['member'] = $get->result;
+            $data['view_content'] = 'member/member_invalid';
+            $this->display_view('templates/frame', $data);
+        }
+        else
+        {
+            echo "Data not found";
+        }
+    }
+
 	function member_lists()
 	{
         $data = array();
@@ -572,11 +689,12 @@ class Member extends MY_Controller {
     function member_request_transfer()
     {
         $id = $this->input->get_post('id');
+        $from = $this->input->get_post('from');
         $get = $this->member_model->info(array('id_member' => $id));
 
         if ($get->code == 200)
         {
-            $get_template = get_email_template_info(array('key' => 'email_req_transfer'), $get->result);
+            $get_template = get_email_template_info(array('key' => 'email_req_transfer', 'from' => $from), $get->result);
 			
             if ($this->input->post('submit') == TRUE)
             {
@@ -627,8 +745,8 @@ class Member extends MY_Controller {
             $data['idcard_type'] = $code_member_idcard_type[$member->idcard_type];
             $data['idcard_number'] = $member->idcard_number;
             $data['idcard_photo'] = $member->idcard_photo;
-            $data['idcard_address'] = $member->idcard_address;
-            $data['shipment_address'] = $member->shipment_address;
+            $data['idcard_address'] = replace_new_line($member->idcard_address);
+            $data['shipment_address'] = replace_new_line($member->shipment_address);
             $data['postal_code'] = $member->postal_code;
             $data['gender'] = $code_member_gender[$member->gender];
             $data['phone_number'] = $member->phone_number;

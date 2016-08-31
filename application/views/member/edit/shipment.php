@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <?php if ($member->status == 3) { ?>
+            <?php if ($member->status == 3 || $member->status == 4) { ?>
             <hr><h3>Transfer Info</h3>
             <div class="row">
                 <div class="col-sm-6 marginbottom15">
