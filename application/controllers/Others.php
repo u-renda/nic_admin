@@ -11,58 +11,6 @@ class Others extends MY_Controller {
         $this->load->model('secret_santa_model');
     }
 
-    function email_template_get()
-    {
-        $page = $this->input->post('page') ? $this->input->post('page') : 1;
-        $pageSize = $this->input->post('pageSize') ? $this->input->post('pageSize') : 20;
-        $offset = ($page - 1) * $pageSize;
-        $i = $offset * 1 + 1;
-        $order = 'key';
-        $sort = 'asc';
-        $sort_post = $this->input->post('sort');
-
-        if ($sort_post)
-        {
-            $order = $sort_post[0]['field'];
-            $sort = $sort_post[0]['dir'];
-        }
-
-        $get = get_email_template(array('type' => 1, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
-        $jsonData = array('total' => $get->total, 'results' => array());
-
-        foreach ($get->result as $row)
-        {
-            $action = '<a title="View Detail" href="preferences_view?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="preferences_edit?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_preferences.'" class="delete '.$row->id_preferences.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
-
-            // Potong panjang content
-            $strip = strip_tags(replace_new_line($row->value));
-            $content = substr($strip, 0, 200).' ...';
-
-            $entry = array(
-                'No' => $i,
-                'Key' => $row->key,
-                'value' => $content,
-                'Description' => $row->description,
-                'Action' => $action
-            );
-
-            $jsonData['results'][] = $entry;
-            $i++;
-        }
-
-        echo json_encode($jsonData);
-    }
-
-	function email_template_lists()
-	{
-        $data = array();
-        $data['email'] = get_email_template(array('order' => 'key', 'sort' => 'asc', 'offset' => 0, 'limit' => 20, 'type' => 1));
-        $data['view_content'] = 'others/email_template_lists';
-        $this->display_view('templates/frame', $data);
-	}
-
     function kota_get()
     {
         $page = $this->input->post('page') ? $this->input->post('page') : 1;
@@ -121,6 +69,40 @@ class Others extends MY_Controller {
 			echo "Data not found";
 		}
 	}
+	
+	function preferences_create()
+	{
+		$data = array();
+        if ($this->input->post('submit'))
+        {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('key', 'key', 'required');
+            $this->form_validation->set_rules('value', 'value', 'required');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                $param = array();
+                $param['key'] = $this->input->post('key');
+                $param['value'] = $this->input->post('value');
+                $param['description'] = $this->input->post('description');
+				$query = $this->preferences_model->create($param);
+				
+                if ($query->code == 200)
+                {
+                    $response = '?type=success&msg=create';
+                }
+                else
+                {
+                    $response = '?type=error&msg=create';
+                }
+				
+				redirect($this->config->item('link_preferences_lists').$response);
+            }
+        }
+
+        $data['view_content'] = 'others/preferences/preferences_create';
+        $this->load->view('templates/frame', $data);
+	}
 
     function preferences_edit()
     {
@@ -163,6 +145,59 @@ class Others extends MY_Controller {
             $this->display_view('templates/frame', $data);
         }
     }
+
+    function preferences_get()
+    {
+        $page = $this->input->post('page') ? $this->input->post('page') : 1;
+        $pageSize = $this->input->post('pageSize') ? $this->input->post('pageSize') : 20;
+        $offset = ($page - 1) * $pageSize;
+        $i = $offset * 1 + 1;
+        $order = 'key';
+        $sort = 'asc';
+        $sort_post = $this->input->post('sort');
+
+        if ($sort_post)
+        {
+            $order = $sort_post[0]['field'];
+            $sort = $sort_post[0]['dir'];
+        }
+
+        $get = get_preferences(array('limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
+        $jsonData = array('total' => $get->total, 'results' => array());
+
+        foreach ($get->result as $row)
+        {
+            $action = '<a title="View Detail" href="preferences_view?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
+                        <a title="Edit" href="preferences_edit?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_preferences.'" class="delete '.$row->id_preferences.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+
+            // Potong panjang content
+            $strip = strip_tags(replace_new_line($row->value));
+            $content = substr($strip, 0, 200).' ...';
+			$strip2 = replace_new_line($row->description);
+
+            $entry = array(
+                'No' => $i,
+                'Key' => $row->key,
+                'Value' => $content,
+                'Description' => $strip2,
+                'Action' => $action
+            );
+
+            $jsonData['results'][] = $entry;
+            $i++;
+        }
+
+        echo json_encode($jsonData);
+    }
+
+	function preferences_lists()
+	{
+        $data = array();
+        $data['email'] = get_preferences(array('order' => 'key', 'sort' => 'asc', 'offset' => 0, 'limit' => 20));
+        $data['view_content'] = 'others/preferences/preferences_lists';
+        $this->display_view('templates/frame', $data);
+	}
 
     function provinsi_edit()
     {

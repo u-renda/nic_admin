@@ -90,12 +90,12 @@ $route['admin_get'] = 'admin/admin_get';
 $route['admin_lists'] = 'admin/admin_lists';
 
 // OTHERS
-$route['email_template_get'] = 'others/email_template_get';
-$route['email_template_lists'] = 'others/email_template_lists';
 $route['kota_get'] = 'others/kota_get';
 $route['kota_lists'] = 'others/kota_lists';
 $route['preferences_create'] = 'others/preferences_create';
 $route['preferences_edit'] = 'others/preferences_edit';
+$route['preferences_get'] = 'others/preferences_get';
+$route['preferences_lists'] = 'others/preferences_lists';
 $route['provinsi_create'] = 'others/provinsi_create';
 $route['provinsi_delete'] = 'others/provinsi_delete';
 $route['provinsi_edit'] = 'others/provinsi_edit';

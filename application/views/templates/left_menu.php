@@ -73,7 +73,7 @@
                 </a>
                 <div id="collapseListGroup5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading5">
                     <ul class="list-group">
-                        <a href="<?php echo $this->config->item('link_email_template_lists'); ?>"><li class="list-group-item">Email Template Lists</li></a>
+                        <a href="<?php echo $this->config->item('link_preferences_lists'); ?>"><li class="list-group-item">Preferences Lists</li></a>
                         <a href="<?php echo $this->config->item('link_provinsi_lists'); ?>"><li class="list-group-item">Provinsi Lists</li></a>
                         <a href="<?php echo $this->config->item('link_secret_santa_lists'); ?>"><li class="list-group-item">Secret Santa Lists</li></a>
                     </ul>

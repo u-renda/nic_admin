@@ -122,13 +122,13 @@ $(function () {
         });
     }
     
-    // Others - Email Template Lists
-    if (document.getElementById('email_template_lists_page') != null) {
-        $("#grid_email_template").kendoGrid({
+    // Others - Preferences Lists
+    if (document.getElementById('preferences_lists_page') != null) {
+        $("#grid_preferences").kendoGrid({
             dataSource: {
                 transport: {
                     read: {
-                        url: "email_template_get",
+                        url: "preferences_get",
                         dataType: "json",
                         type: "POST",
                         data: {}
@@ -175,8 +175,7 @@ $(function () {
                 width: 150
             },
             {
-                field: "value",
-                title: "Email Template",
+                field: "Value",
                 filterable: false,
                 sortable: false,
                 width: 300
@@ -185,7 +184,8 @@ $(function () {
                 field: "Description",
                 filterable: false,
                 sortable: false,
-                width: 100
+                width: 100,
+                template: "#= data.Description #"
             },
             {
                 field: "Action",
@@ -194,6 +194,14 @@ $(function () {
                 width: 70,
                 template: "#= data.Action #"
             }]
+        });
+    }
+    
+    // Others - Preferences Create
+    if (document.getElementById('preferences_create_page') != null) {
+        $('#submit_preferences_create').click(function () {
+            tinyMCE.triggerSave();
+            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
         });
     }
     

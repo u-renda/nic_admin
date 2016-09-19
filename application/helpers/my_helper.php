@@ -217,8 +217,8 @@ if ( ! function_exists('get_cached')) {
     @param return : data emal template atau FALSE
 +-------------------------------------+
 */
-if ( ! function_exists('get_email_template')) {
-    function get_email_template($param)
+if ( ! function_exists('get_preferences')) {
+    function get_preferences($param)
     {
         $CI =& get_instance();
         $CI->load->model('preferences_model');
