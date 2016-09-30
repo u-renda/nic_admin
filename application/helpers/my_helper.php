@@ -117,6 +117,41 @@ if ( ! function_exists('color_member_status')) {
 
 /*
 +-------------------------------------+
+    Name: color_product_status
+    Purpose: memberikan warna label untuk status yang berbeda
+    @param return : colored label
++-------------------------------------+
+*/
+if ( ! function_exists('color_product_status')) {
+	function color_product_status($status)
+	{ 
+		$CI =& get_instance();
+		$code_product_status = $CI->config->item('code_product_status');
+		$status_template = '<span class="label label-default">Normal</span>';
+		
+		if ($status == 1)
+		{
+			$status_template = '<span class="label label-success">'.$code_product_status[$status].'</span>';
+		}
+		elseif ($status == 2)
+		{
+			$status_template = '<span class="label label-danger">'.$code_product_status[$status].'</span>';
+		}
+		elseif ($status == 3)
+		{
+			$status_template = '<span class="label label-primary">'.$code_product_status[$status].'</span>';
+		}
+		elseif ($status == 4)
+		{
+			$status_template = '<span class="label label-dark">'.$code_product_status[$status].'</span>';
+		}
+		
+		return $status_template;
+	}
+}
+
+/*
++-------------------------------------+
     Name: decode
     Purpose: ungenerate value
     @param return : ungenerated value
@@ -207,6 +242,28 @@ if ( ! function_exists('get_cached')) {
         {
             return FALSE;
         }
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_faq
+    Purpose: mendapatkan data FAQ
+    @param return : data FAQ atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_faq')) {
+    function get_faq($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('faq_model');
+
+        $query = $CI->faq_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
     }
 }
 
@@ -324,6 +381,50 @@ if ( ! function_exists('get_email_template_info')) {
         {
             return FALSE;
         }
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_image
+    Purpose: mendapatkan data image
+    @param return : data image atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_image')) {
+    function get_image($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('image_model');
+		
+        $query = $CI->image_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_image_album
+    Purpose: mendapatkan data image album
+    @param return : data image album atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_image_album')) {
+    function get_image_album($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('image_album_model');
+		
+        $query = $CI->image_album_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
     }
 }
 
@@ -485,6 +586,28 @@ if ( ! function_exists('get_post')) {
         $CI->load->model('post_model');
 		
         $query = $CI->post_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_product
+    Purpose: mendapatkan data product
+    @param return : data product atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_product')) {
+    function get_product($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('product_model');
+		
+        $query = $CI->product_model->lists($param);
 		
 		if ($query->code == 200)
 		{

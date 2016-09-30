@@ -122,7 +122,7 @@ $(function () {
         });
     }
     
-    // Others - Preferences Lists
+    // Preferences - Lists
     if (document.getElementById('preferences_lists_page') != null) {
         $("#grid_preferences").kendoGrid({
             dataSource: {
@@ -197,7 +197,7 @@ $(function () {
         });
     }
     
-    // Others - Preferences Create
+    // Preferences - Create
     if (document.getElementById('preferences_create_page') != null) {
         $('#submit_preferences_create').click(function () {
             tinyMCE.triggerSave();
@@ -205,7 +205,7 @@ $(function () {
         });
     }
     
-    // Others - Preferences Edit
+    // Preferences - Edit
     if (document.getElementById('preferences_edit_page') != null) {
         $('#submit_preferences_edit').click(function () {
             tinyMCE.triggerSave();
@@ -299,6 +299,461 @@ $(function () {
         $('#submit_post_edit').click(function () {
             tinyMCE.triggerSave();
             $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
+        });
+    }
+    
+    // Admin - Lists
+    if (document.getElementById('admin_lists_page') != null) {
+        grid = '#grid_admin';
+        
+        $(grid).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "admin_get",
+                        dataType: "json",
+                        type: "POST",
+                        data: {}
+                    }
+                },
+                schema: {
+                    data: "results",
+                    total: "total"
+                },
+                pageSize: 20,
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: false,
+                cache: false
+            },
+            sortable: {
+                mode: "single",
+                allowUnsort: true
+            },
+            pageable: {
+                buttonCount: 5,
+                input: true,
+                pageSizes: true,
+                refresh: true
+            },
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        contains: "Mengandung kata"
+                    }
+                }
+            },
+            selectable: "row",
+            resizable: true,
+            columns: [{
+                field: "no",
+                title: "No",
+                sortable: false,
+				filterable: false,
+                width: 50
+            },
+			{
+				field: "name",
+				title: "Name",
+				filterable: false,
+				width: 200
+			},
+			{
+				field: "email",
+				title: "Email",
+				filterable: false,
+				sortable: false,
+				width: 200
+			},
+			{
+				field: "username",
+				title: "Username",
+				filterable: false,
+				sortable: false,
+				width: 100
+			},
+			{
+				field: "initial",
+				title: "Initial",
+                sortable: false,
+				filterable: false,
+				width: 50
+			},
+			{
+				field: "action",
+				title: "Action",
+				sortable: false,
+				filterable: false,
+				width: 70,
+				template: "#= data.action #"
+			}]
+        });
+    }
+    
+    // FAQ - Lists
+    if (document.getElementById('faq_lists_page') != null) {
+        grid = '#grid_faq';
+        
+        $(grid).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "faq_get",
+                        dataType: "json",
+                        type: "POST",
+                        data: {}
+                    }
+                },
+                schema: {
+                    data: "results",
+                    total: "total"
+                },
+                pageSize: 20,
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: true,
+                cache: false
+            },
+            sortable: {
+                mode: "single",
+                allowUnsort: true
+            },
+            pageable: {
+                buttonCount: 5,
+                input: true,
+                pageSizes: true,
+                refresh: true
+            },
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        contains: "Mengandung kata"
+                    }
+                }
+            },
+            selectable: "row",
+            resizable: true,
+            columns: [{
+                field: "No",
+                sortable: false,
+				filterable: false,
+                width: 30
+            },
+			{
+				field: "Question",
+                sortable: false,
+				width: 100
+			},
+			{
+				field: "Answer",
+				filterable: false,
+				sortable: false,
+				width: 300
+			},
+			{
+				field: "Action",
+				sortable: false,
+				filterable: false,
+				width: 70,
+				template: "#= data.Action #"
+			}]
+        });
+    }
+    
+    // Provinsi - Lists
+    if (document.getElementById('provinsi_lists_page') != null) {
+        grid = '#grid_provinsi';
+        
+        $(grid).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "provinsi_get",
+                        dataType: "json",
+                        type: "POST",
+                        data: {}
+                    }
+                },
+                schema: {
+                    data: "results",
+                    total: "total"
+                },
+                pageSize: 20,
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: false,
+                cache: false
+            },
+            sortable: {
+                mode: "single",
+                allowUnsort: true
+            },
+            pageable: {
+                buttonCount: 5,
+                input: true,
+                pageSizes: true,
+                refresh: true
+            },
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        contains: "Mengandung kata"
+                    }
+                }
+            },
+            selectable: "row",
+            resizable: true,
+            columns: [{
+			field: "no",
+			title: "No",
+			sortable: false,
+			filterable: false,
+			width: 50
+		},
+		{
+			field: "provinsi",
+			title: "Provinsi",
+			width: 200
+		},
+		{
+			field: "action",
+			title: "Action",
+			sortable: false,
+			filterable: false,
+			width: 70,
+			template: "#= data.action #"
+		}]
+        });
+    }
+    
+    // Kota - Lists
+    if (document.getElementById('kota_lists_page') != null) {
+        grid = '#grid_kota';
+        id_provinsi = $(grid).data("provinsi");
+        
+        $(grid).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "kota_get?id=" + id_provinsi,
+                        dataType: "json",
+                        type: "POST",
+                        data: {}
+                    }
+                },
+                schema: {
+                    data: "results",
+                    total: "total"
+                },
+                pageSize: 20,
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: false,
+                cache: false
+            },
+            sortable: {
+                mode: "single",
+                allowUnsort: true
+            },
+            pageable: {
+                buttonCount: 5,
+                input: true,
+                pageSizes: true,
+                refresh: true
+            },
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        contains: "Mengandung kata"
+                    }
+                }
+            },
+            selectable: "row",
+            resizable: true,
+            columns: [{
+                field: "No",
+                sortable: false,
+                filterable: false,
+                width: 50
+            },
+			{
+				field: "Kota",
+				width: 200
+			},
+			{
+				field: "Price",
+				filterable: false,
+				width: 200
+			},
+			{
+				field: "Action",
+				sortable: false,
+				filterable: false,
+				width: 70,
+				template: "#= data.Action #"
+			}]
+        });
+    }
+    
+    // Image Album - Lists
+    if (document.getElementById('image_album_lists_page') != null) {
+        grid = '#grid_image_album';
+        
+        $(grid).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "image_album_get",
+                        dataType: "json",
+                        type: "POST",
+                        data: {}
+                    }
+                },
+                schema: {
+                    data: "results",
+                    total: "total"
+                },
+                pageSize: 20,
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: false,
+                cache: false
+            },
+            sortable: {
+                mode: "single",
+                allowUnsort: true
+            },
+            pageable: {
+                buttonCount: 5,
+                input: true,
+                pageSizes: true,
+                refresh: true
+            },
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        contains: "Mengandung kata"
+                    }
+                }
+            },
+            selectable: "row",
+            resizable: true,
+            columns: [{
+                field: "No",
+                sortable: false,
+                filterable: false,
+                width: 50
+            },
+            {
+                field: "Name",
+                width: 200,
+                template: "#= data.Name #"
+            },
+            {
+                field: "Date",
+                filterable: false,
+                width: 100
+            },
+            {
+                field: "Action",
+                sortable: false,
+                filterable: false,
+                width: 70,
+                template: "#= data.Action #"
+            }]
+        });
+    }
+    
+    // Product - Lists
+    if (document.getElementById('product_lists_page') != null) {
+        grid = '#grid_product';
+        
+        $(grid).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "product_get",
+                        dataType: "json",
+                        type: "POST",
+                        data: {}
+                    }
+                },
+                schema: {
+                    data: "results",
+                    total: "total"
+                },
+                pageSize: 20,
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: false,
+                cache: false
+            },
+            sortable: {
+                mode: "single",
+                allowUnsort: true
+            },
+            pageable: {
+                buttonCount: 5,
+                input: true,
+                pageSizes: true,
+                refresh: true
+            },
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        contains: "Mengandung kata"
+                    }
+                }
+            },
+            selectable: "row",
+            resizable: true,
+            columns: [{
+                field: "No",
+                sortable: false,
+                filterable: false,
+                width: 50
+            },
+            {
+                field: "Name",
+                width: 200
+            },
+            {
+                field: "PricePublic",
+                title: "Public (Rp)",
+                filterable: false,
+                width: 100
+            },
+            {
+                field: "PriceMember",
+                title: "Member (Rp)",
+                filterable: false,
+                width: 100
+            },
+            {
+                field: "Quantity",
+                filterable: false,
+                width: 100
+            },
+            {
+                field: "Status",
+                sortable: false,
+                filterable: false,
+                width: 70,
+                template: "#= data.Status #"
+            },
+            {
+                field: "Action",
+                sortable: false,
+                filterable: false,
+                width: 70,
+                template: "#= data.Action #"
+            }]
         });
     }
 });
@@ -471,12 +926,6 @@ function resubmit_post(grid) {
             sortable: false,
             width: 80
         },
-        //{
-        //    field: "Event",
-        //    filterable: false,
-        //    sortable: false,
-        //    width: 50
-        //},
         {
             field: "Status",
             filterable: false,
@@ -498,4 +947,26 @@ function resubmit_post(grid) {
             template: "#= data.Action #"
         }]
     });
+}
+
+function provinsi_create() {
+	var id = $(this).attr("id");
+	var title = $(this).attr("title");
+	var dataString = 'id='+ id
+	$.ajax(
+	{
+		type: "POST",
+		url: 'provinsi_create',
+		data: dataString,
+		cache: false,
+		success: function(data)
+		{
+			$('.modal-dialog').removeClass('modal-sm');
+			$('.modal-dialog').addClass('modal-lg');
+			$('.modal-title').text('Provinsi Create');
+			$('.modal-body').html(data);
+			$('#myModal').modal('show');
+		}
+	});
+	return false;
 }

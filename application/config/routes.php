@@ -90,6 +90,8 @@ $route['admin_get'] = 'admin/admin_get';
 $route['admin_lists'] = 'admin/admin_lists';
 
 // OTHERS
+$route['faq_get'] = 'others/faq_get';
+$route['faq_lists'] = 'others/faq_lists';
 $route['kota_get'] = 'others/kota_get';
 $route['kota_lists'] = 'others/kota_lists';
 $route['preferences_create'] = 'others/preferences_create';
@@ -111,3 +113,16 @@ $route['secret_santa_random'] = 'others/secret_santa_random';
 $route['api_admin'] = 'api_debug/api_admin';
 $route['api_member'] = 'api_debug/api_member';
 $route['api_post'] = 'api_debug/api_post';
+
+// IMAGE GALLERY
+$route['image_album_get'] = 'image/image_album_get';
+$route['image_album_lists'] = 'image/image_album_lists';
+$route['image_lists'] = 'image/image_lists';
+
+// ORDER
+$route['order_get'] = 'order/order_get';
+$route['order_lists'] = 'order/order_lists';
+
+// PRODUCT
+$route['product_get'] = 'product/product_get';
+$route['product_lists'] = 'product/product_lists';

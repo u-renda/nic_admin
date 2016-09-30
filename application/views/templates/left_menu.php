@@ -7,9 +7,7 @@
             <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup1" aria-expanded="false" aria-controls="collapseListGroup1">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
-                        <div class="panel-title">
-                            Home
-                        </div>
+                        <div class="panel-title">Home</div>
                     </div>
                 </a>
                 <div id="collapseListGroup1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
@@ -21,9 +19,7 @@
             <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup2" aria-expanded="false" aria-controls="collapseListGroup2">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading2">
-                        <h4 class="panel-title">
-                            Member
-                        </h4>
+                        <h4 class="panel-title">Member</h4>
                     </div>
                 </a>
                 <div id="collapseListGroup2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading2">
@@ -36,9 +32,7 @@
             <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup3" aria-expanded="false" aria-controls="collapseListGroup3">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading3">
-                        <h4 class="panel-title">
-                            Post
-                        </h4>
+                        <h4 class="panel-title">Post</h4>
                     </div>
                 </a>
                 <div id="collapseListGroup3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading3">
@@ -49,11 +43,48 @@
                 </div>
             </div>
             <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup9" aria-expanded="false" aria-controls="collapseListGroup9">
+                    <div class="panel-heading" role="tab" id="collapseListGroupHeading9">
+                        <h4 class="panel-title">Product</h4>
+                    </div>
+                </a>
+                <div id="collapseListGroup9" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading9">
+                    <ul class="list-group">
+                        <a href="<?php echo $this->config->item('link_product_create'); ?>"><li class="list-group-item">Add New</li></a>
+                        <a href="<?php echo $this->config->item('link_product_lists'); ?>"><li class="list-group-item">Lists</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup8" aria-expanded="false" aria-controls="collapseListGroup8">
+                    <div class="panel-heading" role="tab" id="collapseListGroupHeading8">
+                        <h4 class="panel-title">Order</h4>
+                    </div>
+                </a>
+                <div id="collapseListGroup8" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading8">
+                    <ul class="list-group">
+                        <a href="<?php echo $this->config->item('link_order_create'); ?>"><li class="list-group-item">Add New</li></a>
+                        <a href="<?php echo $this->config->item('link_order_lists'); ?>"><li class="list-group-item">Lists</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup7" aria-expanded="false" aria-controls="collapseListGroup7">
+                    <div class="panel-heading" role="tab" id="collapseListGroupHeading7">
+                        <h4 class="panel-title">Image Gallery</h4>
+                    </div>
+                </a>
+                <div id="collapseListGroup7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading7">
+                    <ul class="list-group">
+                        <a href="<?php echo $this->config->item('link_image_album_create'); ?>"><li class="list-group-item">Add New</li></a>
+                        <a href="<?php echo $this->config->item('link_image_album_lists'); ?>"><li class="list-group-item">Lists</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup4" aria-expanded="false" aria-controls="collapseListGroup4">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading4">
-                        <h4 class="panel-title">
-                            Admin
-                        </h4>
+                        <h4 class="panel-title">Admin</h4>
                     </div>
                 </a>
                 <div id="collapseListGroup4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading4">
@@ -66,13 +97,12 @@
             <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup5" aria-expanded="false" aria-controls="collapseListGroup5">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading5">
-                        <h4 class="panel-title">
-                            Others
-                        </h4>
+                        <h4 class="panel-title">Others</h4>
                     </div>
                 </a>
                 <div id="collapseListGroup5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading5">
                     <ul class="list-group">
+                        <a href="<?php echo $this->config->item('link_faq_lists'); ?>"><li class="list-group-item">FAQ Lists</li></a>
                         <a href="<?php echo $this->config->item('link_preferences_lists'); ?>"><li class="list-group-item">Preferences Lists</li></a>
                         <a href="<?php echo $this->config->item('link_provinsi_lists'); ?>"><li class="list-group-item">Provinsi Lists</li></a>
                         <a href="<?php echo $this->config->item('link_secret_santa_lists'); ?>"><li class="list-group-item">Secret Santa Lists</li></a>
@@ -82,9 +112,7 @@
             <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup6" aria-expanded="false" aria-controls="collapseListGroup6">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading6">
-                        <h4 class="panel-title">
-                            API Debug
-                        </h4>
+                        <h4 class="panel-title">API Debug</h4>
                     </div>
                 </a>
                 <div id="collapseListGroup6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading6">

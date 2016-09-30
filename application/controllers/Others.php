@@ -11,6 +11,65 @@ class Others extends MY_Controller {
         $this->load->model('secret_santa_model');
     }
 
+    function faq_get()
+    {
+        $page = $this->input->post('page') ? $this->input->post('page') : 1;
+        $pageSize = $this->input->post('pageSize') ? $this->input->post('pageSize') : 20;
+        $offset = ($page - 1) * $pageSize;
+        $i = $offset * 1 + 1;
+        $order = 'created_date';
+        $sort = 'asc';
+		$q = '';
+        $sort_post = $this->input->post('sort');
+		$filter = $this->input->post('filter');
+
+        if ($sort_post)
+        {
+            $order = $sort_post[0]['field'];
+            $sort = $sort_post[0]['dir'];
+        }
+
+        if ($filter)
+        {
+            if (empty($filter['filters']))
+            {
+                $q = $filter;
+            }
+            else
+            {
+                $q = $filter['filters'][0]['value'];
+            }
+        }
+
+        $get = get_faq(array('q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
+        $jsonData = array('total' => $get->total, 'results' => array());
+
+        foreach ($get->result as $row)
+        {
+            $action = '<a title="Edit" href="faq_edit?id='.$row->id_faq.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_faq.'" class="delete '.$row->id_faq.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+
+            $entry = array(
+                'No' => $i,
+                'Question' => $row->question,
+                'Answer' => $row->answer,
+                'Action' => $action
+            );
+
+            $jsonData['results'][] = $entry;
+            $i++;
+        }
+
+        echo json_encode($jsonData);
+    }
+	
+	function faq_lists()
+	{
+		$data = array();
+        $data['view_content'] = 'others/faq/faq_lists';
+        $this->display_view('templates/frame', $data);
+	}
+
     function kota_get()
     {
         $page = $this->input->post('page') ? $this->input->post('page') : 1;
@@ -19,29 +78,42 @@ class Others extends MY_Controller {
         $i = $offset * 1 + 1;
         $order = 'kota';
         $sort = 'asc';
+        $q = '';
         $sort_post = $this->input->post('sort');
         $id_provinsi = $this->input->get_post('id');
+		$filter = $this->input->post('filter');
 
         if ($sort_post)
         {
-            $order = $sort_post[0]['field'];
+            $order = strtolower($sort_post[0]['field']);
             $sort = $sort_post[0]['dir'];
         }
 
-        $get = get_kota(array('id_provinsi' => $id_provinsi, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
+        if ($filter)
+        {
+            if (empty($filter['filters']))
+            {
+                $q = $filter;
+            }
+            else
+            {
+                $q = $filter['filters'][0]['value'];
+            }
+        }
+
+        $get = get_kota(array('q' => $q, 'id_provinsi' => $id_provinsi, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
         $jsonData = array('total' => $get->total, 'results' => array());
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="Kota Lists" href="kota_lists?id='.$row->id_kota.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="provinsi_edit?id='.$row->id_kota.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
+            $action = '<a title="Edit" href="kota_edit?id='.$row->id_kota.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Delete" id="'.$row->id_kota.'" class="delete '.$row->id_kota.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
 
             $entry = array(
-                'no' => $i,
-                'kota' => ucwords($row->kota),
-                'price' => $row->price,
-                'action' => $action
+                'No' => $i,
+                'Kota' => ucwords($row->kota),
+                'Price' => $row->price,
+                'Action' => $action
             );
 
             $jsonData['results'][] = $entry;
@@ -60,8 +132,8 @@ class Others extends MY_Controller {
 		if ($get_info->code == 200)
 		{
 			$data = array();
-			$data['provinsi'] = $get_info->row();
-			$data['view_content'] = 'others/kota_lists';
+			$data['provinsi'] = $get_info->result;
+			$data['view_content'] = 'others/kota/kota_lists';
 			$this->display_view('templates/frame', $data);
 		}
 		else

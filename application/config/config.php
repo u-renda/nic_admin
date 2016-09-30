@@ -518,6 +518,9 @@ if(is_bool(LOCALHOST) || LOCALHOST == 'localhost')
 else
 {
 	define('API_HOST', 'http://api.nezindaclub.com/');
+    define('UPLOAD_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/upload_nic/member/');
+    define('UPLOAD_MEMBER_HOST', 'http://upload.nezindaclub.com/member/');
+    define('WEB_HOST', 'http://nezindaclub.com/');
 }
 
 $config['development_mode'] = FALSE;
@@ -537,6 +540,9 @@ $config['link_api_admin'] = $config['base_url'].'api_admin';
 $config['link_api_member'] = $config['base_url'].'api_member';
 $config['link_api_post'] = $config['base_url'].'api_post';
 $config['link_dashboard'] = $config['base_url'].'dashboard';
+$config['link_faq_lists'] = $config['base_url'].'faq_lists';
+$config['link_image_album_create'] = $config['base_url'].'image_album_create';
+$config['link_image_album_lists'] = $config['base_url'].'image_album_lists';
 $config['link_login'] = $config['base_url'].'index';
 $config['link_logout'] = $config['base_url'].'logout';
 $config['link_member_approved'] = $config['base_url'].'member_approved';
@@ -547,6 +553,7 @@ $config['link_member_invalid'] = $config['base_url'].'member_invalid';
 $config['link_member_lists'] = $config['base_url'].'member_lists';
 $config['link_member_request_transfer'] = $config['base_url'].'member_request_transfer';
 $config['link_member_view'] = $config['base_url'].'member_view';
+$config['link_order_lists'] = $config['base_url'].'order_lists';
 $config['link_post_create'] = $config['base_url'].'post_create';
 $config['link_post_delete'] = $config['base_url'].'post_delete';
 $config['link_post_edit'] = $config['base_url'].'post_edit';
@@ -554,6 +561,7 @@ $config['link_post_lists'] = $config['base_url'].'post_lists';
 $config['link_preferences_create'] = $config['base_url'].'preferences_create';
 $config['link_preferences_edit'] = $config['base_url'].'preferences_edit';
 $config['link_preferences_lists'] = $config['base_url'].'preferences_lists';
+$config['link_product_lists'] = $config['base_url'].'product_lists';
 $config['link_provinsi_create'] = $config['base_url'].'provinsi_create';
 $config['link_provinsi_delete'] = $config['base_url'].'provinsi_delete';
 $config['link_provinsi_edit'] = $config['base_url'].'provinsi_edit';
@@ -582,6 +590,13 @@ $config['code_member_religion'] = array(
     5 => 'Hindu',
     6 => 'Kong Hu Chu',
     7 => 'Lainnya'
+);
+
+$config['code_product_status'] = array(
+    1 => 'Sale',
+    2 => 'Limited',
+    3 => 'Pre Order',
+    4 => 'Sold'
 );
 
 $config['code_member_status'] = array(
