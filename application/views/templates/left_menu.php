@@ -39,6 +39,8 @@
                     <ul class="list-group">
                         <a href="<?php echo $this->config->item('link_post_create'); ?>"><li class="list-group-item">Add New</li></a>
                         <a href="<?php echo $this->config->item('link_post_lists'); ?>"><li class="list-group-item">Lists</li></a>
+                        <a href="<?php echo $this->config->item('link_event_create'); ?>"><li class="list-group-item">Event Add New</li></a>
+                        <a href="<?php echo $this->config->item('link_event_lists'); ?>"><li class="list-group-item">Event Lists</li></a>
                     </ul>
                 </div>
             </div>

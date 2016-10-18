@@ -5,6 +5,7 @@
                 <h3 class="panel-title">FAQ - Lists</h3>
             </div>
             <div class="panel-body">
+                <a href="<?php echo $this->config->item('link_faq_create'); ?>" type="button" class="btn btn-success marginbottom15">Create New</a>
                 <div id="grid_faq"></div>
             </div>
         </div>

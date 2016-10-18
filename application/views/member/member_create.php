@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Member - Add New</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_member_create'); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $this->config->item('link_member_create'); ?>" method="post" enctype="multipart/form-data" id="the_form">
                     <div class="form-body">
 						<div class="panel-group" id="accordion2">
 							<div class="panel panel-accordion panel-accordion-primary">
@@ -23,6 +23,7 @@
 												<label>Name</label><span class="fontred"> *</span>
 												<div class="col-sm-12 paddinglr0">
 													<input type="text" class="form-control" placeholder="Agnez Mo" name="name" id="name" value="<?php echo set_value('name'); ?>">
+													<div class="fontred" id="errorbox_name"></div>
 													<?php echo form_error('name', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
@@ -30,6 +31,7 @@
 												<label>Email</label><span class="fontred"> *</span>
 												<div class="col-sm-12 paddinglr0">
 													<input type="text" class="form-control" placeholder="admin@nezindaclub.com" name="email" id="email" value="<?php echo set_value('email'); ?>">
+													<div class="fontred" id="errorbox_email"></div>
 													<?php echo form_error('email', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
@@ -46,12 +48,14 @@
 													}
 													?>
 												</select>
+												<div class="fontred" id="errorbox_idcard_type"></div>
 												<?php echo form_error('idcard_type', '<div class="fontred">', '</div>'); ?>
 											</div>
 											<div class="col-sm-6 marginbottom15">
 												<label>ID Card Number</label><span class="fontred"> *</span>
 												<div class="col-sm-12 paddinglr0">
 													<input type="text" class="form-control" placeholder="1234567890" name="idcard_number" id="idcard_number" value="<?php echo set_value('idcard_number'); ?>">
+													<div class="fontred" id="errorbox_idcard_number"></div>
 													<?php echo form_error('idcard_number', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
@@ -61,6 +65,7 @@
 												<label>Phone Number</label><span class="fontred"> *</span>
 												<div class="col-sm-12 paddinglr0">
 													<input type="text" class="form-control" placeholder="08121234567890" name="phone_number" id="phone_number" value="<?php echo set_value('phone_number'); ?>">
+													<div class="fontred" id="errorbox_phone_number"></div>
 													<?php echo form_error('phone_number', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
@@ -70,7 +75,9 @@
 													<?php
 													foreach ($code_member_gender as $key => $val)
 													{
-														echo '<div class="radio-inline radio-custom"><input type="radio" name="gender" id="gender_'.$key.'" value="'.$key.'" '.set_radio('gender', $key).'/><label for="gender_'.$key.'">'.$val.'</label></div>';
+														echo '<div class="radio-inline radio-custom">';
+														echo '<input type="radio" name="gender" id="gender_'.$key.'" value="'.$key.'" '.set_radio('gender', $key); if ($key == 1) { echo 'checked'; } echo '/>';
+														echo '<label for="gender_'.$key.'">'.$val.'</label></div>';
 													}
 													?>
 												</div>
@@ -83,6 +90,7 @@
 												<div class="row">
 													<div class="col-sm-6">
 														<input type="text" class="form-control" placeholder="Jakarta" name="birth_place" id="birth_place" value="<?php echo set_value('birth_place'); ?>">
+														<div class="fontred" id="errorbox_birth_place"></div>
 														<?php echo form_error('birth_place', '<div class="fontred">', '</div>'); ?>
 													</div>
 													<div class="input-group col-sm-6 paddingright15 date date-picker">
@@ -91,85 +99,19 @@
 															<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 														</span>
 													</div>
+													<div class="fontred" id="errorbox_birth_date"></div>
 													<?php echo form_error('birth_date', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
-											<div class="col-sm-6 marginbottom15">
-												<label>Marital Status</label><span class="fontred"> *</span>
-												<select class="form-control" name="marital_status" id="marital_status">
-													<option value="">-- Select One --</option>
-													<?php
-													foreach ($code_member_marital_status as $key => $val)
-													{
-														echo '<option value="'.$key.'"'.set_select('marital_status', $key).'>'.$val.'</option>';
-													}
-													?>
-												</select>
-												<?php echo form_error('marital_status', '<div class="fontred">', '</div>'); ?>
-											</div>
 										</div>
 										<div class="row">
-											<div class="col-sm-6 marginbottom15">
-												<label>Occupation</label><span class="fontred"> *</span>
-												<div class="col-sm-12 paddinglr0">
-													<input type="text" class="form-control" placeholder="Karyawan" name="occupation" id="occupation" value="<?php echo set_value('occupation'); ?>">
-													<?php echo form_error('occupation', '<div class="fontred">', '</div>'); ?>
-												</div>
+											<div class="col-sm-6 marginbottom15" id="div_idcard">
+												<label class="control-label">Upload ID Card Foto <span class="required">*</span></label>
+												<input name="image" id="idcard_photo" class="file" type="file">
 											</div>
-											<div class="col-sm-6 marginbottom15">
-												<label>Religion</label><span class="fontred"> *</span>
-												<select class="form-control" name="religion" id="religion">
-													<option value="">-- Select One --</option>
-													<?php
-													foreach ($code_member_religion as $key => $val)
-													{
-														echo '<option value="'.$key.'"'.set_select('religion', $key).'>'.$val.'</option>';
-													}
-													?>
-												</select>
-												<?php echo form_error('religion', '<div class="fontred">', '</div>'); ?>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-6 marginbottom15">
-												<label>Close Up Photo</label><span class="fontred"> *</span>
-												<div class="col-sm-12 paddinglr0">
-													<div class="fileupload fileupload-new" data-provides="fileupload">
-														<div class="input-append">
-															<div class="uneditable-input">
-																<i class="fa fa-file fileupload-exists"></i>
-																<span class="fileupload-preview"></span>
-															</div>
-															<span class="btn btn-default btn-file">
-																<span class="fileupload-exists">Change</span>
-																<span class="fileupload-new">Select file</span>
-																<input type="file" name="photo" id="photo" />
-															</span>
-															<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
-														</div>
-													</div>
-													<?php echo form_error('photo', '<div class="fontred">', '</div>'); ?>
-												</div>
-											</div>
-											<div class="col-sm-6 marginbottom15">
-												<label>ID Card Photo</label><span class="fontred"> *</span>
-												<div class="col-sm-12 paddinglr0">
-													<div class="fileupload fileupload-new" data-provides="fileupload">
-														<div class="input-append">
-															<div class="uneditable-input">
-																<i class="fa fa-file fileupload-exists"></i>
-																<span class="fileupload-preview"></span>
-															</div>
-															<span class="btn btn-default btn-file">
-																<span class="fileupload-exists">Change</span>
-																<span class="fileupload-new">Select file</span>
-																<input type="file" name="idcard_photo" id="idcard_photo" />
-															</span>
-															<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
-														</div>
-													</div>
-													<?php echo form_error('idcard_photo', '<div class="fontred">', '</div>'); ?>
-												</div>
+											<div class="col-sm-6 marginbottom15" id="div_photo">
+												<label class="control-label">Upload Foto Diri <span class="required">*</span></label>
+												<input name="image" id="photo" class="file" type="file">
 											</div>
 										</div>
 										<div class="row">
@@ -177,6 +119,7 @@
 												<label>ID Card Address</label><span class="fontred"> *</span>
 												<div class="col-sm-12 paddinglr0">
 													<textarea class="form-control height150" name="idcard_address" id="idcard_address"><?php echo set_value('idcard_address'); ?></textarea>
+													<div class="fontred" id="errorbox_idcard_address"></div>
 													<?php echo form_error('idcard_address', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
@@ -199,6 +142,7 @@
 												<label>Shipment Address</label><span class="fontred"> *</span>
 												<div class="col-sm-12 paddinglr0">
 													<textarea class="form-control height150" name="shipment_address" id="shipment_address"><?php echo set_value('shipment_address'); ?></textarea>
+													<div class="fontred" id="errorbox_shipment_address"></div>
 													<?php echo form_error('shipment_address', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
@@ -215,10 +159,12 @@
 															}
 															?>
 														</select>
+														<div class="fontred" id="errorbox_id_provinsi"></div>
 														<?php echo form_error('id_provinsi', '<div class="fontred">', '</div>'); ?>
 													</div>
 													<div class="col-sm-12 margintop10">
 														<div id="id_kota"></div>
+														<div class="fontred" id="errorbox_id_kota"></div>
 														<?php echo form_error('id_kota', '<div class="fontred">', '</div>'); ?>
 													</div>
 												</div>
@@ -229,6 +175,7 @@
 												<label>Shipment Postal Code</label><span class="fontred"> *</span>
 												<div class="col-sm-12 paddinglr0">
 													<input type="text" class="form-control" placeholder="15413" name="postal_code" id="postal_code" value="<?php echo set_value('postal_code'); ?>">
+													<div class="fontred" id="errorbox_postal_code"></div>
 													<?php echo form_error('postal_code', '<div class="fontred">', '</div>'); ?>
 												</div>
 											</div>
@@ -258,6 +205,7 @@
 													}
 													?>
 												</select>
+												<div class="fontred" id="errorbox_shirt_size"></div>
 												<?php echo form_error('shirt_size', '<div class="fontred">', '</div>'); ?>
 											</div>
 											<div class="col-sm-6 marginbottom15">
@@ -270,6 +218,7 @@
 													echo '<option value="4"'.set_select('status', 4).'>Approved</option>';
 													?>
 												</select>
+												<div class="fontred" id="errorbox_status"></div>
 												<?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
 											</div>
 										</div>

@@ -43,14 +43,27 @@ class Imagemanipulation
         }
 	}
 	
-	function resize($param, $resize)
+	function resize($param, $image, $watermark, $small = FALSE)
 	{
 		$CI =& get_instance();
+		$CI->load->library('image_lib');
+		
+		$fpath = UPLOAD_FOLDER;
+		$resize = $param['resize'];
 		
 		$config['image_library'] = 'gd2';
-		$config['new_image'] = $param['fpath'].'29x29/'.$param['rename_files'].".".$param['extension'];
+		$config['new_image'] = $fpath.$param['type'].'/'.$param['rename_files'].$resize['extra'].".".$param['extension'];
 		$config['maintain_ratio'] = FALSE;
-		$config['source_image'] = $param['tmp_name'];
+		
+		if ($small == FALSE)
+		{
+			$config['source_image'] = $image['tmp_name'];
+		}
+		else
+		{
+			$get_image = '_640x640';
+			$config['source_image'] = $fpath.$param['type'].'/'.$param['rename_files'].$get_image.".".$param['extension'];
+		}
 		
 		if($resize['width'] > $resize['height'])
 		{
@@ -71,18 +84,66 @@ class Imagemanipulation
 		}
 		else
 		{
-			return TRUE;
+			if ($small == FALSE)
+			{
+				// crop
+				list($image_width, $image_height) = getimagesize($image['tmp_name']);
+					
+				$config['width'] = $resize['width'];
+				$config['height'] = $resize['height'];
+				$config['x_axis'] = ($image_width - $config['width']) / 2;
+				$config['y_axis'] = ($image_height - $config['height']) / 2;
+				
+				$CI->image_lib->initialize($config);
+				
+				if ( ! $CI->image_lib->crop())
+				{
+					return $CI->image_lib->display_errors();
+				}
+				else
+				{
+					if ($watermark == 'true')
+					{
+						// Watermark Image
+						$config['wm_type'] = 'overlay';
+						$config['source_image'] = $fpath.$param['type'].'/'.$param['rename_files'].$resize['extra'].".".$param['extension'];
+						$config['wm_overlay_path'] = 'assets/images/watermark_white_128.png';
+						$config['wm_vrt_alignment'] = 'middle';
+						
+						$CI->image_lib->initialize($config);
+						
+						if ( ! $CI->image_lib->watermark())
+						{
+							return $CI->image_lib->display_errors();
+						}
+						else
+						{
+							return TRUE;
+						}
+					}
+					else
+					{
+						return TRUE;
+					}
+				}
+			}
+			else
+			{
+				return TRUE;
+			}
 		}
 	}
 	
-	function save($param)
+	function save($image, $param)
 	{
 		$CI =& get_instance();
 		$CI->load->library('image_lib');
 		
+		$fpath = UPLOAD_FOLDER;
+		
 		$config['image_library'] = 'gd2';
-		$config['source_image'] = $param['tmp_name'];
-		$config['new_image'] = $param['fpath'].$param['rename_files'].".".$param['extension'];
+		$config['source_image'] = $image['tmp_name'];
+		$config['new_image'] = $fpath.$param['type'].'/'.$param['rename_files'].".".$param['extension'];
 		
 		$CI->image_lib->initialize($config);
 		

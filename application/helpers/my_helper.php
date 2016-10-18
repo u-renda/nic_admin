@@ -86,6 +86,29 @@ if ( ! function_exists('check_image')) {
 
 /*
 +-------------------------------------+
+    Name: color_event_status
+    Purpose: memberikan warna label untuk status yang berbeda
+    @param return : colored label
++-------------------------------------+
+*/
+if ( ! function_exists('color_event_status')) {
+	function color_event_status($status)
+	{ 
+		$CI =& get_instance();
+		$code_event_status = $CI->config->item('code_event_status');
+		$status_template = $code_event_status[$status];
+		
+		if ($status == 1)
+		{
+			$status_template = '<span class="label label-success">'.$code_event_status[$status].'</span>';
+		}
+		
+		return $status_template;
+	}
+}
+
+/*
++-------------------------------------+
     Name: color_member_status
     Purpose: memberikan warna label untuk status yang berbeda
     @param return : colored label
@@ -109,6 +132,41 @@ if ( ! function_exists('color_member_status')) {
 		elseif ($status == 4)
 		{
 			$status_template = '<span class="label label-success">'.$code_member_status[$status].'</span>';
+		}
+		
+		return $status_template;
+	}
+}
+
+/*
++-------------------------------------+
+    Name: color_order_status
+    Purpose: memberikan warna label untuk status yang berbeda
+    @param return : colored label
++-------------------------------------+
+*/
+if ( ! function_exists('color_order_status')) {
+	function color_order_status($status)
+	{ 
+		$CI =& get_instance();
+		$code_order_status = $CI->config->item('code_order_status');
+		$status_template = '<span class="label label-dark">'.$code_order_status[$status].'</span>';
+		
+		if ($status == 1)
+		{
+			$status_template = '<span class="label label-success">'.$code_order_status[$status].'</span>';
+		}
+		elseif ($status == 2)
+		{
+			$status_template = '<span class="label label-danger">'.$code_order_status[$status].'</span>';
+		}
+		elseif ($status == 3)
+		{
+			$status_template = '<span class="label label-primary">'.$code_order_status[$status].'</span>';
+		}
+		elseif ($status == 4)
+		{
+			$status_template = '<span class="label label-dark">'.$code_order_status[$status].'</span>';
 		}
 		
 		return $status_template;
@@ -242,6 +300,28 @@ if ( ! function_exists('get_cached')) {
         {
             return FALSE;
         }
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_event
+    Purpose: mendapatkan data event
+    @param return : data event atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_event')) {
+    function get_event($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('event_model');
+		
+        $query = $CI->event_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
     }
 }
 
@@ -571,6 +651,28 @@ if ( ! function_exists('get_member_number'))
 //		return $username;
 //    }
 //}
+
+/*
++-------------------------------------+
+    Name: get_order
+    Purpose: mendapatkan data order
+    @param return : data order atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_order')) {
+    function get_order($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('order_model');
+		
+        $query = $CI->order_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
+    }
+}
 
 /*
 +-------------------------------------+

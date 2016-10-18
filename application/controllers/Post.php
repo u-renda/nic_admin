@@ -58,16 +58,8 @@ class Post extends MY_Controller {
                 $media_type = 0;
                 if ($this->input->post('media') == 'image')
                 {
-                    if (isset($_FILES['photo']))
-                    {
-                        $photo = $this->check_photo($_FILES['photo']);
-
-                        if ($photo != FALSE)
-                        {
-                            $media = $photo;
-                            $media_type = 2;
-                        }
-                    }
+                    $media = $this->input->post('photo');
+                    $media_type = 2;
                 }
                 elseif ($this->input->post('media') == 'video')
                 {
@@ -94,12 +86,15 @@ class Post extends MY_Controller {
 				
                 if ($query->code == 200)
                 {
-                    redirect($this->config->item('link_post_lists'));
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_post_lists'));
                 }
                 else
                 {
-                    $data['error'] = $query->result;
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
                 }
+				
+				echo json_encode($response);
+				exit();
             }
         }
 

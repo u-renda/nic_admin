@@ -14,14 +14,15 @@
     <link href="<?php echo base_url('assets/css').'/bootstrap.min.css'; ?>" rel="stylesheet">
     <!-- Datepicker -->
     <link href="<?php echo base_url('assets/css').'/datepicker.css'; ?>" rel="stylesheet">
+    <!-- Kendo -->
+    <link href="<?php echo base_url('assets/css/kendo').'/kendo.common.min.css'; ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/kendo').'/kendo.default.min.css'; ?>" rel="stylesheet">
     <!-- Custom styles for this template -->
+    <link href="<?php echo base_url('assets/css/upload').'/fileinput.min.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/bootstrap-fileupload.min.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/theme.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/default.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/style.css'; ?>" rel="stylesheet">
-    <!-- Kendo -->
-    <link href="<?php echo base_url('assets/css/kendo').'/kendo.common.min.css'; ?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets/css/kendo').'/kendo.default.min.css'; ?>" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">

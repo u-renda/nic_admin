@@ -15,11 +15,11 @@ class Admin extends MY_Controller {
         if ($this->input->post('submit'))
         {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('name', 'name', 'required');
-            $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_email');
+            $this->form_validation->set_rules('name', 'name', 'required|callback_check_admin_name');
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_admin_email');
             $this->form_validation->set_rules('username', 'username', 'required');
             $this->form_validation->set_rules('password', 'password', 'required|min_length[6]');
-            $this->form_validation->set_rules('initial', 'initial', 'required|max_length[2]|callback_check_initial');
+            $this->form_validation->set_rules('initial', 'initial', 'required|max_length[1]|callback_check_admin_initial');
 
             if ($this->form_validation->run() == TRUE)
             {
@@ -29,17 +29,23 @@ class Admin extends MY_Controller {
                 $param['name'] = $this->input->post('name');
                 $param['email'] = $this->input->post('email');
                 $param['admin_role'] = 1;
+                $param['admin_group'] = 1;
+                $param['position'] = 'admin';
+                $param['photo'] = $this->input->post('photo');
                 $param['admin_initial'] = $this->input->post('initial');
                 $query = $this->admin_model->create($param);
 
                 if ($query->code == 200)
                 {
-                    redirect($this->config->item('link_admin_lists'));
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_admin_lists'));
                 }
                 else
                 {
-                    $data['error'] = $query->result;
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
                 }
+				
+				echo json_encode($response);
+				exit();
             }
         }
 
@@ -200,13 +206,15 @@ class Admin extends MY_Controller {
         $this->display_view('templates/frame', $data);
 	}
 
-    function check_email()
-    {
-        $get = $this->admin_model->info(array('email' => $this->input->post('email')));
-
-        if ($get->code == 200)
+    function check_admin_name()
+	{
+		$selfname = $this->input->post('selfname');
+		$name = $this->input->post('name');
+		$get = $this->admin_model->info(array('name' => $name));
+		
+        if ($get->code == 200 && $selfname != $name)
         {
-            $this->form_validation->set_message('check_email', '%s already exist');
+            $this->form_validation->set_message('check_admin_name', '%s already exist');
             return FALSE;
         }
         else
@@ -215,16 +223,15 @@ class Admin extends MY_Controller {
         }
     }
 
-    function check_email_edit()
+    function check_admin_email()
     {
         $selfemail = $this->input->post('selfemail');
-        $email = $this->input->post('email');
-
-        $query = $this->admin_model->info(array('email' => $email));
-
-        if ($query->code == 200 && $selfemail != $email)
+		$email = $this->input->post('email');
+		$get = $this->admin_model->info(array('email' => $email));
+		
+        if ($get->code == 200 && $selfemail != $email)
         {
-            $this->form_validation->set_message('check_email_edit', '%s sudah terdaftar.');
+            $this->form_validation->set_message('check_admin_email', '%s already exist');
             return FALSE;
         }
         else
@@ -233,31 +240,15 @@ class Admin extends MY_Controller {
         }
     }
 
-    function check_initial()
+    function check_admin_initial()
     {
-        $get = $this->admin_model->info(array('initial' => $this->input->post('initial')));
-
-        if ($get->code == 200)
+        $self = $this->input->post('selfinitial');
+		$initial = $this->input->post('initial');
+		$get = $this->admin_model->info(array('admin_initial' => $initial));
+		
+        if ($get->code == 200 && $self != $initial)
         {
-            $this->form_validation->set_message('check_initial', '%s already exist');
-            return FALSE;
-        }
-        else
-        {
-            return TRUE;
-        }
-    }
-
-    function check_initial_edit()
-    {
-        $selfinitial = $this->input->post('selfinitial');
-        $initial = $this->input->post('initial');
-
-        $get = $this->admin_model->info(array('initial' => $initial));
-
-        if ($get->code == 200 && $selfinitial != $initial)
-        {
-            $this->form_validation->set_message('check_initial_edit', '%s already exist');
+            $this->form_validation->set_message('check_admin_initial', '%s already exist');
             return FALSE;
         }
         else

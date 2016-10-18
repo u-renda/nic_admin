@@ -5,23 +5,15 @@
                 <h3 class="panel-title">Post - Add New</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_post_create'); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $this->config->item('link_post_create'); ?>" method="post" enctype="multipart/form-data" id="the_form">
                     <div class="form-body">
-                        <?php if (isset($error)) {
-							if (is_object($error)) {
-								foreach ($error as $key => $val) {
-									echo '<div class="fontred">'.$key.' = '.$val.'</div>';
-								}
-							} else {
-								echo '<div class="fontred">'.$error.'</div>';
-							}
-                        } ?>
                         <div class="row">
                             <div class="col-sm-6 marginbottom15">
                                 <label>Title</label><span class="fontred"> *</span>
                                 <div class="col-sm-12 paddinglr0">
                                     <input type="text" class="form-control" placeholder="#TogetherNEZ" name="title" id="title" value="<?php echo set_value('title'); ?>">
-                                    <?php echo form_error('title', '<div class="fontred">', '</div>'); ?>
+                                    <div class="fontred" id="errorbox_title"></div>
+									<?php echo form_error('title', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
@@ -35,6 +27,7 @@
                                     }
                                     ?>
                                 </select>
+								<div class="fontred" id="errorbox_status"></div>
                                 <?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
                             </div>
                         </div>
@@ -45,7 +38,9 @@
                                     <?php
                                     foreach ($code_post_type as $key => $val)
                                     {
-                                        echo '<div class="radio-inline radio-custom"><input type="radio" name="type" id="type_'.$key.'" value="'.$key.'" '.set_radio('type', $key).'/><label for="type_'.$key.'">'.$val.'</label></div>';
+										echo '<div class="radio-inline radio-custom">';
+										echo '<input type="radio" name="type" id="type_'.$key.'" value="'.$key.'" '.set_radio('type', $key); if ($key == 1) { echo 'checked'; } echo '/>';
+										echo '<label for="type_'.$key.'">'.$val.'</label></div>';
                                     }
                                     ?>
                                 </div>
@@ -57,7 +52,9 @@
                                     <?php
                                     foreach ($code_yes_no as $key => $val)
                                     {
-                                        echo '<div class="radio-inline radio-custom"><input type="radio" name="is_event" id="is_event_'.$key.'" value="'.$key.'" '.set_radio('is_event', $key).'/><label for="is_event_'.$key.'">'.$val.'</label></div>';
+										echo '<div class="radio-inline radio-custom">';
+										echo '<input type="radio" name="is_event" id="is_event_'.$key.'" value="'.$key.'" '.set_radio('is_event', $key); if ($key == 1) { echo 'checked'; } echo '/>';
+										echo '<label for="is_event_'.$key.'">'.$val.'</label></div>';
                                     }
                                     ?>
                                 </div>
@@ -83,27 +80,12 @@
                                     <?php echo form_error('media', '<div class="fontred">', '</div>'); ?>
                                 </div>
                                 <div class="image_option margintop10">
-                                    <div class="input-group col-sm-12">
-                                        <div class="fileupload fileupload-new" data-provides="fileupload">
-											<div class="input-append">
-												<div class="uneditable-input">
-													<i class="fa fa-file fileupload-exists"></i>
-													<span class="fileupload-preview"></span>
-												</div>
-												<span class="btn btn-default btn-file">
-													<span class="fileupload-exists">Change</span>
-													<span class="fileupload-new">Select file</span>
-													<input type="file" name="photo" id="photo" />
-												</span>
-												<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
-											</div>
-										</div>
-                                        <?php echo form_error('photo', '<div class="fontred">', '</div>'); ?>
-                                    </div>
+									<div class="col-sm-12 paddingleft0" id="div_photo">
+										<input name="image" id="photo" class="file" type="file">
+									</div>
                                 </div>
                                 <div class="video_option margintop10">
                                     <input type="text" class="form-control" placeholder="http://" name="video" id="video" value="<?php echo set_value('video'); ?>">
-                                    <?php echo form_error('video', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
@@ -116,7 +98,6 @@
                                         </span>
                                     </div>
                                     <span id="helpBlock" class="help-block paddinglr15">Leave empty for today date.</span>
-                                    <?php echo form_error('created_date', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +106,8 @@
                                 <label>Content</label><span class="fontred"> *</span>
                                 <div class="input-group col-sm-12">
                                     <textarea class="form-control height250 mceEditor" name="content" id="content"><?php echo set_value('content'); ?></textarea>
-                                    <?php echo form_error('content', '<div class="fontred">', '</div>'); ?>
+                                    <div class="fontred" id="errorbox_content"></div>
+									<?php echo form_error('content', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                         </div>
@@ -141,48 +123,3 @@
     </div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.date-picker').datepicker({
-            orientation: "auto left",
-            format: "dd M yyyy"
-        });
-
-        $(".image_option").hide();
-        $(".video_option").hide();
-        $('.media').change(function() {
-            if (this.value == 'image') {
-                $(".image_option").show();
-                $(".video_option").hide();
-            }
-            else if (this.value == 'video') {
-                $(".video_option").show();
-                $(".image_option").hide();
-            }
-			else {
-				$(".image_option").hide();
-				$(".video_option").hide();
-			}
-        });
-
-        tinymce.init({
-            mode: "specific_textareas",
-            editor_selector: "mceEditor",
-            forced_root_block: false,
-            content_style: ".mce-content-body  {font-size: 14px; font-family: 'Open Sans', sans-serif;}",
-            height: 250,
-            plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks",
-                "insertdatetime table contextmenu paste"
-            ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-        });
-
-        $('#submit_post_create').click(function () {
-            tinyMCE.triggerSave();
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    });
-</script>

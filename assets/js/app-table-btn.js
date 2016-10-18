@@ -1,10 +1,10 @@
 $(function () {
     // Admin
-    if (document.getElementById('admin_create_page') != null) {
-        $('#submit_admin_create').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    }
+    //if (document.getElementById('admin_create_page') != null) {
+    //    $('#submit_admin_create').click(function () {
+    //        $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
+    //    });
+    //}
     
     // Dashboard
     if (document.getElementById('page_dashboard') != null) {
@@ -97,25 +97,25 @@ $(function () {
             var grid = "grid_post";
             var dataString = 'id='+ id +'&action='+ action +'&grid='+ grid;
             $.ajax(
+            {
+                type: "POST",
+                url: newPathname + action,
+                data: dataString,
+                cache: false,
+                beforeSend: function()
                 {
-                    type: "POST",
-                    url: newPathname + action,
-                    data: dataString,
-                    cache: false,
-                    beforeSend: function()
-                    {
-                        $('.'+id+'-delete').html('<i class="fa fa-spinner fa-spin"></i>');
-                    },
-                    success: function(data)
-                    {
-                        $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
-                        $('.modal-dialog').removeClass('modal-lg');
-                        $('.modal-dialog').addClass('modal-sm');
-                        $('.modal-title').text('Confirm Delete');
-                        $('.modal-body').html(data);
-                        $('#myModal').modal('show');
-                    }
-                });
+                    $('.'+id+'-delete').html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success: function(data)
+                {
+                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.modal-dialog').removeClass('modal-lg');
+                    $('.modal-dialog').addClass('modal-sm');
+                    $('.modal-title').text('Confirm Delete');
+                    $('.modal-body').html(data);
+                    $('#myModal').modal('show');
+                }
+            });
             return false;
         });
 

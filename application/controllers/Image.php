@@ -10,6 +10,46 @@ class Image extends MY_Controller {
         $this->load->model('image_album_model');
     }
 
+    function image_album_create()
+    {
+        $data = array();
+        if ($this->input->post('submit'))
+        {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('name', 'name', 'required');
+            $this->form_validation->set_rules('date', 'date', 'required');
+            $this->form_validation->set_rules('photo[]', 'photo', 'required');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                $param = array();
+                if (is_array($this->input->post('photo')) == TRUE)
+				{
+					$param['url'] = $this->input->post('photo');
+				}
+				
+				$param['name'] = $this->input->post('name');
+                $param['date'] = date('Y-m-d', strtotime($this->input->post('date')));
+                $query = $this->image_album_model->create($param);
+				
+                if ($query->code == 200)
+                {
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_image_album_lists'));
+                }
+                else
+                {
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
+                }
+				
+				echo json_encode($response);
+				exit();
+            }
+        }
+
+        $data['view_content'] = 'image/image_album_create';
+        $this->load->view('templates/frame', $data);
+    }
+
     function image_album_get()
     {
         $page = $this->input->post('page') ? $this->input->post('page') : 1;

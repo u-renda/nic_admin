@@ -12,38 +12,6 @@ class Member extends MY_Controller {
         $this->load->model('preferences_model');
     }
 
-    function check_idcard_photo()
-    {
-        if (isset($_FILES['idcard_photo']))
-        {
-            if ($_FILES["idcard_photo"]["error"] == 0)
-            {
-                $name = md5(basename($_FILES["idcard_photo"]["name"]) . date('Y-m-d H:i:s'));
-                $target_dir = UPLOAD_MEMBER_HOST;
-                $imageFileType = strtolower(pathinfo($_FILES["idcard_photo"]["name"],PATHINFO_EXTENSION));
-
-                $param2 = array();
-                $param2['target_file'] = UPLOAD_FOLDER . $name . '.' . $imageFileType;
-                $param2['imageFileType'] = $imageFileType;
-                $param2['tmp_name'] = $_FILES["idcard_photo"]["tmp_name"];
-                $param2['tmp_file'] = $target_dir . $name . '.' . $imageFileType;
-                $param2['size'] = $_FILES["idcard_photo"]["size"];
-
-                $check_image = check_image($param2);
-
-                if ($check_image == 'true')
-                {
-                    return TRUE;
-                }
-                else
-                {
-                    $this->form_validation->set_message('check_idcard_photo', $check_image);
-                    return FALSE;
-                }
-            }
-        }
-    }
-
     function check_member_email()
     {
         $selfemail = $this->input->post('selfemail');
@@ -109,38 +77,6 @@ class Member extends MY_Controller {
         else
         {
             return TRUE;
-        }
-    }
-
-    function check_photo()
-    {
-        if (isset($_FILES['photo']))
-        {
-            if ($_FILES["photo"]["error"] == 0)
-            {
-                $name = md5(basename($_FILES["photo"]["name"]) . date('Y-m-d H:i:s'));
-                $target_dir = UPLOAD_MEMBER_HOST;
-                $imageFileType = strtolower(pathinfo($_FILES["photo"]["name"],PATHINFO_EXTENSION));
-
-                $param2 = array();
-                $param2['target_file'] = UPLOAD_FOLDER . $name . '.' . $imageFileType;
-                $param2['imageFileType'] = $imageFileType;
-                $param2['tmp_name'] = $_FILES["photo"]["tmp_name"];
-                $param2['tmp_file'] = $target_dir . $name . '.' . $imageFileType;
-                $param2['size'] = $_FILES["photo"]["size"];
-
-                $check_image = check_image($param2);
-
-                if ($check_image == 'true')
-                {
-                    return TRUE;
-                }
-                else
-                {
-                    $this->form_validation->set_message('check_photo', $check_image);
-                    return FALSE;
-                }
-            }
         }
     }
 
@@ -235,7 +171,6 @@ class Member extends MY_Controller {
             $this->form_validation->set_rules('idcard_type', 'ID card type', 'required');
             $this->form_validation->set_rules('idcard_number', 'ID card number', 'required|numeric|callback_check_member_idcard_number');
             $this->form_validation->set_rules('idcard_address', 'ID card address', 'required');
-            $this->form_validation->set_rules('idcard_photo', 'ID card photo', 'callback_check_idcard_photo');
             $this->form_validation->set_rules('shipment_address', 'shipment address', 'required');
             $this->form_validation->set_rules('gender', 'gender', 'required');
             $this->form_validation->set_rules('postal_code', 'postal code', 'required|numeric');
@@ -244,35 +179,11 @@ class Member extends MY_Controller {
             $this->form_validation->set_rules('id_kota', 'kota', 'required');
             $this->form_validation->set_rules('birth_place', 'birth place', 'required');
             $this->form_validation->set_rules('birth_date', 'birth date', 'required');
-            $this->form_validation->set_rules('marital_status', 'marital status', 'required');
-            $this->form_validation->set_rules('occupation', 'occupation', 'required');
-            $this->form_validation->set_rules('religion', 'religion', 'required');
             $this->form_validation->set_rules('shirt_size', 'shirt size', 'required');
             $this->form_validation->set_rules('status', 'status', 'required');
-            $this->form_validation->set_rules('photo', 'photo', 'callback_check_photo');
 			
             if ($this->form_validation->run() == TRUE)
             {
-                if (isset($_FILES['photo']))
-                {
-                    if ($_FILES["photo"]["error"] == 0)
-                    {
-                        $name = md5(basename($_FILES["photo"]["name"]) . date('Y-m-d H:i:s'));
-                        $imageFileType = strtolower(pathinfo($_FILES["photo"]["name"],PATHINFO_EXTENSION));
-                        $photo = UPLOAD_MEMBER_HOST . $name . '.' . $imageFileType;
-                    }
-                }
-
-                if (isset($_FILES['idcard_photo']))
-                {
-                    if ($_FILES["idcard_photo"]["error"] == 0)
-                    {
-                        $name = md5(basename($_FILES["idcard_photo"]["name"]) . date('Y-m-d H:i:s'));
-                        $imageFileType = strtolower(pathinfo($_FILES["idcard_photo"]["name"],PATHINFO_EXTENSION));
-                        $idcard_photo = UPLOAD_MEMBER_HOST . $name . '.' . $imageFileType;
-                    }
-                }
-                
                 $param = array();
                 $param['id_kota'] = $this->input->post('id_kota');
                 $param['id_admin'] = $this->session->userdata('id_admin');
@@ -281,48 +192,45 @@ class Member extends MY_Controller {
                 $param['idcard_type'] = $this->input->post('idcard_type');
                 $param['idcard_number'] = $this->input->post('idcard_number');
                 $param['idcard_address'] = $this->input->post('idcard_address');
-                $param['idcard_photo'] = $idcard_photo;
+                $param['idcard_photo'] = $this->input->post('idcard_photo');
                 $param['shipment_address'] = $this->input->post('shipment_address');
                 $param['gender'] = $this->input->post('gender');
                 $param['postal_code'] = $this->input->post('postal_code');
                 $param['phone_number'] = $this->input->post('phone_number');
                 $param['birth_place'] = $this->input->post('birth_place');
                 $param['birth_date'] = date('Y-m-d', strtotime($this->input->post('birth_date')));
-                $param['marital_status'] = $this->input->post('marital_status');
-                $param['occupation'] = $this->input->post('occupation');
-                $param['religion'] = $this->input->post('religion');
                 $param['shirt_size'] = $this->input->post('shirt_size');
-                $param['photo'] = $photo;
+                $param['photo'] = $this->input->post('photo');
                 $param['status'] = $this->input->post('status');
                 $param['notes'] = $this->input->post('notes');
                 $query = $this->member_model->create($param);
                 
                 if ($query->code == 200)
                 {
+					$location = $this->config->item('link_member_lists');
 					if ($this->input->post('status') == 2)
 					{
-						redirect($this->config->item('link_member_request_transfer').'?id='.$query->result->id_member.'&from=create');
+						$location = $this->config->item('link_member_request_transfer').'?id='.$query->result->id_member.'&from=create';
 					}
 					elseif ($this->input->post('status') == 4)
 					{
-						redirect($this->config->item('link_member_approved').'?id='.$query->result->id_member);
+						$location = $this->config->item('link_member_request_transfer').'?id='.$query->result->id_member.'&from=create';
 					}
 					
-                    $response = '?type=success&msg=create';
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $location);
                 }
                 else
                 {
-                    $response = '?type=error&msg=create';
+					$response =  array('msg' => 'Create data failed', 'type' => 'error');
                 }
 				
-				redirect($this->config->item('link_member_lists').$response);
+				echo json_encode($response);
+				exit();
             }
         }
 		
         $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
         $data['code_member_gender'] = $this->config->item('code_member_gender');
-        $data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
-        $data['code_member_religion'] = $this->config->item('code_member_religion');
         $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
         $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
         $data['view_content'] = 'member/member_create';
@@ -738,6 +646,12 @@ class Member extends MY_Controller {
             $code_member_shirt_size = $this->config->item('code_member_shirt_size');
             $code_member_status = $this->config->item('code_member_status');
             
+			$religion = '';
+			if ($member->religion == TRUE)
+			{
+				$religion = $code_member_religion[$member->religion];
+			}
+			
             $data = array();
             $data['name'] = ucwords($member->name);
             $data['email'] = $member->email;
@@ -754,7 +668,7 @@ class Member extends MY_Controller {
             $data['birth_date'] = date('d M Y', strtotime($member->birth_date));
             $data['marital_status'] = $code_member_marital_status[$member->marital_status];
             $data['occupation'] = ucwords($member->occupation);
-            $data['religion'] = $code_member_religion[$member->religion];
+            $data['religion'] = $religion;
             $data['shirt_size'] = $code_member_shirt_size[$member->shirt_size];
             $data['photo'] = $member->photo;
             $data['status'] = $code_member_status[$member->status];

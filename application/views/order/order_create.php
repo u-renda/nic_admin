@@ -1,11 +1,31 @@
-<div class="row" id="order_lists_page">
+<div class="row" id="order_create_page">
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Order - Lists</h3>
+                <h3 class="panel-title">Order - Create</h3>
             </div>
             <div class="panel-body">
                 <div class="marginbottom15">
+                    <div class="wizard-progress wizard-progress-lg">
+                        <div class="steps-progress">
+                            <div class="progress-indicator"></div>
+                        </div>
+                        <ul class="wizard-steps">
+                            <li class="active">
+                                <a href="#w4-account" data-toggle="tab"><span>1</span>Select Product</a>
+                            </li>
+                            <li>
+                                <a href="#w4-profile" data-toggle="tab"><span>2</span>Profile Info</a>
+                            </li>
+                            <li>
+                                <a href="#w4-billing" data-toggle="tab"><span>3</span>Billing Info</a>
+                            </li>
+                            <li>
+                                <a href="#w4-confirm" data-toggle="tab"><span>4</span>Confirmation</a>
+                            </li>
+                        </ul>
+                    </div>
+
                     <form role="form" class="form-horizontal" id="order_lists">
                         <div class="form-body">
                             <div class="form-group marginbottom0">

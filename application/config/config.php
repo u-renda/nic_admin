@@ -511,16 +511,16 @@ $config['proxy_ips'] = '';
 if(is_bool(LOCALHOST) || LOCALHOST == 'localhost')
 {
     define('API_HOST', 'http://localhost/nic_api/');
-    define('UPLOAD_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/upload_nic/member/');
-    define('UPLOAD_MEMBER_HOST', 'http://localhost/upload_nic/member/');
     define('WEB_HOST', 'http://localhost/nic_web/');
+    define('UPLOAD_HOST', 'http://localhost/nic_web/upload_nic/');
+    define('UPLOAD_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/nic_web/upload_nic/');
 }
 else
 {
 	define('API_HOST', 'http://api.nezindaclub.com/');
-    define('UPLOAD_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/upload_nic/member/');
-    define('UPLOAD_MEMBER_HOST', 'http://upload.nezindaclub.com/member/');
     define('WEB_HOST', 'http://nezindaclub.com/');
+    define('UPLOAD_HOST', 'http://upload.nezindaclub.com/');
+    define('UPLOAD_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/upload_nic/');
 }
 
 $config['development_mode'] = FALSE;
@@ -540,6 +540,9 @@ $config['link_api_admin'] = $config['base_url'].'api_admin';
 $config['link_api_member'] = $config['base_url'].'api_member';
 $config['link_api_post'] = $config['base_url'].'api_post';
 $config['link_dashboard'] = $config['base_url'].'dashboard';
+$config['link_event_create'] = $config['base_url'].'event_create';
+$config['link_event_lists'] = $config['base_url'].'event_lists';
+$config['link_faq_create'] = $config['base_url'].'faq_create';
 $config['link_faq_lists'] = $config['base_url'].'faq_lists';
 $config['link_image_album_create'] = $config['base_url'].'image_album_create';
 $config['link_image_album_lists'] = $config['base_url'].'image_album_lists';
@@ -553,6 +556,7 @@ $config['link_member_invalid'] = $config['base_url'].'member_invalid';
 $config['link_member_lists'] = $config['base_url'].'member_lists';
 $config['link_member_request_transfer'] = $config['base_url'].'member_request_transfer';
 $config['link_member_view'] = $config['base_url'].'member_view';
+$config['link_order_create'] = $config['base_url'].'order_create';
 $config['link_order_lists'] = $config['base_url'].'order_lists';
 $config['link_post_create'] = $config['base_url'].'post_create';
 $config['link_post_delete'] = $config['base_url'].'post_delete';
@@ -561,6 +565,7 @@ $config['link_post_lists'] = $config['base_url'].'post_lists';
 $config['link_preferences_create'] = $config['base_url'].'preferences_create';
 $config['link_preferences_edit'] = $config['base_url'].'preferences_edit';
 $config['link_preferences_lists'] = $config['base_url'].'preferences_lists';
+$config['link_product_create'] = $config['base_url'].'product_create';
 $config['link_product_lists'] = $config['base_url'].'product_lists';
 $config['link_provinsi_create'] = $config['base_url'].'provinsi_create';
 $config['link_provinsi_delete'] = $config['base_url'].'provinsi_delete';
@@ -593,6 +598,7 @@ $config['code_member_religion'] = array(
 );
 
 $config['code_product_status'] = array(
+    0 => 'Normal',
     1 => 'Sale',
     2 => 'Limited',
     3 => 'Pre Order',
@@ -753,6 +759,7 @@ $config['code_member_transfer_status'] = array(
 );
 
 $config['code_product_status'] = array(
+    0 => 'Normal',
     1 => 'Sale',
     2 => 'Limited',
     3 => 'Pre-order',
@@ -776,4 +783,22 @@ $config['code_order_transfer_status'] = array(
     1 => 'Waiting Transfer',
     2 => 'Paid',
     3 => 'Sent'
+);
+
+$config['code_1024x600'] = array(
+    'width' => '1024',
+    'height' => '600',
+    'extra' => '_1024x600'
+);
+
+$config['code_640x640'] = array(
+    'width' => '640',
+    'height' => '640',
+    'extra' => '_640x640'
+);
+
+$config['code_350x350'] = array(
+    'width' => '350',
+    'height' => '350',
+    'extra' => '_350x350'
 );

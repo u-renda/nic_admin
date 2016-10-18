@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Preferences - Add New</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_preferences_create'); ?>" method="post">
+                <form action="<?php echo $this->config->item('link_preferences_create'); ?>" method="post" id="the_form">
                     <div class="form-body">
                         <div class="panel-body">
                             <div class="row">
@@ -13,6 +13,7 @@
                                     <label>Key</label><span class="fontred"> *</span>
                                     <div class="col-sm-12 paddinglr0">
                                         <input type="text" class="form-control" placeholder="email_send_approve" name="key" id="key" value="<?php echo set_value('key'); ?>">
+                                        <div class="fontred" id="errorbox_key"></div>
                                         <?php echo form_error('key', '<div class="fontred">', '</div>'); ?>
                                     </div>
                                 </div>
@@ -28,6 +29,7 @@
                                     <label>Value</label><span class="fontred"> *</span>
                                     <div class="col-sm-12 paddinglr0">
                                         <textarea class="form-control height250 mceEditor" name="value" id="value"><?php echo set_value('value'); ?></textarea>
+                                        <div class="fontred" id="errorbox_value"></div>
                                         <?php echo form_error('value', '<div class="fontred">', '</div>'); ?>
                                     </div>
                                 </div>

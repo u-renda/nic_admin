@@ -6,9 +6,47 @@ class Others extends MY_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->load->model('faq_model');
         $this->load->model('preferences_model');
         $this->load->model('provinsi_model');
         $this->load->model('secret_santa_model');
+    }
+
+    function faq_create()
+    {
+        $data = array();
+        if ($this->input->post('submit'))
+        {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('category', 'category', 'required');
+            $this->form_validation->set_rules('question', 'question', 'required');
+            $this->form_validation->set_rules('answer', 'answer', 'required');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                $param = array();
+                $param['category'] = $this->input->post('category');
+                $param['question'] = $this->input->post('question');
+                $param['answer'] = $this->input->post('answer');
+                $query = $this->faq_model->create($param);
+
+                if ($query->code == 200)
+                {
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_faq_lists'));
+                }
+                else
+                {
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
+                }
+				
+				echo json_encode($response);
+				exit();
+            }
+        }
+
+        $data['code_faq_category'] = $this->config->item('code_faq_category');
+        $data['view_content'] = 'others/faq/faq_create';
+        $this->load->view('templates/frame', $data);
     }
 
     function faq_get()
@@ -161,14 +199,15 @@ class Others extends MY_Controller {
 				
                 if ($query->code == 200)
                 {
-                    $response = '?type=success&msg=create';
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_preferences_lists'));
                 }
                 else
                 {
-                    $response = '?type=error&msg=create';
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
                 }
 				
-				redirect($this->config->item('link_preferences_lists').$response);
+				echo json_encode($response);
+				exit();
             }
         }
 
@@ -333,7 +372,6 @@ class Others extends MY_Controller {
             }
         }
 
-        $data['view_content'] = 'others/provinsi/provinsi_create';
         $this->load->view('others/provinsi/provinsi_create', $data);
     }
 

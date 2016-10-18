@@ -9,6 +9,73 @@ class Product extends MY_Controller {
         $this->load->model('product_model');
     }
 
+    function check_product_name()
+	{
+		$selfname = $this->input->post('selfname');
+		$name = $this->input->post('name');
+		$get = $this->product_model->info(array('name' => $name));
+		
+        if ($get->code == 200 && $selfname != $name)
+        {
+            $this->form_validation->set_message('check_product_name', '%s already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
+    function product_create()
+    {
+        $data = array();
+        if ($this->input->post('submit'))
+        {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('name', 'name', 'required|callback_check_product_name');
+            $this->form_validation->set_rules('photo', 'photo', 'required');
+            $this->form_validation->set_rules('price_public', 'price public', 'required|numeric');
+            $this->form_validation->set_rules('price_member', 'price member', 'required|numeric');
+            $this->form_validation->set_rules('description', 'description', 'required');
+            $this->form_validation->set_rules('quantity', 'quantity', 'required|numeric');
+            $this->form_validation->set_rules('status', 'status', 'required');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                $param = array();
+				if (is_array($this->input->post('other_photo')) == TRUE)
+				{
+					$param['other_photo'] = $this->input->post('other_photo');
+				}
+				
+                $param['name'] = $this->input->post('name');
+                $param['image'] = $this->input->post('photo');
+                $param['price_public'] = $this->input->post('price_public');
+                $param['price_member'] = $this->input->post('price_member');
+                $param['description'] = $this->input->post('description');
+                $param['quantity'] = $this->input->post('quantity');
+                $param['status'] = $this->input->post('status');
+                $query = $this->product_model->create($param);
+				
+                if ($query->code == 200)
+                {
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_product_lists'));
+                }
+                else
+                {
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
+                }
+				
+				echo json_encode($response);
+				exit();
+            }
+        }
+
+        $data['code_product_status'] = $this->config->item('code_product_status');
+        $data['view_content'] = 'product/product_create';
+        $this->load->view('templates/frame', $data);
+    }
+
     function product_get()
     {
         $page = $this->input->post('page') ? $this->input->post('page') : 1;
@@ -18,6 +85,7 @@ class Product extends MY_Controller {
         $order = 'name';
         $sort = 'asc';
         $q = '';
+		$status = $this->input->post('status');
         $sort_post = $this->input->post('sort');
         $filter = $this->input->post('filter');
 
@@ -39,7 +107,7 @@ class Product extends MY_Controller {
             }
         }
 
-        $get = get_product(array('q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
+        $get = get_product(array('status' => $status, 'q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
         $jsonData = array('total' => $get->total, 'results' => array());
         
         foreach ($get->result as $row)
@@ -70,6 +138,8 @@ class Product extends MY_Controller {
 	function product_lists()
 	{
         $data = array();
+		$data['code_product_status'] = $this->config->item('code_product_status');
+		$data['status'] = $this->input->get_post('status');
         $data['view_content'] = 'product/product_lists';
         $this->display_view('templates/frame', $data);
 	}

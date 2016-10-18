@@ -72,7 +72,16 @@ $route['member_request_transfer'] = 'member/member_request_transfer';
 $route['member_view'] = 'member/member_view';
 
 // EXTRA
+$route['check_admin_email'] = 'extra/check_admin_email';
+$route['check_admin_initial'] = 'extra/check_admin_initial';
+$route['check_admin_name'] = 'extra/check_admin_name';
 $route['check_kota_lists'] = 'extra/check_kota_lists';
+$route['check_member_email'] = 'extra/check_member_email';
+$route['check_member_idcard_number'] = 'extra/check_member_idcard_number';
+$route['check_member_name'] = 'extra/check_member_name';
+$route['check_member_phone_number'] = 'extra/check_member_phone_number';
+$route['check_product_name'] = 'extra/check_product_name';
+$route['upload_image'] = 'extra/upload_image';
 
 // POST
 $route['post_create'] = 'post/post_create';
@@ -90,6 +99,7 @@ $route['admin_get'] = 'admin/admin_get';
 $route['admin_lists'] = 'admin/admin_lists';
 
 // OTHERS
+$route['faq_create'] = 'others/faq_create';
 $route['faq_get'] = 'others/faq_get';
 $route['faq_lists'] = 'others/faq_lists';
 $route['kota_get'] = 'others/kota_get';
@@ -115,14 +125,22 @@ $route['api_member'] = 'api_debug/api_member';
 $route['api_post'] = 'api_debug/api_post';
 
 // IMAGE GALLERY
+$route['image_album_create'] = 'image/image_album_create';
 $route['image_album_get'] = 'image/image_album_get';
 $route['image_album_lists'] = 'image/image_album_lists';
 $route['image_lists'] = 'image/image_lists';
 
 // ORDER
+$route['order_create'] = 'order/order_create';
 $route['order_get'] = 'order/order_get';
 $route['order_lists'] = 'order/order_lists';
 
 // PRODUCT
+$route['product_create'] = 'product/product_create';
 $route['product_get'] = 'product/product_get';
 $route['product_lists'] = 'product/product_lists';
+
+// EVENT
+$route['event_create'] = 'event/event_create';
+$route['event_get'] = 'event/event_get';
+$route['event_lists'] = 'event/event_lists';

@@ -15,7 +15,9 @@ $(function () {
     if (document.getElementById('member_create_page') != null) {
         $('.date-picker').datepicker({
             orientation: "auto left",
-            format: "dd M yyyy"
+            format: "dd M yyyy",
+            autoclose: true,
+            todayHighlight: true
         });
         
 		$("#id_provinsi").change(function() {
@@ -35,10 +37,6 @@ $(function () {
 				}
 			});
 		});
-        
-        $('#submit_member_create').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
 	}
     
     // Member - Edit
@@ -265,6 +263,34 @@ $(function () {
             return false;
         });
     }
+    
+    // Post - Create
+    if (document.getElementById('post_create_page') != null) {
+        $('.date-picker').datepicker({
+            orientation: "auto left",
+            format: "dd M yyyy",
+            setDate: new Date(),
+            autoclose: true,
+            todayHighlight: true
+        });
+        
+		$(".image_option").hide();
+        $(".video_option").hide();
+        $('.media').change(function() {
+            if (this.value == 'image') {
+                $(".image_option").show();
+                $(".video_option").hide();
+            }
+            else if (this.value == 'video') {
+                $(".video_option").show();
+                $(".image_option").hide();
+            }
+			else {
+				$(".image_option").hide();
+				$(".video_option").hide();
+			}
+        });
+	}
     
     // Post - Edit
     if (document.getElementById('post_edit_page') != null) {
@@ -669,94 +695,150 @@ $(function () {
         });
     }
     
+    // Image Album - Create
+    if (document.getElementById('image_album_create_page') != null) {
+        $('.date-picker').datepicker({
+            orientation: "auto left",
+            format: "dd M yyyy",
+            autoclose: true,
+            todayHighlight: true
+        });
+    }
+    
     // Product - Lists
     if (document.getElementById('product_lists_page') != null) {
         grid = '#grid_product';
+        resubmit_product(grid);
         
-        $(grid).kendoGrid({
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "product_get",
-                        dataType: "json",
-                        type: "POST",
-                        data: {}
-                    }
-                },
-                schema: {
-                    data: "results",
-                    total: "total"
-                },
-                pageSize: 20,
-                serverPaging: true,
-                serverSorting: true,
-                serverFiltering: false,
-                cache: false
-            },
-            sortable: {
-                mode: "single",
-                allowUnsort: true
-            },
-            pageable: {
-                buttonCount: 5,
-                input: true,
-                pageSizes: true,
-                refresh: true
-            },
-            filterable: {
-                extra: false,
-                operators: {
-                    string: {
-                        contains: "Mengandung kata"
-                    }
-                }
-            },
-            selectable: "row",
-            resizable: true,
-            columns: [{
-                field: "No",
-                sortable: false,
-                filterable: false,
-                width: 50
-            },
-            {
-                field: "Name",
-                width: 200
-            },
-            {
-                field: "PricePublic",
-                title: "Public (Rp)",
-                filterable: false,
-                width: 100
-            },
-            {
-                field: "PriceMember",
-                title: "Member (Rp)",
-                filterable: false,
-                width: 100
-            },
-            {
-                field: "Quantity",
-                filterable: false,
-                width: 100
-            },
-            {
-                field: "Status",
-                sortable: false,
-                filterable: false,
-                width: 70,
-                template: "#= data.Status #"
-            },
-            {
-                field: "Action",
-                sortable: false,
-                filterable: false,
-                width: 70,
-                template: "#= data.Action #"
-            }]
+        $('#product_lists').submit(function (){
+            resubmit_product(grid);
+            $(grid).data('kendoGrid').refresh();
+            return false;
+        });
+    }
+    
+    // Product - Create
+    if (document.getElementById('product_create_page') != null) {
+        $(".image_option").hide();
+        $('.media').change(function() {
+            if (this.value == 'yes') {
+                $(".image_option").show();
+            }
+			else {
+				$(".image_option").hide();
+			}
+        });
+	}
+    
+    // Event - Lists
+    if (document.getElementById('event_lists_page') != null) {
+        grid = '#grid_event';
+        resubmit_event(grid);
+        
+        $('#event_lists').submit(function (){
+            resubmit_event(grid);
+            $(grid).data('kendoGrid').refresh();
+            return false;
+        });
+    }
+    
+    // Event - Create
+    if (document.getElementById('event_create_page') != null) {
+        $('.date-picker').datepicker({
+            orientation: "auto left",
+            format: "dd M yyyy",
+            setDate: new Date(),
+            autoclose: true,
+            todayHighlight: true
+        });
+	}
+    
+    // Order - Lists
+    if (document.getElementById('order_lists_page') != null) {
+        grid = '#grid_order';
+        resubmit_order(grid);
+        
+        $('#order_lists').submit(function (){
+            resubmit_order(grid);
+            $(grid).data('kendoGrid').refresh();
+            return false;
         });
     }
 });
+
+function resubmit_event(grid) {
+    $(grid).kendoGrid({
+        dataSource: {
+            transport: {
+                read: {
+                    url: "event_get",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        status : $('#status').val()
+                    }
+                }
+            },
+            schema: {
+                data: "results",
+                total: "total"
+            },
+            pageSize: 20,
+            serverPaging: true,
+            serverSorting: true,
+            serverFiltering: false,
+            cache: false
+        },
+        sortable: {
+            mode: "single",
+            allowUnsort: true
+        },
+        pageable: {
+            buttonCount: 5,
+            input: true,
+            pageSizes: true,
+            refresh: true
+        },
+        filterable: {
+            extra: false,
+            operators: {
+                string: {
+                    contains: "Mengandung kata"
+                }
+            }
+        },
+        selectable: "row",
+        resizable: true,
+        columns: [{
+            field: "No",
+            sortable: false,
+            filterable: false,
+            width: 50
+        },
+        {
+            field: "Title",
+            width: 200
+        },
+        {
+            field: "Date",
+            filterable: false,
+            width: 50
+        },
+        {
+            field: "Status",
+            filterable: false,
+            width: 50,
+            template: "#= data.Status #"
+        },
+        {
+            field: "Action",
+            sortable: false,
+            filterable: false,
+            width: 50,
+            template: "#= data.Action #"
+        }]
+    });
+}
 
 function resubmit_member(grid) {
     $(grid).kendoGrid({
@@ -859,6 +941,85 @@ function resubmit_member(grid) {
     });
 }
 
+function resubmit_order(grid) {
+    $(grid).kendoGrid({
+        dataSource: {
+            transport: {
+                read: {
+                    url: "order_get",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        status : $('#status').val()
+                    }
+                }
+            },
+            schema: {
+                data: "results",
+                total: "total"
+            },
+            pageSize: 20,
+            serverPaging: true,
+            serverSorting: true,
+            serverFiltering: false,
+            cache: false
+        },
+        sortable: {
+            mode: "single",
+            allowUnsort: true
+        },
+        pageable: {
+            buttonCount: 5,
+            input: true,
+            pageSizes: true,
+            refresh: true
+        },
+        filterable: {
+            extra: false,
+            operators: {
+                string: {
+                    contains: "Mengandung kata"
+                }
+            }
+        },
+        selectable: "row",
+        resizable: true,
+        columns: [{
+            field: "No",
+            sortable: false,
+            filterable: false,
+            width: 50
+        },
+        {
+            field: "Name",
+            width: 200
+        },
+        {
+            field: "Email",
+            filterable: false,
+            width: 100
+        },
+        {
+            field: "Phone",
+            filterable: false,
+            width: 70
+        },
+        {
+            field: "Status",
+            filterable: false,
+            width: 50,
+            template: "#= data.Status #"
+        },
+        {
+            field: "Action",
+            sortable: false,
+            filterable: false,
+            width: 50,
+            template: "#= data.Action #"
+        }]
+    });
+}
+
 function resubmit_post(grid) {
     $(grid).kendoGrid({
         dataSource: {
@@ -949,20 +1110,104 @@ function resubmit_post(grid) {
     });
 }
 
+function resubmit_product(grid) {
+    $(grid).kendoGrid({
+        dataSource: {
+            transport: {
+                read: {
+                    url: "product_get",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        status : $('#status').val()
+                    }
+                }
+            },
+            schema: {
+                data: "results",
+                total: "total"
+            },
+            pageSize: 20,
+            serverPaging: true,
+            serverSorting: true,
+            serverFiltering: false,
+            cache: false
+        },
+        sortable: {
+            mode: "single",
+            allowUnsort: true
+        },
+        pageable: {
+            buttonCount: 5,
+            input: true,
+            pageSizes: true,
+            refresh: true
+        },
+        filterable: {
+            extra: false,
+            operators: {
+                string: {
+                    contains: "Mengandung kata"
+                }
+            }
+        },
+        selectable: "row",
+        resizable: true,
+        columns: [{
+            field: "No",
+            sortable: false,
+            filterable: false,
+            width: 50
+        },
+        {
+            field: "Name",
+            width: 200
+        },
+        {
+            field: "PricePublic",
+            title: "Public (Rp)",
+            filterable: false,
+            width: 100
+        },
+        {
+            field: "PriceMember",
+            title: "Member (Rp)",
+            filterable: false,
+            width: 100
+        },
+        {
+            field: "Quantity",
+            filterable: false,
+            width: 100
+        },
+        {
+            field: "Status",
+            sortable: false,
+            filterable: false,
+            width: 70,
+            template: "#= data.Status #"
+        },
+        {
+            field: "Action",
+            sortable: false,
+            filterable: false,
+            width: 70,
+            template: "#= data.Action #"
+        }]
+    });
+}
+
 function provinsi_create() {
-	var id = $(this).attr("id");
-	var title = $(this).attr("title");
-	var dataString = 'id='+ id
 	$.ajax(
 	{
 		type: "POST",
-		url: 'provinsi_create',
-		data: dataString,
+		url: newPathname + 'provinsi_create',
+		data: '',
 		cache: false,
 		success: function(data)
 		{
-			$('.modal-dialog').removeClass('modal-sm');
-			$('.modal-dialog').addClass('modal-lg');
+			$('.modal-dialog').addClass('modal-sm');
+			$('.modal-dialog').removeClass('modal-lg');
 			$('.modal-title').text('Provinsi Create');
 			$('.modal-body').html(data);
 			$('#myModal').modal('show');
@@ -970,3 +1215,211 @@ function provinsi_create() {
 	});
 	return false;
 }
+
+// Upload image
+(function($) {
+    // Member - Create
+	if (document.getElementById('member_create_page') != null) {
+		$("#idcard_photo").fileinput({
+			'showUpload': false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_idcard');
+			div.append('<input type="hidden" name="idcard_photo" id="input_idcard" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_idcard").remove();
+		});
+		
+		$("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+	}
+    
+    // Post - Create
+	if (document.getElementById('post_create_page') != null) {
+		$("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'true',
+				type: 'post'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+	}
+    
+    // Product - Create
+	if (document.getElementById('product_create_page') != null) {
+		$("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'true',
+				type: 'product'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+        
+		$("#other_photo").fileinput({
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'uploadExtraData': {
+				watermark: 'true',
+				type: 'product'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 4,
+            'showCaption': false,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_other_photo');
+			div.append('<input type="hidden" name="other_photo[]" class="input_other_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$(".input_other_photo").remove();
+		});
+	}
+    
+    // Image - Create
+	if (document.getElementById('image_album_create_page') != null) {
+        $("#photo").fileinput({
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'uploadExtraData': {
+				watermark: 'true',
+				type: 'gallery'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+            'showCaption': false,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo[]" class="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$(".input_photo").remove();
+		});
+    }
+    
+    // Admin - Create
+	if (document.getElementById('admin_create_page') != null) {
+        $("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+    }
+}).apply(this, [jQuery]);

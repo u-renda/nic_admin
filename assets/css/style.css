@@ -392,3 +392,6 @@ html.webkit .thumb-info .thumb-info-wrapper {
 	-o-transform: scale(1, 1);
 	transform: scale(1, 1);
 }
+.btn.btn-file {
+    white-space: nowrap;
+}
