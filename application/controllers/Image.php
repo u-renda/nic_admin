@@ -50,6 +50,46 @@ class Image extends MY_Controller {
         $this->load->view('templates/frame', $data);
     }
 
+    function image_album_delete()
+    {
+        $data = array();
+        $data['id'] = $this->input->post('id');
+        $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
+
+        $get = $this->image_album_model->info(array('id_image_album' => $data['id']));
+		
+        if ($get->code == 200)
+        {
+            if ($this->input->post('delete') == TRUE)
+            {
+                $param1 = array();
+                $param1['id_image_album'] = $data['id'];
+                $query = $this->image_album_model->delete($param1);
+				
+                if ($query->code == 200)
+                {
+                    $response =  array('msg' => 'Delete data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Delete data failed', 'type' => 'error');
+                }
+
+                echo json_encode($response);
+                exit();
+            }
+            else
+            {
+                $this->load->view('delete_confirm', $data);
+            }
+        }
+        else
+        {
+            echo "Data Not Found";
+        }
+    }
+
     function image_album_get()
     {
         $page = $this->input->post('page') ? $this->input->post('page') : 1;
@@ -109,6 +149,46 @@ class Image extends MY_Controller {
         $data['view_content'] = 'image/image_album_lists';
         $this->display_view('templates/frame', $data);
 	}
+
+    function image_delete()
+    {
+        $data = array();
+        $data['id'] = $this->input->post('id');
+        $data['action'] = $this->input->post('action');
+        $data['grid'] = '';
+
+        $get = $this->image_model->info(array('id_image' => $data['id']));
+		
+        if ($get->code == 200)
+        {
+            if ($this->input->post('delete') == TRUE)
+            {
+                $param1 = array();
+                $param1['id_image'] = $data['id'];
+                $query = $this->image_model->delete($param1);
+				
+                if ($query->code == 200)
+                {
+                    $response =  array('msg' => 'Delete data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Delete data failed', 'type' => 'error');
+                }
+
+                echo json_encode($response);
+                exit();
+            }
+            else
+            {
+                $this->load->view('delete_confirm', $data);
+            }
+        }
+        else
+        {
+            echo "Data Not Found";
+        }
+    }
 	
 	function image_lists()
 	{
@@ -121,8 +201,19 @@ class Image extends MY_Controller {
 			$query = get_image(array('id_image_album' => $id_image_album));
 			
 			$data = array();
+			$data['image'] = array();
+			foreach($query->result as $row)
+			{
+				$explode = explode('.', $row->url);
+				
+				$temp = array();
+				$temp['id_image'] = $row->id_image;
+				$temp['url'] = $row->url;
+				$temp['url_thumb'] = $explode[0].'_350x350.'.$explode[1];
+				$data['image'][] = (object) $temp;
+			}
+			
 			$data['image_album'] = $get->result;
-			$data['image'] = $query->result;
 			$data['view_content'] = 'image/image_lists';
 			$this->display_view('templates/frame', $data);
 		}

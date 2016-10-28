@@ -73,6 +73,29 @@
 								<input name="image" id="photo" class="file" type="file">
 							</div>
 						</div>
+						<div class="well well-sm dark mt-lg">Aditional Information</div>
+						<div class="row">
+                            <div class="col-sm-6 marginbottom15">
+                                <label>Size</label>
+                                <div class="col-sm-12 paddinglr0">
+                                    <input type="text" class="form-control" placeholder="XL, M, 25x12 cm" name="size" id="size" value="<?php echo set_value('size'); ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 marginbottom15">
+                                <label>Colors</label>
+                                <div class="col-sm-12 paddinglr0">
+                                    <input type="text" class="form-control" placeholder="hitam, merah" name="colors" id="colors" value="<?php echo set_value('colors'); ?>">
+                                </div>
+                            </div>
+						</div>
+						<div class="row">
+                            <div class="col-sm-6 marginbottom15">
+								<label>Material</label>
+								<div class="col-sm-12 paddinglr0">
+									<textarea class="form-control height150" name="material" id="material"><?php echo set_value('material'); ?></textarea>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-sm-12 marginbottom15">
                                 <label>Add other photo</label>

@@ -46,6 +46,46 @@ class Event extends MY_Controller {
         $this->load->view('templates/frame', $data);
     }
 
+    function event_delete()
+    {
+        $data = array();
+        $data['id'] = $this->input->post('id');
+        $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
+
+        $get = $this->event_model->info(array('id_events' => $data['id']));
+
+        if ($get->code == 200)
+        {
+            if ($this->input->post('delete'))
+            {
+                $param1 = array();
+                $param1['id_events'] = $data['id'];
+                $query = $this->event_model->delete($param1);
+
+                if ($query->code == 200)
+                {
+                    $response =  array('msg' => 'Delete data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Delete data failed', 'type' => 'error');
+                }
+
+                echo json_encode($response);
+                exit();
+            }
+            else
+            {
+                $this->load->view('delete_confirm', $data);
+            }
+        }
+        else
+        {
+            echo "Data Not Found";
+        }
+    }
+
     function event_get()
     {
         $page = $this->input->post('page') ? $this->input->post('page') : 1;
@@ -82,8 +122,7 @@ class Event extends MY_Controller {
         
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" href="admin_view?id='.$row->id_events.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="admin_edit?id='.$row->id_events.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
+            $action = '<a title="Edit" href="admin_edit?id='.$row->id_events.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Delete" id="'.$row->id_events.'" class="delete '.$row->id_events.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
 			
 			$status_template = color_event_status($row->status);

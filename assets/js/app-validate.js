@@ -473,41 +473,150 @@ $(function () {
             }
         });
     }
-    
-    // Provinsi - Create
-    if (document.getElementById('provinsi_create_page') != null) {
-        console.log("masuk");
-        $("#the_form").validate({
-            rules: {
-                provinsi: "required"
-            },
-            errorElement: "div",
-            errorPlacement: function(error, element) {
-                id = element.attr('id');
-                error.appendTo($('#errorbox_'+id));
-            },
-            submitHandler: function(form) {
-                $('.modal-title').text('Please wait...');
-                $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
-                $('.modal-dialog').addClass('modal-sm');
-                $('#myModal').modal('show');
-                $.ajax(
-                {
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(), 
-                    cache: false,
-                    success: function(data)
-                    {
-                        $('#myModal').modal('hide');
-                        var response = $.parseJSON(data);
-                        $('#' + grid).data('kendoGrid').dataSource.read();
-                        $('#' + grid).data('kendoGrid').refresh();
-                        noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
-                    }
-                });
-                return false;
-            }
-        });
-    }
 });
+
+function provinsi_create() {
+    var grid = 'grid_provinsi';
+	$.ajax(
+	{
+		type: "POST",
+		url: newPathname + 'provinsi_create',
+		data: '',
+		cache: false,
+		success: function(data)
+		{
+			$('.modal-dialog').addClass('modal-sm');
+			$('.modal-dialog').removeClass('modal-lg');
+			$('.modal-title').text('Provinsi Create');
+			$('.modal-body').html(data);
+			$('#myModal').modal('show');
+            
+            $("#the_form").validate({
+                rules: {
+                    provinsi: {
+                        required: true,
+                        remote: {
+                            url: "check_provinsi",
+                            type: "post",
+                            data: {
+                                provinsi: function() {
+                                    return $("#provinsi").val();
+                                }
+                            }
+                        }
+                    }
+                },
+                messages: {
+                    provinsi: {
+                        remote:"Name already exist."
+                    }
+                },
+                errorElement: "div",
+                errorPlacement: function(error, element) {
+                    id = element.attr('id');
+                    error.appendTo($('#errorbox_'+id));
+                },
+                submitHandler: function(form) {
+                    $('.modal-title').text('Please wait...');
+                    $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
+                    $('.modal-dialog').addClass('modal-sm');
+                    $('#myModal').modal('show');
+                    $.ajax(
+                    {
+                        type: "POST",
+                        url: form.action,
+                        data: $(form).serialize(), 
+                        cache: false,
+                        success: function(data)
+                        {
+                            $('#myModal').modal('hide');
+                            var response = $.parseJSON(data);
+                            $('#' + grid).data('kendoGrid').dataSource.read();
+                            $('#' + grid).data('kendoGrid').refresh();
+                            noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
+                        }
+                    });
+                    return false;
+                }
+            });
+		}
+	});
+	return false;
+}
+
+function kota_create() {
+    var grid = 'grid_kota';
+    var id = $("#create_button").val();
+	$.ajax(
+	{
+		type: "POST",
+		url: newPathname + 'kota_create',
+		data: 'id=' + id,
+		cache: false,
+		success: function(data)
+		{
+			$('.modal-dialog').addClass('modal-sm');
+			$('.modal-dialog').removeClass('modal-lg');
+			$('.modal-title').text('Kota Create');
+			$('.modal-body').html(data);
+			$('#myModal').modal('show');
+            
+            $("#the_form").validate({
+                rules: {
+                    kota: {
+                        required: true,
+                        remote: {
+                            url: "check_kota",
+                            type: "post",
+                            data: {
+                                id_provinsi: function() {
+                                    return id;
+                                },
+                                kota: function() {
+                                    return $("#kota").val();
+                                }
+                            }
+                        }
+                    },
+                    price: {
+                        required: true,
+                        digits: true
+                    }
+                },
+                messages: {
+                    kota: {
+                        remote:"Name already exist."
+                    }
+                },
+                errorElement: "div",
+                errorPlacement: function(error, element) {
+                    id = element.attr('id');
+                    error.appendTo($('#errorbox_'+id));
+                },
+                submitHandler: function(form) {
+                    $('.modal-title').text('Please wait...');
+                    $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
+                    $('.modal-dialog').addClass('modal-sm');
+                    $('#myModal').modal('show');
+                    $.ajax(
+                    {
+                        type: "POST",
+                        url: form.action,
+                        data: $(form).serialize(), 
+                        cache: false,
+                        success: function(data)
+                        {
+                            $('#myModal').modal('hide');
+                            var response = $.parseJSON(data);
+                            $('#' + grid).data('kendoGrid').dataSource.read();
+                            $('#' + grid).data('kendoGrid').refresh();
+                            noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
+                        }
+                    });
+                    return false;
+                }
+            });
+		}
+	});
+	return false;
+}

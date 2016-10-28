@@ -2,7 +2,7 @@
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_provinsi_create'); ?>" method="post" id="the-form">
+                <form action="<?php echo $this->config->item('link_provinsi_create'); ?>" method="post" id="the_form">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-sm-12 marginbottom15">

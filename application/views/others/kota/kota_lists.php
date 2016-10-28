@@ -6,7 +6,7 @@
             </div>
             <div class="panel-body">
 				<div class="marginbottom15">
-					<a href="<?php echo $this->config->item('link_kota_create'); ?>" type="button" class="btn btn-success">Create New Kota</a>
+					<button type="button" class="btn btn-success" onclick="kota_create()" id="create_button" value="<?php echo $provinsi->id_provinsi; ?>"> Create New Kota </button>
 					<a href="<?php echo $this->config->item('link_provinsi_lists'); ?>" type="button" class="btn btn-default">Back</a>
 					<div class="fontred margintop10"><em>* Search for: kota name</em></div>
 				</div>

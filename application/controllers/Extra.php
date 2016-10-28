@@ -7,8 +7,10 @@ class Extra extends MY_Controller {
     {
         parent::__construct();
 		$this->load->model('admin_model');
+		$this->load->model('kota_model');
 		$this->load->model('member_model');
 		$this->load->model('product_model');
+		$this->load->model('provinsi_model');
 		$this->load->library('imagemanipulation');
     }
 	
@@ -124,6 +126,23 @@ class Extra extends MY_Controller {
 			}
 		}
 	}
+
+    function check_kota()
+	{
+		$selfname = $this->input->post('selfkota');
+		$name = $this->input->post('kota');
+		$id = $this->input->post('id_provinsi');
+		$get = $this->kota_model->info(array('kota' => $name, 'id_provinsi' => $id));
+		
+        if ($get->code == 200 && $selfname != $name)
+        {
+            echo 'false';
+		}
+		else
+		{
+            echo 'true';
+        }
+    }
 	
 	function check_kota_lists()
 	{
@@ -227,6 +246,22 @@ class Extra extends MY_Controller {
             echo 'true';
         }
 	}
+
+    function check_provinsi()
+	{
+		$selfname = $this->input->post('selfprovinsi');
+		$name = $this->input->post('provinsi');
+		$get = $this->provinsi_model->info(array('provinsi' => $name));
+		
+        if ($get->code == 200 && $selfname != $name)
+        {
+            echo 'false';
+		}
+		else
+		{
+            echo 'true';
+        }
+    }
 	
 	function upload_image()
 	{

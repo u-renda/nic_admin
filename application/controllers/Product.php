@@ -55,6 +55,9 @@ class Product extends MY_Controller {
                 $param['description'] = $this->input->post('description');
                 $param['quantity'] = $this->input->post('quantity');
                 $param['status'] = $this->input->post('status');
+                $param['size'] = $this->input->post('size');
+                $param['colors'] = $this->input->post('colors');
+                $param['material'] = $this->input->post('material');
                 $query = $this->product_model->create($param);
 				
                 if ($query->code == 200)
@@ -74,6 +77,46 @@ class Product extends MY_Controller {
         $data['code_product_status'] = $this->config->item('code_product_status');
         $data['view_content'] = 'product/product_create';
         $this->load->view('templates/frame', $data);
+    }
+
+    function product_delete()
+    {
+        $data = array();
+        $data['id'] = $this->input->post('id');
+        $data['action'] = $this->input->post('action');
+		$data['grid'] = $this->input->post('grid');
+
+        $get = $this->product_model->info(array('id_product' => $data['id']));
+
+        if ($get->code == 200)
+        {
+            if ($this->input->post('delete'))
+            {
+                $param1 = array();
+                $param1['id_product'] = $data['id'];
+                $query = $this->product_model->delete($param1);
+				
+                if ($query->code == 200)
+                {
+                    $response =  array('msg' => 'Delete data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Delete data failed', 'type' => 'error');
+                }
+
+                echo json_encode($response);
+                exit();
+            }
+            else
+            {
+                $this->load->view('delete_confirm', $data);
+            }
+        }
+        else
+        {
+            echo "Data Not Found";
+        }
     }
 
     function product_get()
@@ -114,7 +157,7 @@ class Product extends MY_Controller {
         {
             $status_template = color_product_status($row->status);
             
-            $action = '<a title="View Detail" href="admin_view?id='.$row->id_product.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
+            $action = '<a title="View Detail" id="'.$row->id_product.'" class="view '.$row->id_product.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Edit" href="admin_edit?id='.$row->id_product.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Delete" id="'.$row->id_product.'" class="delete '.$row->id_product.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
 
@@ -143,4 +186,34 @@ class Product extends MY_Controller {
         $data['view_content'] = 'product/product_lists';
         $this->display_view('templates/frame', $data);
 	}
+    
+    function product_view()
+    {
+		$id = $this->input->post('id');
+		$get = $this->product_model->info(array('id_product' => $id));
+		
+		if ($get->code == 200)
+		{
+            $result = $get->result;
+            $code_product_status = $this->config->item('code_product_status');
+			
+            $data = array();
+            $data['name'] = ucwords($result->name);
+            $data['image'] = $result->image;
+            $data['description'] = replace_new_line(htmlspecialchars_decode($result->description));
+            $data['price_public'] = $result->price_public;
+            $data['price_member'] = $result->price_member;
+            $data['quantity'] = $result->quantity;
+            $data['colors'] = $result->detail->colors;
+            $data['size'] = $result->detail->size;
+            $data['material'] = $result->detail->material;
+            $data['other_image'] = $result->other_image;
+            $data['status'] = $code_product_status[$result->status];
+			$this->load->view('product/product_view', $data);
+		}
+		else
+		{
+			echo "Data Not Found";
+		}
+    }
 }

@@ -75,12 +75,14 @@ $route['member_view'] = 'member/member_view';
 $route['check_admin_email'] = 'extra/check_admin_email';
 $route['check_admin_initial'] = 'extra/check_admin_initial';
 $route['check_admin_name'] = 'extra/check_admin_name';
+$route['check_kota'] = 'extra/check_kota';
 $route['check_kota_lists'] = 'extra/check_kota_lists';
 $route['check_member_email'] = 'extra/check_member_email';
 $route['check_member_idcard_number'] = 'extra/check_member_idcard_number';
 $route['check_member_name'] = 'extra/check_member_name';
 $route['check_member_phone_number'] = 'extra/check_member_phone_number';
 $route['check_product_name'] = 'extra/check_product_name';
+$route['check_provinsi'] = 'extra/check_provinsi';
 $route['upload_image'] = 'extra/upload_image';
 
 // POST
@@ -97,14 +99,19 @@ $route['admin_delete'] = 'admin/admin_delete';
 $route['admin_edit'] = 'admin/admin_edit';
 $route['admin_get'] = 'admin/admin_get';
 $route['admin_lists'] = 'admin/admin_lists';
+$route['admin_view'] = 'admin/admin_view';
 
 // OTHERS
 $route['faq_create'] = 'others/faq_create';
+$route['faq_delete'] = 'others/faq_delete';
 $route['faq_get'] = 'others/faq_get';
 $route['faq_lists'] = 'others/faq_lists';
+$route['kota_create'] = 'others/kota_create';
+$route['kota_delete'] = 'others/kota_delete';
 $route['kota_get'] = 'others/kota_get';
 $route['kota_lists'] = 'others/kota_lists';
 $route['preferences_create'] = 'others/preferences_create';
+$route['preferences_delete'] = 'others/preferences_delete';
 $route['preferences_edit'] = 'others/preferences_edit';
 $route['preferences_get'] = 'others/preferences_get';
 $route['preferences_lists'] = 'others/preferences_lists';
@@ -126,21 +133,27 @@ $route['api_post'] = 'api_debug/api_post';
 
 // IMAGE GALLERY
 $route['image_album_create'] = 'image/image_album_create';
+$route['image_album_delete'] = 'image/image_album_delete';
 $route['image_album_get'] = 'image/image_album_get';
 $route['image_album_lists'] = 'image/image_album_lists';
+$route['image_delete'] = 'image/image_delete';
 $route['image_lists'] = 'image/image_lists';
 
 // ORDER
 $route['order_create'] = 'order/order_create';
+$route['order_delete'] = 'order/order_delete';
 $route['order_get'] = 'order/order_get';
 $route['order_lists'] = 'order/order_lists';
 
 // PRODUCT
 $route['product_create'] = 'product/product_create';
+$route['product_delete'] = 'product/product_delete';
 $route['product_get'] = 'product/product_get';
 $route['product_lists'] = 'product/product_lists';
+$route['product_view'] = 'product/product_view';
 
 // EVENT
 $route['event_create'] = 'event/event_create';
+$route['event_delete'] = 'event/event_delete';
 $route['event_get'] = 'event/event_get';
 $route['event_lists'] = 'event/event_lists';

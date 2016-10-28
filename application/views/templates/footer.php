@@ -39,8 +39,10 @@
 <script src="<?php echo base_url('assets/js/flot_chart').'/jquery.flot.resize.js'; ?>" type="text/javascript"></script>
 <!-- Custom styles for this template -->
 <script src="<?php echo base_url('assets/js/upload').'/fileinput.min.js'; ?>"></script>
+<script src="<?php echo base_url('assets/js').'/magnific-popup.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/theme.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/theme.init.js'; ?>"></script>
+<script src="<?php echo base_url('assets/js').'/examples.mediagallery.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app-table.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app-table-btn.js'; ?>"></script>

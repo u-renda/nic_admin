@@ -18,6 +18,7 @@
     <link href="<?php echo base_url('assets/css/kendo').'/kendo.common.min.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css/kendo').'/kendo.default.min.css'; ?>" rel="stylesheet">
     <!-- Custom styles for this template -->
+    <link href="<?php echo base_url('assets/css').'/magnific-popup.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css/upload').'/fileinput.min.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/bootstrap-fileupload.min.css'; ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css').'/theme.css'; ?>" rel="stylesheet">

@@ -110,6 +110,7 @@ class Post extends MY_Controller {
         $data = array();
         $data['id'] = $this->input->post('id');
         $data['action'] = $this->input->post('action');
+		$data['grid'] = $this->input->post('grid');
 
         $get = $this->post_model->info(array('id_post' => $data['id']));
 

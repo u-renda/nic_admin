@@ -58,6 +58,7 @@ class Admin extends MY_Controller {
         $data = array();
         $data['id'] = $this->input->post('id');
         $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
 
         $get = $this->admin_model->info(array('id_admin' => $data['id']));
 
@@ -179,7 +180,7 @@ class Admin extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" href="admin_view?id='.$row->id_admin.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
+            $action = '<a title="View Detail" id="'.$row->id_admin.'" class="view '.$row->id_admin.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Edit" href="admin_edit?id='.$row->id_admin.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Delete" id="'.$row->id_admin.'" class="delete '.$row->id_admin.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
 
@@ -205,6 +206,35 @@ class Admin extends MY_Controller {
         $data['view_content'] = 'admin/admin_lists';
         $this->display_view('templates/frame', $data);
 	}
+    
+    function admin_view()
+    {
+		$id = $this->input->post('id');
+		$get = $this->admin_model->info(array('id_admin' => $id));
+		
+		if ($get->code == 200)
+		{
+            $result = $get->result;
+            $code_admin_role = $this->config->item('code_admin_role');
+            $code_admin_group = $this->config->item('code_admin_group');
+			
+            $data = array();
+            $data['username'] = $result->username;
+            $data['email'] = $result->email;
+            $data['admin_initial'] = $result->admin_initial;
+            $data['name'] = $result->name;
+            $data['photo'] = $result->photo;
+            $data['position'] = $result->position;
+            $data['twitter'] = $result->twitter;
+            $data['admin_role'] = $code_admin_role[$result->admin_role];
+            $data['admin_group'] = $code_admin_group[$result->admin_group];
+			$this->load->view('admin/admin_view', $data);
+		}
+		else
+		{
+			echo "Data Not Found";
+		}
+    }
 
     function check_admin_name()
 	{

@@ -1197,25 +1197,6 @@ function resubmit_product(grid) {
     });
 }
 
-function provinsi_create() {
-	$.ajax(
-	{
-		type: "POST",
-		url: newPathname + 'provinsi_create',
-		data: '',
-		cache: false,
-		success: function(data)
-		{
-			$('.modal-dialog').addClass('modal-sm');
-			$('.modal-dialog').removeClass('modal-lg');
-			$('.modal-title').text('Provinsi Create');
-			$('.modal-body').html(data);
-			$('#myModal').modal('show');
-		}
-	});
-	return false;
-}
-
 // Upload image
 (function($) {
     // Member - Create

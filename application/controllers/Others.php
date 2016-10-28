@@ -7,9 +7,45 @@ class Others extends MY_Controller {
     {
         parent::__construct();
         $this->load->model('faq_model');
+        $this->load->model('kota_model');
         $this->load->model('preferences_model');
         $this->load->model('provinsi_model');
         $this->load->model('secret_santa_model');
+    }
+
+    function check_kota()
+	{
+		$selfname = $this->input->post('selfkota');
+		$name = $this->input->post('kota');
+		$id = $this->input->post('id_provinsi');
+		$get = $this->kota_model->info(array('kota' => $name, 'id_provinsi' => $id));
+		
+        if ($get->code == 200 && $selfname != $name)
+        {
+            $this->form_validation->set_message('check_kota', '%s already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
+    function check_provinsi()
+	{
+		$selfname = $this->input->post('selfprovinsi');
+		$name = $this->input->post('provinsi');
+		$get = $this->provinsi_model->info(array('provinsi' => $name));
+		
+        if ($get->code == 200 && $selfname != $name)
+        {
+            $this->form_validation->set_message('check_provinsi', '%s already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
     }
 
     function faq_create()
@@ -47,6 +83,46 @@ class Others extends MY_Controller {
         $data['code_faq_category'] = $this->config->item('code_faq_category');
         $data['view_content'] = 'others/faq/faq_create';
         $this->load->view('templates/frame', $data);
+    }
+
+    function faq_delete()
+    {
+        $data = array();
+        $data['id'] = $this->input->post('id');
+        $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
+
+        $get = $this->faq_model->info(array('id_faq' => $data['id']));
+
+        if ($get->code == 200)
+        {
+            if ($this->input->post('delete'))
+            {
+                $param1 = array();
+                $param1['id_faq'] = $data['id'];
+                $query = $this->faq_model->delete($param1);
+
+                if ($query->code == 200)
+                {
+                    $response =  array('msg' => 'Delete data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Delete data failed', 'type' => 'error');
+                }
+
+                echo json_encode($response);
+                exit();
+            }
+            else
+            {
+                $this->load->view('delete_confirm', $data);
+            }
+        }
+        else
+        {
+            echo "Data Not Found";
+        }
     }
 
     function faq_get()
@@ -107,6 +183,81 @@ class Others extends MY_Controller {
         $data['view_content'] = 'others/faq/faq_lists';
         $this->display_view('templates/frame', $data);
 	}
+
+    function kota_create()
+    {
+        $data = array();
+		$data['id_provinsi'] = $this->input->post('id');
+        if ($this->input->post('submit') == TRUE)
+        {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('kota', 'kota', 'required|callback_check_kota');
+            $this->form_validation->set_rules('price', 'price', 'required');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                $param = array();
+                $param['id_provinsi'] = $this->input->post('id_provinsi');
+                $param['kota'] = $this->input->post('kota');
+                $param['price'] = $this->input->post('price');
+                $query = $this->kota_model->create($param);
+				
+                if ($query->code == 200)
+                {
+					$response =  array('msg' => 'Create data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
+                }
+				
+				echo json_encode($response);
+				exit();
+            }
+        }
+
+        $this->load->view('others/kota/kota_create', $data);
+    }
+
+    function kota_delete()
+    {
+        $data = array();
+        $data['id'] = $this->input->post('id');
+        $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
+
+        $get = $this->kota_model->info(array('id_kota' => $data['id']));
+
+        if ($get->code == 200)
+        {
+            if ($this->input->post('delete'))
+            {
+                $param1 = array();
+                $param1['id_kota'] = $data['id'];
+                $query = $this->kota_model->delete($param1);
+
+                if ($query->code == 200)
+                {
+                    $response =  array('msg' => 'Delete data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Delete data failed', 'type' => 'error');
+                }
+
+                echo json_encode($response);
+                exit();
+            }
+            else
+            {
+                $this->load->view('delete_confirm', $data);
+            }
+        }
+        else
+        {
+            echo "Data Not Found";
+        }
+    }
 
     function kota_get()
     {
@@ -215,6 +366,46 @@ class Others extends MY_Controller {
         $this->load->view('templates/frame', $data);
 	}
 
+    function preferences_delete()
+    {
+        $data = array();
+        $data['id'] = $this->input->post('id');
+        $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
+
+        $get = $this->preferences_model->info(array('id_preferences' => $data['id']));
+
+        if ($get->code == 200)
+        {
+            if ($this->input->post('delete'))
+            {
+                $param1 = array();
+                $param1['id_preferences'] = $data['id'];
+                $query = $this->preferences_model->delete($param1);
+
+                if ($query->code == 200)
+                {
+                    $response =  array('msg' => 'Delete data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Delete data failed', 'type' => 'error');
+                }
+
+                echo json_encode($response);
+                exit();
+            }
+            else
+            {
+                $this->load->view('delete_confirm', $data);
+            }
+        }
+        else
+        {
+            echo "Data Not Found";
+        }
+    }
+
     function preferences_edit()
     {
         $id = $this->input->get_post('id');
@@ -278,8 +469,7 @@ class Others extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" href="preferences_view?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="preferences_edit?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
+            $action = '<a title="Edit" href="preferences_edit?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
                         <a title="Delete" id="'.$row->id_preferences.'" class="delete '.$row->id_preferences.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
 
             // Potong panjang content
@@ -309,6 +499,37 @@ class Others extends MY_Controller {
         $data['view_content'] = 'others/preferences/preferences_lists';
         $this->display_view('templates/frame', $data);
 	}
+
+    function provinsi_create()
+    {
+        $data = array();
+        if ($this->input->post('submit'))
+        {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('provinsi', 'provinsi', 'required|callback_check_provinsi');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                $param = array();
+                $param['provinsi'] = $this->input->post('provinsi');
+                $query = $this->provinsi_model->create($param);
+				
+                if ($query->code == 200)
+                {
+					$response =  array('msg' => 'Create data success', 'type' => 'success');
+                }
+                else
+                {
+                    $response =  array('msg' => 'Create data failed', 'type' => 'error');
+                }
+				
+				echo json_encode($response);
+				exit();
+            }
+        }
+
+        $this->load->view('others/provinsi/provinsi_create', $data);
+    }
 
     function provinsi_edit()
     {
@@ -347,39 +568,12 @@ class Others extends MY_Controller {
         }
     }
 
-    function provinsi_create()
-    {
-        $data = array();
-        if ($this->input->post('submit'))
-        {
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('provinsi', 'provinsi', 'required');
-
-            if ($this->form_validation->run() == TRUE)
-            {
-                $param = array();
-                $param['provinsi'] = $this->input->post('provinsi');
-                $query = $this->provinsi_model->create($param);
-				
-                if ($query->code == 200)
-                {
-                    redirect($this->config->item('link_provinsi_lists'));
-                }
-                else
-                {
-                    $data['error'] = $query->result;
-                }
-            }
-        }
-
-        $this->load->view('others/provinsi/provinsi_create', $data);
-    }
-
     function provinsi_delete()
     {
         $data = array();
         $data['id'] = $this->input->post('id');
         $data['action'] = $this->input->post('action');
+        $data['grid'] = $this->input->post('grid');
 
         $get = $this->provinsi_model->info(array('id_provinsi' => $data['id']));
 
