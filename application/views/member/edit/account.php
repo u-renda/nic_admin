@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6 marginbottom15">
-                    <label>Marital Status</label><span class="fontred"> *</span>
+                    <label>Marital Status</label>
                     <select class="form-control" name="marital_status" id="marital_status">
                         <option value="">-- Select One --</option>
                         <?php foreach ($code_member_marital_status as $key => $val) { ?>
@@ -93,14 +93,14 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 marginbottom15">
-                    <label>Occupation</label><span class="fontred"> *</span>
+                    <label>Occupation</label>
                     <div class="col-sm-12 paddinglr0">
                         <input type="text" class="form-control" name="occupation" id="occupation" value="<?php echo set_value('occupation', ucwords($member->occupation)); ?>">
                         <?php echo form_error('occupation', '<div class="fontred">', '</div>'); ?>
                     </div>
                 </div>
                 <div class="col-sm-6 marginbottom15">
-                    <label>Religion</label><span class="fontred"> *</span>
+                    <label>Religion</label>
                     <select class="form-control" name="religion" id="religion">
                         <option value="">-- Select One --</option>
                         <?php foreach ($code_member_religion as $key => $val) { ?>

@@ -23,7 +23,7 @@
                             <select class="form-control" name="id_provinsi" id="id_provinsi">
                                 <option value="">-- Select Provinsi --</option>
                                 <?php foreach ($provinsi_lists as $key => $val) { ?>
-                                    <option id="<?php echo $val->id_provinsi; ?>" value="<?php echo $val->id_provinsi; ?>" <?php if ($kota->id_provinsi == $val->id_provinsi) { echo 'selected="selected"'; } echo set_select('provinsi', $val->id_provinsi); ?>><?php echo ucwords($val->provinsi); ?></option>
+                                    <option id="<?php echo $val->id_provinsi; ?>" value="<?php echo $val->id_provinsi; ?>" <?php if ($kota->provinsi->id_provinsi == $val->id_provinsi) { echo 'selected="selected"'; } echo set_select('provinsi', $val->id_provinsi); ?>><?php echo ucwords($val->provinsi); ?></option>
                                 <?php } ?>
                             </select>
                             <?php echo form_error('provinsi', '<div class="fontred">', '</div>'); ?>

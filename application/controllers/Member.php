@@ -302,9 +302,6 @@ class Member extends MY_Controller {
                 $this->form_validation->set_rules('id_kota', 'kota', 'required');
                 $this->form_validation->set_rules('birth_place', 'birth place', 'required');
                 $this->form_validation->set_rules('birth_date', 'birth date', 'required');
-                $this->form_validation->set_rules('marital_status', 'marital status', 'required');
-                $this->form_validation->set_rules('occupation', 'occupation', 'required');
-                $this->form_validation->set_rules('religion', 'religion', 'required');
                 $this->form_validation->set_rules('shirt_size', 'shirt size', 'required');
                 $this->form_validation->set_rules('photo', 'photo', 'callback_check_photo');
                 $this->form_validation->set_rules('status', 'status', 'required');
@@ -439,7 +436,7 @@ class Member extends MY_Controller {
             $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
             $data['member'] = $get->result;
             $data['kota'] = $kota_info;
-            $data['kota_lists'] = get_kota(array('limit' => 200, 'id_provinsi' => $data['kota']->id_provinsi))->result;
+            $data['kota_lists'] = get_kota(array('limit' => 200, 'id_provinsi' => $data['kota']->provinsi->id_provinsi))->result;
 			$data['member_transfer'] = (object) $member_transfer;
             $data['view_content'] = 'member/member_edit';
             $this->display_view('templates/frame', $data);

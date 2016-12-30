@@ -305,72 +305,6 @@ if ( ! function_exists('get_cached')) {
 
 /*
 +-------------------------------------+
-    Name: get_event
-    Purpose: mendapatkan data event
-    @param return : data event atau FALSE
-+-------------------------------------+
-*/
-if ( ! function_exists('get_event')) {
-    function get_event($param)
-    {
-        $CI =& get_instance();
-        $CI->load->model('event_model');
-		
-        $query = $CI->event_model->lists($param);
-		
-		if ($query->code == 200)
-		{
-			return $query;
-		}
-    }
-}
-
-/*
-+-------------------------------------+
-    Name: get_faq
-    Purpose: mendapatkan data FAQ
-    @param return : data FAQ atau FALSE
-+-------------------------------------+
-*/
-if ( ! function_exists('get_faq')) {
-    function get_faq($param)
-    {
-        $CI =& get_instance();
-        $CI->load->model('faq_model');
-
-        $query = $CI->faq_model->lists($param);
-		
-		if ($query->code == 200)
-		{
-			return $query;
-		}
-    }
-}
-
-/*
-+-------------------------------------+
-    Name: get_email_template
-    Purpose: mendapatkan data email template
-    @param return : data emal template atau FALSE
-+-------------------------------------+
-*/
-if ( ! function_exists('get_preferences')) {
-    function get_preferences($param)
-    {
-        $CI =& get_instance();
-        $CI->load->model('preferences_model');
-
-        $query = $CI->preferences_model->lists($param);
-		
-		if ($query->code == 200)
-		{
-			return $query;
-		}
-    }
-}
-
-/*
-+-------------------------------------+
     Name: get_email_template_info
     Purpose: memasukkan data ke email template
     @param return : data emal template atau FALSE
@@ -424,7 +358,7 @@ if ( ! function_exists('get_email_template_info')) {
 						$unique_code = $query4->result->value;
 					}
                 }
-
+				
                 $content = array();
                 $content['member_name'] = ucwords($member->name);
                 $content['registration_fee'] = number_format($registration_fee, 0, '', '.');
@@ -449,6 +383,8 @@ if ( ! function_exists('get_email_template_info')) {
                 $content['link_reg_invalid'] = $CI->config->item('link_reg_invalid').'?id='.$member->id_member;
 			}
 			
+			$content['logo_nic'] = $CI->config->item('logo_nic');
+			
 			foreach ($content as $key => $value)
 			{
 				$k = "{" . $key . "}";
@@ -461,6 +397,50 @@ if ( ! function_exists('get_email_template_info')) {
         {
             return FALSE;
         }
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_event
+    Purpose: mendapatkan data event
+    @param return : data event atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_event')) {
+    function get_event($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('event_model');
+		
+        $query = $CI->event_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_faq
+    Purpose: mendapatkan data FAQ
+    @param return : data FAQ atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_faq')) {
+    function get_faq($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('faq_model');
+
+        $query = $CI->faq_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
     }
 }
 
@@ -688,6 +668,28 @@ if ( ! function_exists('get_post')) {
         $CI->load->model('post_model');
 		
         $query = $CI->post_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			return $query;
+		}
+    }
+}
+
+/*
++-------------------------------------+
+    Name: get_preferences
+    Purpose: mendapatkan data email template
+    @param return : data emal template atau FALSE
++-------------------------------------+
+*/
+if ( ! function_exists('get_preferences')) {
+    function get_preferences($param)
+    {
+        $CI =& get_instance();
+        $CI->load->model('preferences_model');
+
+        $query = $CI->preferences_model->lists($param);
 		
 		if ($query->code == 200)
 		{

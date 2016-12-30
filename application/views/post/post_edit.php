@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Post - Edit</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_post_edit'); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $this->config->item('link_post_edit').'?id='.$id; ?>" method="post" enctype="multipart/form-data" id="the_form">
                     <input type="hidden" name="id" id="id" value="<?php echo $post->id_post; ?>">
                     <div class="form-body">
                         <?php if (isset($error)) {
@@ -85,27 +85,6 @@
                                     <input type="file" class="form-control" name="change_image" id="change_image">
                                     <input type="text" class="form-control" name="change_video" id="change_video" placeholder="http://www.youtube.com/watch?v=5lPWMx4pNdU" value="<?php echo set_value('change_video'); ?>">
                                 </div>
-                            
-                            
-                            
-                                <!--<div>
-                                    <input type="checkbox" name="change_media" class="change_media" id="change_media" value="false" /> YES
-                                </div>
-                                <div class="media_yes">
-                                    <input type="radio" name="media" class="media" id="media" value="image" <?php //echo set_radio('media', 'image'); ?>> Image
-                                    <input type="radio" name="media" class="media" id="media" value="video" <?php //echo set_radio('media', 'video'); ?>> Video
-                                    <input type="radio" name="media" class="media" id="media" value="no_media" <?php //echo set_radio('no_media', 'video'); ?>> No Media
-                                </div>
-                                <div class="image_option margintop10">
-                                    <div class="input-group col-sm-12">
-                                        <input type="file" class="form-control" name="photo" id="photo">
-                                        <?php //echo form_error('photo', '<div class="fontred">', '</div>'); ?>
-                                    </div>
-                                </div>
-                                <div class="video_option margintop10">
-                                    <input type="text" class="form-control" name="video" id="video" value="<?php //echo set_value('video'); ?>">
-                                    <?php //echo form_error('video', '<div class="fontred">', '</div>'); ?>
-                                </div>-->
                             </div>
                             <div class="col-sm-6 marginbottom15">
                                 <label>Created Date</label>

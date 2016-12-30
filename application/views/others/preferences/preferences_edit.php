@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Preferences - Edit</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_preferences_edit'); ?>" method="post">
+                <form action="<?php echo $this->config->item('link_preferences_edit').'?id='.$preferences->id_preferences; ?>" method="post">
                     <input type="hidden" name="id" id="id" value="<?php echo $preferences->id_preferences; ?>">
                     <div class="form-body">
                         <?php if (isset($error)) {
@@ -16,29 +16,17 @@
                         <div class="row">
                             <div class="col-sm-6 marginbottom15">
                                 <label>Key</label><span class="fontred"> *</span>
-                                <div class="input-group col-sm-12">
+                                <div class="col-sm-12 paddinglr0">
                                     <input type="text" class="form-control" name="key" id="key" value="<?php echo set_value('key', $preferences->key); ?>">
                                     <?php echo form_error('key', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
                                 <label>Description</label>
-                                <div class="input-group col-sm-12">
+                                <div class="col-sm-12 paddinglr0">
                                     <input type="text" class="form-control" name="description" id="description" value="<?php echo set_value('description', $preferences->description); ?>">
                                     <?php echo form_error('description', '<div class="fontred">', '</div>'); ?>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 marginbottom15">
-                                <label>Type</label><span class="fontred"> *</span>
-                                <select class="form-control" name="type" id="type">
-                                    <option value="">-- Select One --</option>
-                                    <?php foreach ($code_preferences_type as $key => $val) { ?>
-                                        <option value="<?php echo $key; ?>" <?php if ($preferences->type == $key) { echo 'selected="selected"'; } echo set_select('type', $key); ?>><?php echo $val; ?></option>
-                                    <?php } ?>
-                                </select>
-                                <?php echo form_error('type', '<div class="fontred">', '</div>'); ?>
                             </div>
                         </div>
                         <div class="row">

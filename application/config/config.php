@@ -529,6 +529,7 @@ $config['nic_api'] = API_HOST;
 $config['nic_key'] = 'bd6fb882067e6896c1c193376cd411ee';
 $config['email_admin'] = 'nezindaclub.official@gmail.com';
 $config['registration_fee'] = 150000;
+$config['logo_nic'] = $config['base_url'].'assets/images/logo.png';
 
 // Link
 $config['link_admin_create'] = $config['base_url'].'admin_create';
@@ -653,11 +654,6 @@ $config['code_post_media_type'] = array(
 $config['code_yes_no'] = array(
     0 => 'No',
     1 => 'Yes'
-);
-
-$config['code_preferences_type'] = array(
-    1 => 'Email',
-    2 => 'Others'
 );
 
 $config['code_api_endpoint'] = array(
@@ -786,10 +782,10 @@ $config['code_order_transfer_status'] = array(
     3 => 'Sent'
 );
 
-$config['code_1024x600'] = array(
-    'width' => '1024',
+$config['code_1349x600'] = array(
+    'width' => '1349',
     'height' => '600',
-    'extra' => '_1024x600'
+    'extra' => '_1349x600'
 );
 
 $config['code_640x640'] = array(

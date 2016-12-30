@@ -418,7 +418,6 @@ class Others extends MY_Controller {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('key', 'key', 'required');
                 $this->form_validation->set_rules('value', 'value', 'required');
-                $this->form_validation->set_rules('type', 'type', 'required');
 
                 if ($this->form_validation->run() == TRUE)
                 {
@@ -426,13 +425,12 @@ class Others extends MY_Controller {
                     $param['id_preferences'] = $id;
                     $param['key'] = $this->input->post('key');
                     $param['value'] = $this->input->post('value');
-                    $param['type'] = $this->input->post('type');
                     $param['description'] = replace_new_line($this->input->post('description'));
                     $query = $this->preferences_model->update($param);
 
                     if ($query->code == 200)
                     {
-                        redirect($this->config->item('link_email_template_lists'));
+                        redirect($this->config->item('link_preferences_lists'));
                     }
                     else
                     {
@@ -441,9 +439,8 @@ class Others extends MY_Controller {
                 }
             }
 
-            $data['code_preferences_type'] = $this->config->item('code_preferences_type');
             $data['preferences'] = $get->result;
-            $data['view_content'] = 'others/preferences_edit';
+            $data['view_content'] = 'others/preferences/preferences_edit';
             $this->display_view('templates/frame', $data);
         }
     }

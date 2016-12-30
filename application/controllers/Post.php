@@ -120,8 +120,7 @@ class Post extends MY_Controller {
             {
                 $param1 = array();
                 $param1['id_post'] = $data['id'];
-                $param1['status'] = 3;
-                $query = $this->post_model->update($param1);
+                $query = $this->post_model->delete($param1);
 				
                 if ($query->code == 200)
                 {
@@ -148,14 +147,14 @@ class Post extends MY_Controller {
 
     function post_edit()
     {
-        $id = $this->input->get_post('id');
-        $get = $this->post_model->info(array('id_post' => $id));
+		$data = array();
+        $data['id'] = $this->input->get_post('id');
+        $get = $this->post_model->info(array('id_post' => $data['id']));
 
         if ($get->code == 200)
         {
             if ($this->input->post('submit'))
             {
-				print_r($this->input->post());die();
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('title', 'title', 'required');
                 $this->form_validation->set_rules('status', 'status', 'required');
@@ -170,32 +169,19 @@ class Post extends MY_Controller {
                     if ($this->input->post('change_media') == 'true')
                     {
                         if ($this->input->post('media') == 'image')
-                        {
-                            if (isset($_FILES['photo']))
-                            {
-                                $photo = $this->check_photo($_FILES['photo']);
-
-                                if ($photo != FALSE)
-                                {
-                                    $media = $photo;
-                                    $media_type = 2;
-                                }
-                            }
-                        }
-                        elseif ($this->input->post('media') == 'video')
-                        {
-                            $media = $this->input->post('video');
-                            $media_type = 1;
-                        }
-                        else
-                        {
-                            $media = '';
-                            $media_type = 0;
-                        }
+						{
+							$media = $this->input->post('photo');
+							$media_type = 2;
+						}
+						elseif ($this->input->post('media') == 'video')
+						{
+							$media = $this->input->post('video');
+							$media_type = 1;
+						}
                     }
 
                     $param = array();
-                    $param['id_post'] = $id;
+                    $param['id_post'] = $data['id'];
                     $param['title'] = $this->input->post('title');
                     $param['content'] = $this->input->post('content');
                     $param['type'] = $this->input->post('type');
@@ -208,12 +194,15 @@ class Post extends MY_Controller {
 
                     if ($query->code == 200)
                     {
-                        redirect($this->config->item('link_post_lists'));
-                    } 
-                    else
-                    {
-                        $data['error'] = $query->result;
-                    }
+                        $response =  array('msg' => 'Edit data success', 'type' => 'success', 'location' => $this->config->item('link_post_lists'));
+					}
+					else
+					{
+						$response =  array('msg' => 'Edit data failed', 'type' => 'error');
+					}
+					
+					echo json_encode($response);
+					exit();
                 }
             }
 

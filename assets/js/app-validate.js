@@ -1,5 +1,5 @@
 $(function () {
-    // Member - Create
+    // Member Create
     if (document.getElementById('member_create_page') != null) {
         $("#the_form").validate({
             rules: {
@@ -114,7 +114,7 @@ $(function () {
         });
     }
     
-    // Post - Create
+    // Post Create
     if (document.getElementById('post_create_page') != null) {
         $("#the_form").validate({
             rules: {
@@ -157,7 +157,50 @@ $(function () {
         });
     }
     
-    // Event - Create
+    // Post Edit
+    if (document.getElementById('post_edit_page') != null) {
+        $("#the_form").validate({
+            rules: {
+                title: "required",
+                status: "required",
+                type: "required",
+                is_event: "required",
+                content: "required"
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                id = element.attr('id');
+                error.appendTo($('#errorbox_'+id));
+            },
+            submitHandler: function(form) {
+                tinyMCE.triggerSave();
+                $('.modal-title').text('Please wait...');
+                $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
+                $('.modal-dialog').addClass('modal-sm');
+                $('#myModal').modal('show');
+                $.ajax(
+                {
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(), 
+                    cache: false,
+                    success: function(data)
+                    {
+                        $('#myModal').modal('hide');
+                        var response = $.parseJSON(data);
+                        noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
+                        if (response.type == 'success')
+                        {
+                            setTimeout("location.href = '"+response.location+"'",2000);
+                        }
+                    }
+                });
+                return false;
+            }
+        });
+    }
+    
+    // Event Create
     if (document.getElementById('event_create_page') != null) {
         $("#the_form").validate({
             rules: {
@@ -197,7 +240,7 @@ $(function () {
         });
     }
     
-    // Product - Create
+    // Product Create
     if (document.getElementById('product_create_page') != null) {
         $("#the_form").validate({
             rules: {
@@ -266,7 +309,7 @@ $(function () {
         });
     }
     
-    // Admin - Create
+    // Admin Create
     if (document.getElementById('admin_create_page') != null) {
         $("#the_form").validate({
             rules: {
@@ -357,7 +400,7 @@ $(function () {
         });
     }
     
-    // Image Album - Create
+    // Image Album Create
     if (document.getElementById('image_album_create_page') != null) {
         $("#the_form").validate({
             rules: {
@@ -396,7 +439,7 @@ $(function () {
         });
     }
     
-    // FAQ - Create
+    // FAQ Create
     if (document.getElementById('faq_create_page') != null) {
         $("#the_form").validate({
             rules: {
@@ -435,7 +478,7 @@ $(function () {
         });
     }
     
-    // Preferences - Create
+    // Preferences Create
     if (document.getElementById('preferences_create_page') != null) {
         $("#the_form").validate({
             rules: {
