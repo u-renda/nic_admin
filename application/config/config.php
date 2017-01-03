@@ -520,7 +520,7 @@ else
 	define('API_HOST', 'http://api.nezindaclub.com/');
     define('WEB_HOST', 'http://nezindaclub.com/');
     define('UPLOAD_HOST', 'http://upload.nezindaclub.com/');
-    define('UPLOAD_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/upload_nic/');
+    define('UPLOAD_FOLDER', '/home/nezind45/public_html/upload_nic/');
 }
 
 $config['development_mode'] = FALSE;
