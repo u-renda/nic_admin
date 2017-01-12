@@ -102,6 +102,7 @@ $(function () {
                     {
                         $('#myModal').modal('hide');
                         var response = $.parseJSON(data);
+                        
                         noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
                         if (response.type == 'success')
                         {
@@ -155,6 +156,31 @@ $(function () {
                 return false;
             }
         });
+        
+        $('.date-picker').datepicker({
+            orientation: "auto left",
+            format: "dd M yyyy",
+            setDate: new Date(),
+            autoclose: true,
+            todayHighlight: true
+        });
+        
+		$(".image_option").hide();
+        $(".video_option").hide();
+        $('.media').change(function() {
+            if (this.value == 'image') {
+                $(".image_option").show();
+                $(".video_option").hide();
+            }
+            else if (this.value == 'video') {
+                $(".video_option").show();
+                $(".image_option").hide();
+            }
+			else {
+				$(".image_option").hide();
+				$(".video_option").hide();
+			}
+        });
     }
     
     // Post Edit
@@ -196,6 +222,35 @@ $(function () {
                     }
                 });
                 return false;
+            }
+        });
+        
+        $('.date-picker').datepicker({
+            orientation: "auto left",
+            format: "dd M yyyy",
+            autoclose: true
+        });
+        
+        $('#change_media').hide();
+        $('#change_image').hide();
+        $('#change_video').hide();
+        $('#checkboxMedia').click(function(){
+            if($(this).is(":checked")) {
+                $('#change_media').show();
+                $('input[type="radio"]').click(function(){
+                    if($(this).attr("value")=="image"){
+                        $('#change_image').show();
+                        $('#change_video').hide();
+                    } else if($(this).attr("value")=="video"){
+                        $('#change_image').hide();
+                        $('#change_video').show();
+                    } else {
+                        $('#change_image').hide();
+                        $('#change_video').hide();
+                    }
+                });
+            } else {
+                $('#change_media').hide();
             }
         });
     }
@@ -400,6 +455,97 @@ $(function () {
         });
     }
     
+    // Admin Edit
+    if (document.getElementById('admin_edit_page') != null) {
+        $("#the_form").validate({
+            rules: {
+                username: "required",
+                name: {
+                    required: true,
+                    remote: {
+                        url: "check_admin_name",
+                        type: "post",
+                        data: {
+                            name: function() {
+                                return $("#name").val();
+                            }
+                        }
+                    }
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                        url: "check_admin_email",
+                        type: "post",
+                        data: {
+                            email: function() {
+                                return $("#email").val();
+                            }
+                        }
+                    }
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                initial: {
+                    required: true,
+                    maxlength: 1,
+                    remote: {
+                        url: "check_admin_initial",
+                        type: "post",
+                        data: {
+                            initial: function() {
+                                return $("#initial").val();
+                            }
+                        }
+                    }
+                }
+            },
+            messages: {
+                name: {
+                    remote:"Name already exist."
+                },
+                email: {
+                    remote:"Email already exist."
+                },
+                initial: {
+                    remote:"Initial already exist."
+                },
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                id = element.attr('id');
+                error.appendTo($('#errorbox_'+id));
+            },
+            submitHandler: function(form) {
+                $('.modal-title').text('Please wait...');
+                $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
+                $('.modal-dialog').addClass('modal-sm');
+                $('#myModal').modal('show');
+                $.ajax(
+                {
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(), 
+                    cache: false,
+                    success: function(data)
+                    {
+                        $('#myModal').modal('hide');
+                        var response = $.parseJSON(data);
+                        noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
+                        if (response.type == 'success')
+                        {
+                            setTimeout("location.href = '"+response.location+"'",2000);
+                        }
+                    }
+                });
+                return false;
+            }
+        });
+    }
+    
     // Image Album Create
     if (document.getElementById('image_album_create_page') != null) {
         $("#the_form").validate({
@@ -491,6 +637,47 @@ $(function () {
                 error.appendTo($('#errorbox_'+id));
             },
             submitHandler: function(form) {
+                tinyMCE.triggerSave();
+                $('.modal-title').text('Please wait...');
+                $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
+                $('.modal-dialog').addClass('modal-sm');
+                $('#myModal').modal('show');
+                $.ajax(
+                {
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(), 
+                    cache: false,
+                    success: function(data)
+                    {
+                        $('#myModal').modal('hide');
+                        var response = $.parseJSON(data);
+                        noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
+                        if (response.type == 'success')
+                        {
+                            setTimeout("location.href = '"+response.location+"'",2000);
+                        }
+                    }
+                });
+                return false;
+            }
+        });
+    }
+    
+    // Preferences Edit
+    if (document.getElementById('preferences_edit_page') != null) {
+        $("#the_form").validate({
+            rules: {
+                key: "required",
+                value: "required"
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                id = element.attr('id');
+                error.appendTo($('#errorbox_'+id));
+            },
+            submitHandler: function(form) {
+                tinyMCE.triggerSave();
                 $('.modal-title').text('Please wait...');
                 $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
                 $('.modal-dialog').addClass('modal-sm');
@@ -517,6 +704,76 @@ $(function () {
         });
     }
 });
+
+/*
+ * Upload image
+ */
+(function($) {
+    // Post Create
+	if (document.getElementById('post_create_page') != null) {
+		$("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'true',
+				type: 'post'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+	}
+    
+    // Admin Create
+	if (document.getElementById('admin_create_page') != null) {
+        $("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+    }
+    
+}).apply(this, [jQuery]);
 
 function provinsi_create() {
     var grid = 'grid_provinsi';

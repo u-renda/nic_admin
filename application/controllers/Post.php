@@ -274,12 +274,12 @@ class Post extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" id="'.$row->id_post.'" class="view '.$row->id_post.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="post_edit?id='.$row->id_post.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;';
+            $action = '<a title="View Detail" id="'.$row->id_post.'" class="view '.$row->id_post.'-view" href="#"><i class="fa fa-folder-open fontblue font18"></i></a>&nbsp;
+                        <a title="Edit" href="post_edit?id='.$row->id_post.'" id="'.$row->id_post.'" class="edit '.$row->id_post.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;';
 
             if ($row->status != 3)
             {
-                $action .= '<a title="Delete" id="'.$row->id_post.'" class="delete '.$row->id_post.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+                $action .= '<a title="Delete" id="'.$row->id_post.'" class="delete '.$row->id_post.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
             }
 
             $status_template = $code_post_status[$row->status];

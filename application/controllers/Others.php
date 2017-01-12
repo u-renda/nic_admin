@@ -160,8 +160,8 @@ class Others extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="Edit" href="faq_edit?id='.$row->id_faq.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_faq.'" class="delete '.$row->id_faq.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="Edit" href="faq_edit?id='.$row->id_faq.'" id="'.$row->id_faq.'" class="edit '.$row->id_faq.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_faq.'" class="delete '.$row->id_faq.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             $entry = array(
                 'No' => $i,
@@ -295,8 +295,8 @@ class Others extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="Edit" href="kota_edit?id='.$row->id_kota.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_kota.'" class="delete '.$row->id_kota.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="Edit" href="kota_edit?id='.$row->id_kota.'" id="'.$row->id_kota.'" class="edit '.$row->id_kota.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_kota.'" class="delete '.$row->id_kota.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             $entry = array(
                 'No' => $i,
@@ -429,13 +429,16 @@ class Others extends MY_Controller {
                     $query = $this->preferences_model->update($param);
 
                     if ($query->code == 200)
-                    {
-                        redirect($this->config->item('link_preferences_lists'));
-                    }
-                    else
-                    {
-                        $data['error'] = $query->result;
-                    }
+					{
+						$response =  array('msg' => 'Edit data success', 'type' => 'success', 'location' => $this->config->item('link_preferences_lists'));
+					}
+					else
+					{
+						$response =  array('msg' => 'Edit data failed', 'type' => 'error');
+					}
+					
+					echo json_encode($response);
+					exit();
                 }
             }
 
@@ -466,8 +469,8 @@ class Others extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="Edit" href="preferences_edit?id='.$row->id_preferences.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_preferences.'" class="delete '.$row->id_preferences.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="Edit" id="'.$row->id_preferences.'" class="edit '.$row->id_preferences.'-edit" href="preferences_edit?id='.$row->id_preferences.'"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_preferences.'" class="delete '.$row->id_preferences.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             // Potong panjang content
             $strip = strip_tags(replace_new_line($row->value));
@@ -641,8 +644,8 @@ class Others extends MY_Controller {
         foreach ($get->result as $row)
         {
             $action = '<a title="Kota Lists" href="kota_lists?id='.$row->id_provinsi.'"><i class="fa fa-sitemap fontblue font16"></i></a>&nbsp;
-                        <a title="Edit" href="provinsi_edit?id='.$row->id_provinsi.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_provinsi.'" class="delete '.$row->id_provinsi.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+                        <a title="Edit" href="provinsi_edit?id='.$row->id_provinsi.'" id="'.$row->id_provinsi.'" class="edit '.$row->id_provinsi.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_provinsi.'" class="delete '.$row->id_provinsi.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             $entry = array(
                 'no' => $i,
@@ -758,9 +761,9 @@ class Others extends MY_Controller {
         {
 			$code_secret_santa_status = $this->config->item('code_secret_santa_status');
 			
-            $action = '<a title="View Detail" href="secret_santa_view?id='.$row->id_secret_santa.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
+            $action = '<a title="View Detail" href="secret_santa_view?id='.$row->id_secret_santa.'"><i class="fa fa-folder-open fontblue font18"></i></a>&nbsp;
 						<a title="Random" id="'.$row->id_secret_santa.'" class="random '.$row->id_secret_santa.'-random" href="#"><span class="glyphicon glyphicon-random fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_secret_santa.'" class="delete '.$row->id_secret_santa.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+                        <a title="Delete" id="'.$row->id_secret_santa.'" class="delete '.$row->id_secret_santa.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             $entry = array(
                 'no' => $i,

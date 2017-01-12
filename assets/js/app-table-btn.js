@@ -19,7 +19,7 @@ $(function () {
         });
     }
     
-    // Member
+    // Member Lists
     if (document.getElementById('member_lists_page') != null) {
         $('body').delegate(".delete", "click", function() {
             var id = $(this).attr("id");
@@ -38,7 +38,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -65,7 +65,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-view').html('<span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span>');
+                    $('.'+id+'-view').html('<i class="fa fa-folder-open fontblue font18"></i>');
                     $('.modal-dialog').removeClass('modal-sm');
                     $('.modal-dialog').addClass('modal-lg');
                     $('.modal-title').text('Member View');
@@ -82,7 +82,7 @@ $(function () {
         });
     }
     
-    // Post
+    // Post Lists
     if (document.getElementById('post_lists_page') != null) {
         $('body').delegate(".delete", "click", function() {
             var id = $(this).attr("id");
@@ -101,7 +101,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -128,7 +128,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-view').html('<span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span>');
+                    $('.'+id+'-view').html('<i class="fa fa-folder-open fontblue font18"></i>');
                     $('.modal-dialog').removeClass('modal-sm');
                     $('.modal-dialog').addClass('modal-lg');
                     $('.modal-title').text('Post View');
@@ -138,9 +138,14 @@ $(function () {
             });
             return false;
         });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
+        });
     }
     
-    // Product
+    // Product Lists
     if (document.getElementById('product_lists_page') != null) {
         $('body').delegate(".delete", "click", function() {
             var id = $(this).attr("id");
@@ -159,7 +164,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -186,7 +191,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-view').html('<span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span>');
+                    $('.'+id+'-view').html('<i class="fa fa-folder-open fontblue font18"></i>');
                     $('.modal-dialog').removeClass('modal-sm');
                     $('.modal-dialog').addClass('modal-lg');
                     $('.modal-title').text('Product View');
@@ -195,6 +200,11 @@ $(function () {
                 }
             });
             return false;
+        });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
         });
     }
     
@@ -217,7 +227,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -248,7 +258,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -257,6 +267,11 @@ $(function () {
                 }
             });
             return false;
+        });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
         });
     }
     
@@ -278,7 +293,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -290,7 +305,7 @@ $(function () {
         });
     }
     
-    // Admin
+    // Admin Lists
     if (document.getElementById('admin_lists_page') != null) {
         $('body').delegate(".delete", "click", function() {
             var id = $(this).attr("id");
@@ -309,7 +324,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -336,19 +351,24 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-view').html('<span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span>');
+                    $('.'+id+'-view').html('<i class="fa fa-folder-open fontblue font18"></i>');
                     $('.modal-dialog').removeClass('modal-sm');
                     $('.modal-dialog').addClass('modal-lg');
-                    $('.modal-title').text('Product View');
+                    $('.modal-title').text('Admin View');
                     $('.modal-body').html(data);
                     $('#myModal').modal('show');
                 }
             });
             return false;
         });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
+        });
     }
     
-    // FAQ
+    // FAQ Lists
     if (document.getElementById('faq_lists_page') != null) {
         $('body').delegate(".delete", "click", function() {
             var id = $(this).attr("id");
@@ -367,7 +387,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -376,6 +396,11 @@ $(function () {
                 }
             });
             return false;
+        });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
         });
     }
     
@@ -398,7 +423,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -407,6 +432,11 @@ $(function () {
                 }
             });
             return false;
+        });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
         });
     }
     
@@ -429,7 +459,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -439,9 +469,14 @@ $(function () {
             });
             return false;
         });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
+        });
     }
     
-    // Kota
+    // Kota Lists
     if (document.getElementById('kota_lists_page') != null) {
         $('body').delegate(".delete", "click", function() {
             var id = $(this).attr("id");
@@ -460,7 +495,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -470,9 +505,14 @@ $(function () {
             });
             return false;
         });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
+        });
     }
     
-    // Event
+    // Event Lists
     if (document.getElementById('event_lists_page') != null) {
         $('body').delegate(".delete", "click", function() {
             var id = $(this).attr("id");
@@ -491,7 +531,7 @@ $(function () {
                 },
                 success: function(data)
                 {
-                    $('.'+id+'-delete').html('<span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span>');
+                    $('.'+id+'-delete').html('<i class="fa fa-times fontred font18"></i>');
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-dialog').addClass('modal-sm');
                     $('.modal-title').text('Confirm Delete');
@@ -500,6 +540,11 @@ $(function () {
                 }
             });
             return false;
+        });
+        
+        $('body').delegate(".edit", "click", function() {
+            var id = $(this).attr("id");
+            $('.'+id+'-edit').html('<i class="fa fa-spinner fa-spin"></i>');
         });
     }
 });

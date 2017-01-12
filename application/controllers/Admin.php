@@ -104,9 +104,9 @@ class Admin extends MY_Controller {
             {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('name', 'name', 'required');
-                $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_email_edit');
+                $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_admin_email');
                 $this->form_validation->set_rules('username', 'username', 'required');
-                $this->form_validation->set_rules('initial', 'initial', 'required|max_length[3]|callback_check_initial_edit');
+                $this->form_validation->set_rules('initial', 'initial', 'required|max_length[3]|callback_check_admin_initial');
 
                 if ($this->form_validation->run() == TRUE)
                 {
@@ -180,9 +180,9 @@ class Admin extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" id="'.$row->id_admin.'" class="view '.$row->id_admin.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="admin_edit?id='.$row->id_admin.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_admin.'" class="delete '.$row->id_admin.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="View Detail" id="'.$row->id_admin.'" class="view '.$row->id_admin.'-view" href="#"><i class="fa fa-folder-open fontblue font18"></i></a>&nbsp;
+                        <a title="Edit" href="admin_edit?id='.$row->id_admin.'" id="'.$row->id_admin.'" class="edit '.$row->id_admin.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_admin.'" class="delete '.$row->id_admin.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             $entry = array(
                 'no' => $i,

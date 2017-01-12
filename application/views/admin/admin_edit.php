@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Admin - Edit</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_admin_edit'); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $this->config->item('link_admin_edit').'?id='.$admin->id_admin; ?>" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id" id="id" value="<?php echo $admin->id_admin; ?>">
                     <input type="hidden" name="selfemail" id="selfemail" value="<?php echo $admin->email; ?>">
                     <input type="hidden" name="selfinitial" id="selfinitial" value="<?php echo $admin->admin_initial; ?>">
@@ -61,7 +61,7 @@
                             <button type="submit" name="submit" value="Submit" class="btn blue" id="submit_admin_edit">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save Changes
                             </button>
-                            <button onclick="goBack()" class="btn btn-danger">Cancel</button>
+                            <a href="<?php echo $this->config->item('link_admin_lists'); ?>" type="button" class="btn btn-danger">Cancel</a>
                         </div>
                 </form>
             </div>
@@ -69,15 +69,3 @@
     </div>
 </div>
 <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#submit_admin_edit').click(function () {
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    });
-
-    function goBack() {
-        window.history.back();
-    }
-</script>

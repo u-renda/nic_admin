@@ -24,7 +24,7 @@
                             <div class="col-sm-6 marginbottom15">
                                 <label>Description</label>
                                 <div class="col-sm-12 paddinglr0">
-                                    <input type="text" class="form-control" name="description" id="description" value="<?php echo set_value('description', $preferences->description); ?>">
+									<textarea class="form-control height150" name="description" id="description"><?php echo set_value('description', $preferences->description); ?></textarea>
                                     <?php echo form_error('description', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                         <button type="submit" name="submit" value="Submit" class="btn blue" id="submit_preferences_edit">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save Changes
                         </button>
-						<a href="<?php echo $this->config->item('link_email_template_lists'); ?>" type="button" class="btn btn-danger">Cancel</a>
+						<a href="<?php echo $this->config->item('link_preferences_lists'); ?>" type="button" class="btn btn-danger">Cancel</a>
                     </div>
                 </form>
             </div>

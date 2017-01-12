@@ -118,9 +118,9 @@ class Order extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" href="admin_view?id='.$row->id_order.'"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="admin_edit?id='.$row->id_order.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_order.'" class="delete '.$row->id_order.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="View Detail" href="admin_view?id='.$row->id_order.'"><i class="fa fa-folder-open fontblue font18"></i></a>&nbsp;
+                        <a title="Edit" href="admin_edit?id='.$row->id_order.'"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_order.'" class="delete '.$row->id_order.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 			
 			$status_template = color_order_status($row->status);
 			

@@ -148,7 +148,7 @@ class Extra extends MY_Controller {
 	{
 		$id_provinsi = $this->input->post('id_provinsi');
 		
-		$result = get_kota(array('id_provinsi' => $id_provinsi, 'limit' => 100));
+		$result = get_kota(array('id_provinsi' => $id_provinsi, 'limit' => 700));
 	
 		if ($result->code == 200)
 		{

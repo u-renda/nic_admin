@@ -126,8 +126,8 @@ class Image extends MY_Controller {
         foreach ($get->result as $row)
         {
 			$name = '<a title="'.ucwords($row->name).'" href="image_lists?id='.$row->id_image_album.'">'.ucwords($row->name).'</a>';
-            $action = '<a title="Edit" href="admin_edit?id='.$row->id_image_album.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_image_album.'" class="delete '.$row->id_image_album.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="Edit" href="image_album_edit?id='.$row->id_image_album.'" id="'.$row->id_image_album.'" class="edit '.$row->id_image_album.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_image_album.'" class="delete '.$row->id_image_album.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             $entry = array(
                 'No' => $i,

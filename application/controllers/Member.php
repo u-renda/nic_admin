@@ -12,7 +12,7 @@ class Member extends MY_Controller {
         $this->load->model('preferences_model');
     }
 
-    function check_member_email()
+    function check_email()
     {
         $selfemail = $this->input->post('selfemail');
 		$email = $this->input->post('email');
@@ -20,7 +20,7 @@ class Member extends MY_Controller {
 		
         if ($get->code == 200 && $selfemail != $email)
         {
-            $this->form_validation->set_message('check_member_email', '%s already exist');
+            $this->form_validation->set_message('check_email', '%s already exist');
             return FALSE;
         }
         else
@@ -29,7 +29,7 @@ class Member extends MY_Controller {
         }
     }
 
-    function check_member_idcard_number()
+    function check_idcard_number()
 	{
 		$selfidcard_number = $this->input->post('selfidcard_number');
 		$idcard_number = $this->input->post('idcard_number');
@@ -37,7 +37,7 @@ class Member extends MY_Controller {
 		
         if ($get->code == 200 && $selfidcard_number != $idcard_number)
         {
-            $this->form_validation->set_message('check_member_idcard_number', '%s already exist');
+            $this->form_validation->set_message('check_idcard_number', '%s already exist');
             return FALSE;
         }
         else
@@ -46,7 +46,7 @@ class Member extends MY_Controller {
         }
     }
 
-    function check_member_name()
+    function check_name()
 	{
 		$selfname = $this->input->post('selfname');
 		$name = $this->input->post('name');
@@ -54,7 +54,7 @@ class Member extends MY_Controller {
 		
         if ($get->code == 200 && $selfname != $name)
         {
-            $this->form_validation->set_message('check_member_name', '%s already exist');
+            $this->form_validation->set_message('check_name', '%s already exist');
             return FALSE;
         }
         else
@@ -63,7 +63,7 @@ class Member extends MY_Controller {
         }
     }
 
-    function check_member_phone_number()
+    function check_phone_number()
 	{
 		$selfphone_number = $this->input->post('selfphone_number');
 		$phone_number = $this->input->post('phone_number');
@@ -71,7 +71,7 @@ class Member extends MY_Controller {
 		
         if ($get->code == 200 && $selfphone_number != $phone_number)
         {
-            $this->form_validation->set_message('check_member_phone_number', '%s already exist');
+            $this->form_validation->set_message('check_phone_number', '%s already exist');
             return FALSE;
         }
         else
@@ -163,76 +163,85 @@ class Member extends MY_Controller {
     {
         $data = array();
         if ($this->input->post('submit') == TRUE)
-        {
-            $this->load->helper('string');
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('name', 'name', 'required|callback_check_member_name');
-            $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_member_email');
-            $this->form_validation->set_rules('idcard_type', 'ID card type', 'required');
-            $this->form_validation->set_rules('idcard_number', 'ID card number', 'required|numeric|callback_check_member_idcard_number');
-            $this->form_validation->set_rules('idcard_address', 'ID card address', 'required');
-            $this->form_validation->set_rules('shipment_address', 'shipment address', 'required');
-            $this->form_validation->set_rules('gender', 'gender', 'required');
-            $this->form_validation->set_rules('postal_code', 'postal code', 'required|numeric');
-            $this->form_validation->set_rules('phone_number', 'phone number', 'required|numeric|callback_check_member_phone_number');
-            $this->form_validation->set_rules('id_provinsi', 'provinsi', 'required');
-            $this->form_validation->set_rules('id_kota', 'kota', 'required');
-            $this->form_validation->set_rules('birth_place', 'birth place', 'required');
-            $this->form_validation->set_rules('birth_date', 'birth date', 'required');
-            $this->form_validation->set_rules('shirt_size', 'shirt size', 'required');
-            $this->form_validation->set_rules('status', 'status', 'required');
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('idcard_type', 'tipe ID', 'required');
+			$this->form_validation->set_rules('idcard_number', 'nomor ID', 'required|numeric|callback_check_idcard_number');
+			$this->form_validation->set_rules('name', 'nama', 'required|callback_check_name');
+			$this->form_validation->set_rules('gender', 'jenis kelamin', 'required');
+			$this->form_validation->set_rules('birth_place', 'tempat lahir', 'required');
+			$this->form_validation->set_rules('birth_date', 'tanggal lahir', 'required');
+			$this->form_validation->set_rules('phone_number', 'nomor telp', 'required|numeric|callback_check_phone_number');
+			$this->form_validation->set_rules('idcard_address', 'alamat sesuai ID', 'required');
+			$this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_check_email');
+			$this->form_validation->set_rules('shirt_size', 'ukuran baju', 'required');
+			$this->form_validation->set_rules('shipment_address', 'alamat pengiriman', 'required');
+			$this->form_validation->set_rules('id_provinsi', 'provinsi', 'required');
+			$this->form_validation->set_rules('id_kota', 'kota', 'required');
+			$this->form_validation->set_rules('postal_code', 'kode pos', 'required');
+			$this->form_validation->set_rules('idcard_photo', 'ID card foto', 'required', array('required' => '%s harus diisi. Pastikan Anda sudah membaca cara upload foto.'));
+			$this->form_validation->set_rules('photo', 'foto diri', 'required', array('required' => '%s harus diisi. Pastikan Anda sudah membaca cara upload foto.'));
 			
-            if ($this->form_validation->run() == TRUE)
-            {
-                $param = array();
-                $param['id_kota'] = $this->input->post('id_kota');
-                $param['id_admin'] = $this->session->userdata('id_admin');
-                $param['name'] = $this->input->post('name');
-                $param['email'] = $this->input->post('email');
-                $param['idcard_type'] = $this->input->post('idcard_type');
-                $param['idcard_number'] = $this->input->post('idcard_number');
-                $param['idcard_address'] = $this->input->post('idcard_address');
-                $param['idcard_photo'] = $this->input->post('idcard_photo');
-                $param['shipment_address'] = $this->input->post('shipment_address');
-                $param['gender'] = $this->input->post('gender');
-                $param['postal_code'] = $this->input->post('postal_code');
-                $param['phone_number'] = $this->input->post('phone_number');
-                $param['birth_place'] = $this->input->post('birth_place');
-                $param['birth_date'] = date('Y-m-d', strtotime($this->input->post('birth_date')));
-                $param['shirt_size'] = $this->input->post('shirt_size');
-                $param['photo'] = $this->input->post('photo');
-                $param['status'] = $this->input->post('status');
-                $param['notes'] = $this->input->post('notes');
-                $query = $this->member_model->create($param);
-                
-                if ($query->code == 200)
-                {
-					$location = $this->config->item('link_member_lists');
-					if ($this->input->post('status') == 2)
-					{
-						$location = $this->config->item('link_member_request_transfer').'?id='.$query->result->id_member.'&from=create';
-					}
-					elseif ($this->input->post('status') == 4)
-					{
-						$location = $this->config->item('link_member_request_transfer').'?id='.$query->result->id_member.'&from=create';
-					}
+			if ($this->form_validation->run() == FALSE)
+			{
+				$response =  array('msg' => validation_errors(), 'type' => 'error');
+				echo json_encode($response);
+				exit();
+			}
+			else
+			{
+				$param = array();
+				$param['id_kota'] = $this->input->post('id_kota');
+				$param['id_admin'] = $this->session->userdata('id_admin');
+				$param['name'] = $this->input->post('name');
+				$param['email'] = $this->input->post('email');
+				$param['idcard_type'] = $this->input->post('idcard_type');
+				$param['idcard_number'] = $this->input->post('idcard_number');
+				$param['idcard_address'] = $this->input->post('idcard_address');
+				$param['shipment_address'] = $this->input->post('shipment_address');
+				$param['postal_code'] = $this->input->post('postal_code');
+				$param['gender'] = $this->input->post('gender');
+				$param['phone_number'] = $this->input->post('phone_number');
+				$param['birth_place'] = $this->input->post('birth_place');
+				$param['birth_date'] = date('Y-m-d', strtotime($this->input->post('birth_date')));
+				$param['shirt_size'] = $this->input->post('shirt_size');
+				$param['status'] = 4;
+				$param['idcard_photo'] = $this->input->post('idcard_photo');
+				$param['photo'] = $this->input->post('photo');
+				$param['notes'] = $this->input->post('notes');
+				$query = $this->member_model->create($param);
+				
+				if ($query->code == 200)
+				{
+					// get harga transfer
+					$query2 = $this->kota_model->info(array('id_kota' => $param['id_kota']));
 					
-					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $location);
-                }
-                else
-                {
+					// create member transfer
+					$param2 = array();
+					$param2['id_member'] = $query->result->id_member;
+					$param2['name'] = $param['name'];
+					$param2['total'] = $this->config->item('registration_fee') + $query2->result->price;
+					$param2['status'] = 1;
+					$param2['type'] = 1;
+					print_r($param2);die();
+					$query3 = $this->member_transfer_model->create($param2);
+					
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_transfer_create'));
+				}
+				else
+				{
 					$response =  array('msg' => 'Create data failed', 'type' => 'error');
-                }
+				}
 				
 				echo json_encode($response);
 				exit();
-            }
-        }
+			}
+		}
 		
-        $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
-        $data['code_member_gender'] = $this->config->item('code_member_gender');
-        $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
-        $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
+		$data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
+		$data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
+		$data['code_member_gender'] = $this->config->item('code_member_gender');
+		$data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
         $data['view_content'] = 'member/member_create';
         $this->load->view('templates/frame', $data);
     }
@@ -489,12 +498,12 @@ class Member extends MY_Controller {
 
         foreach ($get->result as $row)
         {
-            $action = '<a title="View Detail" id="'.$row->id_member.'" class="view '.$row->id_member.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="member_edit?id='.$row->id_member.'" id="'.$row->id_member.'" class="edit '.$row->id_member.'-edit"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;';
+            $action = '<a title="View Detail" id="'.$row->id_member.'" class="view '.$row->id_member.'-view" href="#"><i class="fa fa-folder-open fontblue font18"></i></a>&nbsp;
+                        <a title="Edit" href="member_edit?id='.$row->id_member.'" id="'.$row->id_member.'" class="edit '.$row->id_member.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;';
 
             if ($row->status != 6)
             {
-                $action .= '<a title="Delete" id="'.$row->id_member.'" class="delete '.$row->id_member.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+                $action .= '<a title="Delete" id="'.$row->id_member.'" class="delete '.$row->id_member.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
             }
 
             $status_template = color_member_status($row->status);

@@ -157,9 +157,9 @@ class Product extends MY_Controller {
         {
             $status_template = color_product_status($row->status);
             
-            $action = '<a title="View Detail" id="'.$row->id_product.'" class="view '.$row->id_product.'-view" href="#"><span class="glyphicon glyphicon-folder-open fontblue font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Edit" href="admin_edit?id='.$row->id_product.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_product.'" class="delete '.$row->id_product.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="View Detail" id="'.$row->id_product.'" class="view '.$row->id_product.'-view" href="#"><i class="fa fa-folder-open fontblue font18"></i></a>&nbsp;
+                        <a title="Edit" href="product_edit?id='.$row->id_product.'" id="'.$row->id_product.'" class="edit '.$row->id_product.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_product.'" class="delete '.$row->id_product.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 
             $entry = array(
                 'No' => $i,

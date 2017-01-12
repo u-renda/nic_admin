@@ -122,8 +122,8 @@ class Event extends MY_Controller {
         
         foreach ($get->result as $row)
         {
-            $action = '<a title="Edit" href="admin_edit?id='.$row->id_events.'"><span class="glyphicon glyphicon-pencil fontorange font16" aria-hidden="true"></span></a>&nbsp;
-                        <a title="Delete" id="'.$row->id_events.'" class="delete '.$row->id_events.'-delete" href="#"><span class="glyphicon glyphicon-remove fontred font16" aria-hidden="true"></span></a>';
+            $action = '<a title="Edit" href="event_edit?id='.$row->id_events.'" id="'.$row->id_events.'" class="edit '.$row->id_events.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
+                        <a title="Delete" id="'.$row->id_events.'" class="delete '.$row->id_events.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
 			
 			$status_template = color_event_status($row->status);
 			

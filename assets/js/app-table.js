@@ -1,5 +1,5 @@
 $(function () {
-    // Member - Lists
+    // Member Lists
     if (document.getElementById('member_lists_page') != null) {
         grid = '#grid_member';
         resubmit_member(grid);
@@ -61,7 +61,8 @@ $(function () {
 
         $('.date-picker').datepicker({
             orientation: "auto left",
-            format: "dd M yyyy"
+            format: "dd M yyyy",
+            autoclose: true
         });
         
         $('#change_photo').hide();
@@ -120,7 +121,7 @@ $(function () {
         });
     }
     
-    // Preferences - Lists
+    // Preferences Lists
     if (document.getElementById('preferences_lists_page') != null) {
         $("#grid_preferences").kendoGrid({
             dataSource: {
@@ -195,22 +196,6 @@ $(function () {
         });
     }
     
-    // Preferences - Create
-    if (document.getElementById('preferences_create_page') != null) {
-        $('#submit_preferences_create').click(function () {
-            tinyMCE.triggerSave();
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    }
-    
-    // Preferences - Edit
-    if (document.getElementById('preferences_edit_page') != null) {
-        $('#submit_preferences_edit').click(function () {
-            tinyMCE.triggerSave();
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    }
-    
     // API Debug - API Admin
     if (document.getElementById('api_admin_page') != null) {
         $('#submit_api_admin').click(function () {
@@ -252,7 +237,7 @@ $(function () {
         });
     }
     
-    // Post - Lists
+    // Post Lists
     if (document.getElementById('post_lists_page') != null) {
         grid = '#grid_post';
         resubmit_post(grid);
@@ -264,71 +249,7 @@ $(function () {
         });
     }
     
-    // Post - Create
-    if (document.getElementById('post_create_page') != null) {
-        $('.date-picker').datepicker({
-            orientation: "auto left",
-            format: "dd M yyyy",
-            setDate: new Date(),
-            autoclose: true,
-            todayHighlight: true
-        });
-        
-		$(".image_option").hide();
-        $(".video_option").hide();
-        $('.media').change(function() {
-            if (this.value == 'image') {
-                $(".image_option").show();
-                $(".video_option").hide();
-            }
-            else if (this.value == 'video') {
-                $(".video_option").show();
-                $(".image_option").hide();
-            }
-			else {
-				$(".image_option").hide();
-				$(".video_option").hide();
-			}
-        });
-	}
-    
-    // Post - Edit
-    if (document.getElementById('post_edit_page') != null) {
-        $('.date-picker').datepicker({
-            orientation: "auto left",
-            format: "dd M yyyy"
-        });
-        
-        $('#change_media').hide();
-        $('#change_image').hide();
-        $('#change_video').hide();
-        $('#checkboxMedia').click(function(){
-            if($(this).is(":checked")) {
-                $('#change_media').show();
-                $('input[type="radio"]').click(function(){
-                    if($(this).attr("value")=="image"){
-                        $('#change_image').show();
-                        $('#change_video').hide();
-                    } else if($(this).attr("value")=="video"){
-                        $('#change_image').hide();
-                        $('#change_video').show();
-                    } else {
-                        $('#change_image').hide();
-                        $('#change_video').hide();
-                    }
-                });
-            } else {
-                $('#change_media').hide();
-            }
-        });
-        
-        $('#submit_post_edit').click(function () {
-            tinyMCE.triggerSave();
-            $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
-        });
-    }
-    
-    // Admin - Lists
+    // Admin Lists
     if (document.getElementById('admin_lists_page') != null) {
         grid = '#grid_admin';
         
@@ -1197,9 +1118,11 @@ function resubmit_product(grid) {
     });
 }
 
-// Upload image
+/*
+ * Upload image
+ */
 (function($) {
-    // Member - Create
+    // Member Create
 	if (document.getElementById('member_create_page') != null) {
 		$("#idcard_photo").fileinput({
 			'showUpload': false,
@@ -1244,38 +1167,6 @@ function resubmit_product(grid) {
 			'uploadExtraData': {
 				watermark: 'false',
 				type: 'member'
-			},
-			'allowedFileTypes': ['image'],
-			'dropZoneEnabled': false,
-			'uploadAsync': true,
-			'maxFileCount': 1,
-            'autoReplace': true,
-		}).on('fileuploaded', function(event, data, previewId, index) {
-			var form = data.form, files = data.files, extra = data.extra,
-				response = data.response, reader = data.reader;
-			var div = $('#div_photo');
-			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
-		}).on('fileclear', function(event) {
-			$("#input_photo").remove();
-		});
-	}
-    
-    // Post - Create
-	if (document.getElementById('post_create_page') != null) {
-		$("#photo").fileinput({
-			'showUpload':false,
-			'showRemove': false,
-			'uploadUrl': newPathname + 'upload_image',
-			'previewZoomSettings': {
-				image: { width: "auto", height: "auto" }
-			},
-			'previewZoomButtonIcons': {
-				prev: '',
-				next: '',
-			},
-			'uploadExtraData': {
-				watermark: 'true',
-				type: 'post'
 			},
 			'allowedFileTypes': ['image'],
 			'dropZoneEnabled': false,
@@ -1372,35 +1263,4 @@ function resubmit_product(grid) {
 		});
     }
     
-    // Admin - Create
-	if (document.getElementById('admin_create_page') != null) {
-        $("#photo").fileinput({
-			'showUpload':false,
-			'showRemove': false,
-			'uploadUrl': newPathname + 'upload_image',
-			'previewZoomSettings': {
-				image: { width: "auto", height: "auto" }
-			},
-			'previewZoomButtonIcons': {
-				prev: '',
-				next: '',
-			},
-			'uploadExtraData': {
-				watermark: 'false',
-				type: 'member'
-			},
-			'allowedFileTypes': ['image'],
-			'dropZoneEnabled': false,
-			'uploadAsync': true,
-			'maxFileCount': 1,
-            'autoReplace': true,
-		}).on('fileuploaded', function(event, data, previewId, index) {
-			var form = data.form, files = data.files, extra = data.extra,
-				response = data.response, reader = data.reader;
-			var div = $('#div_photo');
-			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
-		}).on('fileclear', function(event) {
-			$("#input_photo").remove();
-		});
-    }
 }).apply(this, [jQuery]);
