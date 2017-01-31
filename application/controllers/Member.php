@@ -223,10 +223,9 @@ class Member extends MY_Controller {
 					$param2['total'] = $this->config->item('registration_fee') + $query2->result->price;
 					$param2['status'] = 1;
 					$param2['type'] = 1;
-					print_r($param2);die();
 					$query3 = $this->member_transfer_model->create($param2);
 					
-					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_transfer_create'));
+					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_member_transfer_edit').'?id='.$query3->result->id_member_transfer);
 				}
 				else
 				{
@@ -636,6 +635,75 @@ class Member extends MY_Controller {
             echo "Data not found";
         }
     }
+	
+	function member_transfer_edit()
+	{
+		$data = array();
+		$data['id'] = $this->input->get_post('id');
+		
+		$query = $this->member_transfer_model->info(array('id_member_transfer' => $data['id']));
+		
+		if ($query->code == 200)
+		{
+			if ($this->input->post('submit') == TRUE)
+            {
+				$this->load->library('form_validation');
+                $this->form_validation->set_rules('date', 'date', 'required');
+                $this->form_validation->set_rules('status', 'status', 'required');
+                $this->form_validation->set_rules('account_name', 'pemilik rekening', 'required');
+				$this->form_validation->set_rules('photo', 'bukti transfer', 'required');
+				
+				if ($this->form_validation->run() == TRUE)
+                {
+					$param = array();
+                    $param['id_member_transfer'] = $data['id'];
+                    $param['date'] = $this->input->post('title');
+                    $param['status'] = $this->input->post('status');
+                    $param['account_name'] = $this->input->post('account_name');
+                    $param['photo'] = $this->input->post('photo');
+                    $param['resi'] = $this->input->post('resi');
+                    $param['other_information'] = $this->input->post('other_information');
+					print_r($param);die();
+                    $query = $this->member_transfer_model->update($param);
+					
+					if ($query->code == 200)
+					{
+						$response =  array('msg' => 'Edit data success', 'type' => 'success', 'location' => $this->config->item('link_member_lists'));
+					}
+					else
+					{
+						$response =  array('msg' => 'Edit data failed', 'type' => 'error');
+					}
+					
+					echo json_encode($response);
+					exit();
+				}
+			}
+			
+			$code_member_transfer_type = $this->config->item('code_member_transfer_type');
+			$result = $query->result;
+			
+			$get = array();
+			$get['id_member_transfer'] = $result->id_member_transfer;
+			$get['member_name'] = ucwords($result->member->name);
+			$get['type'] = $code_member_transfer_type[$result->type];
+			$get['name'] = ucwords($result->name);
+			$get['total'] = 'Rp '.number_format($result->total, 0, ',', '.');
+			$get['status'] = $result->status;
+			$get['resi'] = $result->resi;
+			$get['account_name'] = $result->account_name;
+			$get['other_information'] = $result->other_information;
+			
+			$data['code_member_transfer_status'] = $this->config->item('code_member_transfer_status');
+			$data['member_transfer'] = (object) $get;
+			$data['view_content'] = 'member/member_transfer_edit';
+            $this->display_view('templates/frame', $data);
+		}
+		else
+		{
+			echo "Data not found";
+		}
+	}
     
     function member_view()
     {

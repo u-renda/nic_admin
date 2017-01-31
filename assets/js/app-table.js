@@ -1122,67 +1122,6 @@ function resubmit_product(grid) {
  * Upload image
  */
 (function($) {
-    // Member Create
-	if (document.getElementById('member_create_page') != null) {
-		$("#idcard_photo").fileinput({
-			'showUpload': false,
-			'showRemove': false,
-			'uploadUrl': newPathname + 'upload_image',
-			'previewZoomSettings': {
-				image: { width: "auto", height: "auto" }
-			},
-			'previewZoomButtonIcons': {
-				prev: '',
-				next: '',
-			},
-			'uploadExtraData': {
-				watermark: 'false',
-				type: 'member'
-			},
-			'allowedFileTypes': ['image'],
-			'dropZoneEnabled': false,
-			'uploadAsync': true,
-			'maxFileCount': 1,
-            'autoReplace': true,
-		}).on('fileuploaded', function(event, data, previewId, index) {
-			var form = data.form, files = data.files, extra = data.extra,
-				response = data.response, reader = data.reader;
-			var div = $('#div_idcard');
-			div.append('<input type="hidden" name="idcard_photo" id="input_idcard" value="'+response.image+'">');
-		}).on('fileclear', function(event) {
-			$("#input_idcard").remove();
-		});
-		
-		$("#photo").fileinput({
-			'showUpload':false,
-			'showRemove': false,
-			'uploadUrl': newPathname + 'upload_image',
-			'previewZoomSettings': {
-				image: { width: "auto", height: "auto" }
-			},
-			'previewZoomButtonIcons': {
-				prev: '',
-				next: '',
-			},
-			'uploadExtraData': {
-				watermark: 'false',
-				type: 'member'
-			},
-			'allowedFileTypes': ['image'],
-			'dropZoneEnabled': false,
-			'uploadAsync': true,
-			'maxFileCount': 1,
-            'autoReplace': true,
-		}).on('fileuploaded', function(event, data, previewId, index) {
-			var form = data.form, files = data.files, extra = data.extra,
-				response = data.response, reader = data.reader;
-			var div = $('#div_photo');
-			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
-		}).on('fileclear', function(event) {
-			$("#input_photo").remove();
-		});
-	}
-    
     // Product - Create
 	if (document.getElementById('product_create_page') != null) {
 		$("#photo").fileinput({

@@ -557,6 +557,7 @@ $config['link_member_edit'] = $config['base_url'].'member_edit';
 $config['link_member_invalid'] = $config['base_url'].'member_invalid';
 $config['link_member_lists'] = $config['base_url'].'member_lists';
 $config['link_member_request_transfer'] = $config['base_url'].'member_request_transfer';
+$config['link_member_transfer_update'] = $config['base_url'].'member_transfer_edit';
 $config['link_member_view'] = $config['base_url'].'member_view';
 $config['link_order_create'] = $config['base_url'].'order_create';
 $config['link_order_lists'] = $config['base_url'].'order_lists';

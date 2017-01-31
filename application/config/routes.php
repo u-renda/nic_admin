@@ -69,6 +69,7 @@ $route['member_get'] = 'member/member_get';
 $route['member_invalid'] = 'member/member_invalid';
 $route['member_lists'] = 'member/member_lists';
 $route['member_request_transfer'] = 'member/member_request_transfer';
+$route['member_transfer_edit'] = 'member/member_transfer_edit';
 $route['member_view'] = 'member/member_view';
 
 // EXTRA

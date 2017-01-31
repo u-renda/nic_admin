@@ -703,6 +703,55 @@ $(function () {
             }
         });
     }
+    
+    // Member Transfer Edit
+    if (document.getElementById('member_transfer_edit_page') != null) {
+        $("#the_form").validate({
+            rules: {
+                date: "required",
+                account_name: "required",
+                status: "required"
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                id = element.attr('id');
+                error.appendTo($('#errorbox_'+id));
+            },
+            submitHandler: function(form) {
+                tinyMCE.triggerSave();
+                $('.modal-title').text('Please wait...');
+                $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
+                $('.modal-dialog').addClass('modal-sm');
+                $('#myModal').modal('show');
+                $.ajax(
+                {
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(), 
+                    cache: false,
+                    success: function(data)
+                    {
+                        $('#myModal').modal('hide');
+                        var response = $.parseJSON(data);
+                        noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
+                        if (response.type == 'success')
+                        {
+                            setTimeout("location.href = '"+response.location+"'",2000);
+                        }
+                    }
+                });
+                return false;
+            }
+        });
+        
+        $('.date-picker').datepicker({
+            orientation: "auto left",
+            format: "dd M yyyy",
+            setDate: new Date(),
+            autoclose: true,
+            todayHighlight: true
+        });
+    }
 });
 
 /*
@@ -756,7 +805,7 @@ $(function () {
 			},
 			'uploadExtraData': {
 				watermark: 'false',
-				type: 'member'
+				type: 'admin'
 			},
 			'allowedFileTypes': ['image'],
 			'dropZoneEnabled': false,
@@ -772,6 +821,99 @@ $(function () {
 			$("#input_photo").remove();
 		});
     }
+    
+    // Member Create
+	if (document.getElementById('member_create_page') != null) {
+		$("#idcard_photo").fileinput({
+			'showUpload': false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_idcard');
+			div.append('<input type="hidden" name="idcard_photo" id="input_idcard" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_idcard").remove();
+		});
+		
+		$("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+	}
+    
+    // Member Transfer Edit
+	if (document.getElementById('member_transfer_edit_page') != null) {
+		$("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member_transfer'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+	}
     
 }).apply(this, [jQuery]);
 
