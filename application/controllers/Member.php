@@ -492,7 +492,7 @@ class Member extends MY_Controller {
         }
 
         $code_member_shirt_size = $this->config->item('code_member_shirt_size');
-        $get = get_member(array('idcard_type' => $id_card_type, 'religion' => $religion, 'status' => $status, 'gender' => $gender, 'marital_status' => $marital_status, 'shirt_size' => $shirt_size, 'q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
+        $get = get_member(array('idcard_type' => $id_card_type, 'religion' => $religion, 'status' => $status, 'gender' => $gender, 'marital_status' => $marital_status, 'shirt_size' => $shirt_size, 'q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => strtolower($order), 'sort' => $sort));
         $jsonData = array('total' => $get->total, 'results' => array());
 
         foreach ($get->result as $row)
