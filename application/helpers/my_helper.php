@@ -376,7 +376,7 @@ if ( ! function_exists('get_email_template_info')) {
                 $content['link_web_nic'] = WEB_HOST;
 				
 			}
-			elseif ($param['key'] == 'email_inv_data')
+			elseif ($param['key'] == 'email_invalid_data')
 			{
 				$content = array();
                 $content['member_name'] = ucwords($member->name);

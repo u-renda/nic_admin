@@ -558,11 +558,11 @@ class Member extends MY_Controller {
 
 				if ($update->code == 200)
 				{
-					$response = '?type=success&msg=send email request transfer to';
+					$response = '?type=success&msg=send email invalid to';
 				}
 				else
 				{
-					$response = '?type=error&msg=send email request transfer to';
+					$response = '?type=error&msg=send email invalid to';
 				}
 				
 				redirect($this->config->item('link_member_lists').$response);
