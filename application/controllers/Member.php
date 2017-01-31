@@ -550,7 +550,7 @@ class Member extends MY_Controller {
 
         if ($get->code == 200)
         {
-            $get_template = get_email_template_info(array('key' => 'email_inv_data'), $get->result);
+            $get_template = get_email_template_info(array('key' => 'email_invalid_data'), $get->result);
 			
             if ($this->input->post('submit') == TRUE)
             {

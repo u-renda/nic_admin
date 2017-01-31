@@ -17,6 +17,18 @@
                 </div>
             </div>
             <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup10" aria-expanded="false" aria-controls="collapseListGroup10">
+                    <div class="panel-heading" role="tab" id="collapseListGroupHeading10">
+                        <h4 class="panel-title">Help</h4>
+                    </div>
+                </a>
+                <div id="collapseListGroup10" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading10">
+                    <ul class="list-group">
+                        <a href="<?php echo $this->config->item('link_help_member_awaiting_review'); ?>"><li class="list-group-item">Member - Awaiting Review</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup2" aria-expanded="false" aria-controls="collapseListGroup2">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading2">
                         <h4 class="panel-title">Member</h4>

@@ -158,3 +158,6 @@ $route['event_create'] = 'event/event_create';
 $route['event_delete'] = 'event/event_delete';
 $route['event_get'] = 'event/event_get';
 $route['event_lists'] = 'event/event_lists';
+
+// HELP
+$route['help_member_awaiting_review'] = 'help/help_member_awaiting_review';

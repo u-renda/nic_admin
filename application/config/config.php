@@ -545,6 +545,7 @@ $config['link_event_create'] = $config['base_url'].'event_create';
 $config['link_event_lists'] = $config['base_url'].'event_lists';
 $config['link_faq_create'] = $config['base_url'].'faq_create';
 $config['link_faq_lists'] = $config['base_url'].'faq_lists';
+$config['link_help_member_awaiting_review'] = $config['base_url'].'help_member_awaiting_review';
 $config['link_image_album_create'] = $config['base_url'].'image_album_create';
 $config['link_image_album_lists'] = $config['base_url'].'image_album_lists';
 $config['link_kota_create'] = $config['base_url'].'kota_create';
