@@ -554,15 +554,28 @@ class Member extends MY_Controller {
 			
             if ($this->input->post('submit') == TRUE)
             {
-				$update = $this->member_model->update(array('id_member' => $id, 'status' => 2));
+				$update = $this->member_model->update(array('id_member' => $id, 'status' => 5));
 
 				if ($update->code == 200)
 				{
-					$response = '?type=success&msg=send email invalid to';
+					// send email invalid
+					$param = array();
+					$param['id_member'] = $id;
+					$param['email_content'] = $this->input->post('email_content');
+					$query = $this->member_model->send_invalid($param);
+					
+					if ($query->code == 200)
+					{
+						$response = '?type=success&msg=send email invalid to';
+					}
+					else
+					{
+						$response = '?type=error&msg=send email invalid to';
+					}
 				}
 				else
 				{
-					$response = '?type=error&msg=send email invalid to';
+					$response = '?type=error&msg=update data';
 				}
 				
 				redirect($this->config->item('link_member_lists').$response);
