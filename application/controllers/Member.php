@@ -685,7 +685,6 @@ class Member extends MY_Controller {
                     $param['photo'] = $this->input->post('photo');
                     $param['resi'] = $this->input->post('resi');
                     $param['other_information'] = $this->input->post('other_information');
-					print_r($param);die();
                     $query = $this->member_transfer_model->update($param);
 					
 					if ($query->code == 200)
