@@ -637,11 +637,24 @@ class Member extends MY_Controller {
 
 				if ($update->code == 200)
 				{
-					$response = '?type=success&msg=send email request transfer to';
+					// send email invalid
+					$param = array();
+					$param['id_member'] = $id;
+					$param['email_content'] = $this->input->post('email_content');
+					$query = $this->member_model->send_request_transfer($param);
+					
+					if ($query->code == 200)
+					{
+						$response = '?type=success&msg=send email request transfer to';
+					}
+					else
+					{
+						$response = '?type=error&msg=send email request transfer to';
+					}
 				}
 				else
 				{
-					$response = '?type=error&msg=send email request transfer to';
+					$response = '?type=error&msg=update data';
 				}
 				
 				redirect($this->config->item('link_member_lists').$response);
