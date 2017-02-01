@@ -381,7 +381,6 @@ if ( ! function_exists('get_email_template_info')) {
 				$content = array();
                 $content['member_name'] = ucwords($member->name);
                 $content['link_reg_invalid'] = $CI->config->item('link_reg_invalid').'?c='.$param['short_code'];
-                $content['link_logo_nic'] = $CI->config->item('link_logo_nic');
 			}
 			
 			$content['logo_nic'] = $CI->config->item('logo_nic');
