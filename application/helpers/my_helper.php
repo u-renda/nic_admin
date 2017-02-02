@@ -365,7 +365,7 @@ if ( ! function_exists('get_email_template_info')) {
                 $content['delivery_cost'] = number_format($delivery_cost, 0, '', '.');
                 $content['unique_code'] = $unique_code;
                 $content['total_transfer'] = number_format($registration_fee + $delivery_cost + $unique_code, 0, '', '.');
-                $content['link_web_transfer'] = $CI->config->item('link_web_transfer');
+                $content['link_web_transfer'] = $CI->config->item('link_web_transfer').'?c='.$param['short_code'];
             }
 			elseif ($param['key'] == 'email_approve_member')
 			{

@@ -629,15 +629,25 @@ class Member extends MY_Controller {
 
         if ($get->code == 200)
         {
-            $get_template = get_email_template_info(array('key' => 'email_req_transfer', 'from' => $from), $get->result);
+            $short_code = md5($id.$get->result->phone_number);
+            
+			$param3 = array();
+			$param3['key'] = 'email_req_transfer';
+			$param3['short_code'] = $short_code;
+			$param3['from'] = $from;
+			$get_template = get_email_template_info($param3, $get->result);
 			
             if ($this->input->post('submit') == TRUE)
             {
-				$update = $this->member_model->update(array('id_member' => $id, 'status' => 2));
+				$param2 = array();
+				$param2['id_member'] = $id;
+				$param2['status'] = 2;
+				$param2['short_code'] = $short_code;
+				$update = $this->member_model->update($param2);
 
 				if ($update->code == 200)
 				{
-					// send email invalid
+					// send email
 					$param = array();
 					$param['id_member'] = $id;
 					$param['email_content'] = $this->input->post('email_content');
