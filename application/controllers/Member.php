@@ -444,7 +444,7 @@ class Member extends MY_Controller {
             $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
             $data['member'] = $get->result;
             $data['kota'] = $kota_info;
-            $data['kota_lists'] = get_kota(array('limit' => 200, 'id_provinsi' => $data['kota']->provinsi->id_provinsi))->result;
+            $data['kota_lists'] = get_kota(array('limit' => 700, 'id_provinsi' => $data['kota']->provinsi->id_provinsi))->result;
 			$data['member_transfer'] = (object) $member_transfer;
             $data['view_content'] = 'member/member_edit';
             $this->display_view('templates/frame', $data);
