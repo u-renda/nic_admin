@@ -13,6 +13,7 @@
                     <label>Shipment Address</label><span class="fontred"> *</span>
                     <div class="col-sm-12 paddinglr0">
                         <textarea class="form-control height150" name="shipment_address" id="shipment_address"><?php echo set_value('shipment_address', stripcslashes($member->shipment_address)); ?></textarea>
+                        <div class="fontred" id="errorbox_shipment_address"></div>
                         <?php echo form_error('shipment_address', '<div class="fontred">', '</div>'); ?>
                     </div>
                 </div>
@@ -26,7 +27,8 @@
                                     <option id="<?php echo $val->id_provinsi; ?>" value="<?php echo $val->id_provinsi; ?>" <?php if ($kota->provinsi->id_provinsi == $val->id_provinsi) { echo 'selected="selected"'; } echo set_select('provinsi', $val->id_provinsi); ?>><?php echo ucwords($val->provinsi); ?></option>
                                 <?php } ?>
                             </select>
-                            <?php echo form_error('provinsi', '<div class="fontred">', '</div>'); ?>
+                            <div class="fontred" id="errorbox_id_provinsi"></div>
+                            <?php echo form_error('id_provinsi', '<div class="fontred">', '</div>'); ?>
                         </div>
                         <div class="col-sm-12 margintop10">
                             <select class="form-control" name="id_kota" id="id_kota">
@@ -35,7 +37,8 @@
                                     <option value="<?php echo $val->id_kota; ?>" <?php if ($member->kota->id_kota == $val->id_kota) { echo 'selected="selected"'; } echo set_select('kota', $val->id_kota); ?>><?php echo ucwords($val->kota).' - '.$member->kota->price; ?></option>
                                 <?php } ?>
                             </select>
-                            <?php echo form_error('kota', '<div class="fontred">', '</div>'); ?>
+                            <div class="fontred" id="errorbox_id_kota"></div>
+                            <?php echo form_error('id_kota', '<div class="fontred">', '</div>'); ?>
                         </div>
                     </div>
                 </div>
@@ -45,6 +48,7 @@
                     <label>Shipment Postal Code</label><span class="fontred"> *</span>
                     <div class="col-sm-12 paddinglr0">
                         <input type="text" class="form-control" name="postal_code" id="postal_code" value="<?php echo set_value('postal_code', $member->postal_code); ?>">
+                        <div class="fontred" id="errorbox_postal_code"></div>
                         <?php echo form_error('postal_code', '<div class="fontred">', '</div>'); ?>
                     </div>
                 </div>
@@ -71,7 +75,7 @@
                             <label for="checkboxPhotoTransfer">Change transfer photo</label>
                         </div>
                         <span id="change_transfer_photo">
-                            <input type="file" class="form-control" name="transfer_photo2" id="transfer_photo2">
+                            <input type="file" class="file" name="image" id="transfer_photo2">
                         </span>
                     </div>
                 </div>

@@ -199,10 +199,10 @@ class Extra extends MY_Controller {
 	function check_member_name()
 	{
 		$self = $this->input->post('selfname');
-		$input = $this->input->post('name');
+		$input = strtolower($this->input->post('name'));
 		
 		$result = $this->member_model->info(array('name' => $input));
-	
+		
 		if ($result->code == 200 && $self != $input)
 		{
 			echo 'false';

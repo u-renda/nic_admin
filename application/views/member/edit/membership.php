@@ -10,16 +10,9 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6 marginbottom15">
-                    <label>Username</label>
-                    <div class="col-sm-12 paddinglr0">
-                        <input type="text" class="form-control" name="username" id="username" value="<?php echo set_value('username', $member->username); ?>">
-                        <?php echo form_error('username', '<div class="fontred">', '</div>'); ?>
-                    </div>
-                </div>
-                <div class="col-sm-6 marginbottom15">
                     <label>Password</label>
                     <div class="checkbox-custom checkbox-default">
-                        <input type="checkbox" id="checkboxPassword" value="yes">
+                        <input type="checkbox" name="checkboxPassword" id="checkboxPassword" value="yes">
                         <label for="checkboxPassword">Change password</label>
                     </div>
                     <span id="change_password">
@@ -55,6 +48,7 @@
                             <option value="<?php echo $key; ?>" <?php if ($member->shirt_size == $key) { echo 'selected="selected"'; } echo set_select('shirt_size', $key); ?>><?php echo $val; ?></option>
                         <?php } ?>
                     </select>
+                    <div class="fontred" id="errorbox_shirt_size"></div>
                     <?php echo form_error('shirt_size', '<div class="fontred">', '</div>'); ?>
                 </div>
                 <div class="col-sm-6 marginbottom15">
@@ -65,6 +59,7 @@
                             <option value="<?php echo $key; ?>" <?php if ($member->status == $key) { echo 'selected="selected"'; } echo set_select('status', $key); ?>><?php echo $val; ?></option>
                         <?php } ?>
                     </select>
+                    <div class="fontred" id="errorbox_status"></div>
                     <?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
                 </div>
             </div>

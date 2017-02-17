@@ -95,13 +95,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6 marginbottom15" id="div_idcard">
-                    <label class="control-label">Upload ID Card Foto <span class="required">*</span></label>
-                    <input name="image" id="idcard_photo" class="file" type="file">
-                </div>
                 <div class="col-sm-6 marginbottom15" id="div_photo">
-                    <label class="control-label">Upload Foto Diri <span class="required">*</span></label>
+                    <label class="control-label">Close Up Photo <span class="required">*</span></label>
                     <input name="image" id="photo" class="file" type="file">
+                </div>
+                <div class="col-sm-6 marginbottom15" id="div_idcard">
+                    <label class="control-label">ID Card Photo <span class="required">*</span></label>
+                    <input name="image" id="idcard_photo" class="file" type="file">
                 </div>
             </div>
             <div class="row">

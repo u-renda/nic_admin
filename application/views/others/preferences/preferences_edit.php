@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Preferences - Edit</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_preferences_edit').'?id='.$preferences->id_preferences; ?>" method="post">
+                <form action="<?php echo $this->config->item('link_preferences_edit').'?id='.$preferences->id_preferences; ?>" method="post" id="the_form">
                     <input type="hidden" name="id" id="id" value="<?php echo $preferences->id_preferences; ?>">
                     <div class="form-body">
                         <?php if (isset($error)) {
@@ -25,7 +25,6 @@
                                 <label>Description</label>
                                 <div class="col-sm-12 paddinglr0">
 									<textarea class="form-control height150" name="description" id="description"><?php echo set_value('description', $preferences->description); ?></textarea>
-                                    <?php echo form_error('description', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                         </div>
