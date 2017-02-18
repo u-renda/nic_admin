@@ -101,7 +101,7 @@ class Member extends MY_Controller {
 			$param2 = array();
 			$param2['key'] = '';
 			$param2['short_code'] = $short_code;
-            $get_template = get_email_template_info(array('key' => 'email_member_approved'), $get->result, $get_member_card);
+            $get_template = get_email_template_info($param2, $get->result, $get_member_card);
 			
             if ($this->input->post('submit') == TRUE)
             {
