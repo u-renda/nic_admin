@@ -55,6 +55,15 @@ class Member_model extends CI_Model {
 		return $result;
     }
 
+    function send_approved($params)
+    {
+        $result = null;
+        $url = $this->config->item('nic_api'). $this->page . '/send_approved';
+        $params = array_merge($params, $this->key);
+        $result = $this->rest->post($url, $params);
+		return $result;
+    }
+
     function send_invalid($params)
     {
         $result = null;

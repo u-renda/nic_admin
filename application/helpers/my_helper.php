@@ -311,7 +311,7 @@ if ( ! function_exists('get_cached')) {
 +-------------------------------------+
 */
 if ( ! function_exists('get_email_template_info')) {
-    function get_email_template_info($param, $member, $get_member_card = '', $generate_username = '')
+    function get_email_template_info($param, $member, $get_member_card = '')
     {
         $CI =& get_instance();
         $CI->load->model('member_model');
@@ -372,9 +372,6 @@ if ( ! function_exists('get_email_template_info')) {
 				$content = array();
                 $content['member_name'] = ucwords($member->name);
                 $content['member_card'] = $get_member_card;
-                $content['username'] = $generate_username;
-                $content['link_web_nic'] = WEB_HOST;
-				
 			}
 			elseif ($param['key'] == 'email_invalid_data')
 			{

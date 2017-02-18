@@ -228,7 +228,6 @@ $(function () {
                     cache: false,
                     success: function(data)
                     {
-                        console.log(data);
                         $('#myModal').modal('hide');
                         var response = $.parseJSON(data);
                         

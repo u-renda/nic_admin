@@ -86,35 +86,47 @@ class Member extends MY_Controller {
 	
 	function member_approved()
 	{
+		$data = array();
 		$id = $this->input->get_post('id');
         $get = $this->member_model->info(array('id_member' => $id));
 
         if ($get->code == 200)
         {
-			// generate username & nomor member card
-			$generate_username = generate_username($get->result);
+			// generate nomor member
 			$get_member_number = get_member_number();
 			$get_member_card = get_member_card($get->result, $this->session->userdata('id_admin'));
 				
-            $get_template = get_email_template_info(array('key' => 'email_approve_member'), $get->result, $get_member_card, $generate_username);
+            $get_template = get_email_template_info(array('key' => 'email_approve_member'), $get->result, $get_member_card);
 			
             if ($this->input->post('submit') == TRUE)
             {
 				$param = array();
 				$param['id_member'] = $id;
 				$param['status'] = 4;
-				//$param['username'] = $generate_username;
 				$param['member_number'] = $get_member_number;
 				$param['member_card'] = $get_member_card;
 				$update = $this->member_model->update($param);
 
 				if ($update->code == 200)
 				{
-					$response = '?type=success&msg=send email approved to';
+					// send email invalid
+					$param = array();
+					$param['id_member'] = $id;
+					$param['email_content'] = $this->input->post('email_content');
+					$query = $this->member_model->send_approved($param);
+					
+					if ($query->code == 200)
+					{
+						$response = '?type=success&msg=send email approved to';
+					}
+					else
+					{
+						$response = '?type=error&msg=send email approved to';
+					}
 				}
 				else
 				{
-					$response = '?type=error&msg=send email approved to';
+					$response = '?type=error&msg=update data';
 				}
 				
 				redirect($this->config->item('link_member_lists').$response);
