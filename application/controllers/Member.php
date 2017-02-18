@@ -96,7 +96,7 @@ class Member extends MY_Controller {
 			$get_member_number = get_member_number();
 			$get_member_card = get_member_card($get->result, $this->session->userdata('id_admin'));
 			
-			$short_code = md5($id.date('Y-m-d H:i:s'));
+			$short_code = md5($id.$get->result->birth_date);
 			
 			$param2 = array();
 			$param2['key'] = 'email_member_approved';
@@ -615,7 +615,7 @@ class Member extends MY_Controller {
 
         if ($get->code == 200)
         {
-            $short_code = md5($id.date('Y-m-d H:i:s'));
+            $short_code = md5($id.$get->result->idcard_number);
             
 			$param3 = array();
 			$param3['key'] = 'email_req_transfer';
