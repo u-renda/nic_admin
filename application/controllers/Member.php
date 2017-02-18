@@ -99,7 +99,7 @@ class Member extends MY_Controller {
 			$short_code = md5($id.date('Y-m-d H:i:s'));
 			
 			$param2 = array();
-			$param2['key'] = '';
+			$param2['key'] = 'email_member_approved';
 			$param2['short_code'] = $short_code;
             $get_template = get_email_template_info($param2, $get->result, $get_member_card);
 			
