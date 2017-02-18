@@ -576,6 +576,7 @@ $config['link_provinsi_delete'] = $config['base_url'].'provinsi_delete';
 $config['link_provinsi_edit'] = $config['base_url'].'provinsi_edit';
 $config['link_provinsi_lists'] = $config['base_url'].'provinsi_lists';
 $config['link_reg_invalid'] = WEB_HOST.'member_invalid';
+$config['link_reset_password'] = WEB_HOST.'reset_password';
 $config['link_secret_santa_create'] = $config['base_url'].'secret_santa_create';
 $config['link_secret_santa_delete'] = $config['base_url'].'secret_santa_delete';
 $config['link_secret_santa_lists'] = $config['base_url'].'secret_santa_lists';

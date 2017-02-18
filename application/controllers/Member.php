@@ -95,8 +95,13 @@ class Member extends MY_Controller {
 			// generate nomor member
 			$get_member_number = get_member_number();
 			$get_member_card = get_member_card($get->result, $this->session->userdata('id_admin'));
-				
-            $get_template = get_email_template_info(array('key' => 'email_approve_member'), $get->result, $get_member_card);
+			
+			$short_code = md5($id.date('Y-m-d H:i:s'));
+			
+			$param2 = array();
+			$param2['key'] = '';
+			$param2['short_code'] = $short_code;
+            $get_template = get_email_template_info(array('key' => 'email_member_approved'), $get->result, $get_member_card);
 			
             if ($this->input->post('submit') == TRUE)
             {
@@ -105,6 +110,7 @@ class Member extends MY_Controller {
 				$param['status'] = 4;
 				$param['member_number'] = $get_member_number;
 				$param['member_card'] = $get_member_card;
+				$param['short_code'] = $short_code;
 				$update = $this->member_model->update($param);
 
 				if ($update->code == 200)

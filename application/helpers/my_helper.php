@@ -367,11 +367,12 @@ if ( ! function_exists('get_email_template_info')) {
                 $content['total_transfer'] = number_format($registration_fee + $delivery_cost + $unique_code, 0, '', '.');
                 $content['link_web_transfer'] = $CI->config->item('link_web_transfer').'?c='.$param['short_code'];
             }
-			elseif ($param['key'] == 'email_approve_member')
+			elseif ($param['key'] == 'email_member_approved')
 			{
 				$content = array();
                 $content['member_name'] = ucwords($member->name);
                 $content['member_card'] = $get_member_card;
+                $content['link_reset_password'] = $CI->config->item('link_reset_password').'?c='.$param['short_code'];
 			}
 			elseif ($param['key'] == 'email_invalid_data')
 			{
