@@ -92,9 +92,17 @@ class Member extends MY_Controller {
 
         if ($get->code == 200)
         {
-			// generate nomor member
-			$get_member_number = get_member_number();
-			$get_member_card = get_member_card($get->result, $this->session->userdata('id_admin'));
+			if ($get->result->member_card == '-')
+			{
+				// generate nomor member
+				$get_member_number = get_member_number();
+				$get_member_card = get_member_card($get->result, $this->session->userdata('id_admin'));
+			}
+			else
+			{
+				$get_member_number = $get->result->member_number;
+				$get_member_card = $get->result->member_card;
+			}
 			
 			$short_code = md5($id.$get->result->birth_date);
 			
