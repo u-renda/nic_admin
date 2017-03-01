@@ -38,6 +38,7 @@
                     <ul class="list-group">
                         <a href="<?php echo $this->config->item('link_member_create'); ?>"><li class="list-group-item">Add New</li></a>
                         <a href="<?php echo $this->config->item('link_member_lists'); ?>"><li class="list-group-item">Lists</li></a>
+                        <a href="<?php echo $this->config->item('link_member_download'); ?>"><li class="list-group-item">Download</li></a>
                     </ul>
                 </div>
             </div>

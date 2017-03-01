@@ -282,6 +282,27 @@ class Member extends MY_Controller {
             echo "Data Not Found";
         }
     }
+	
+	function member_download()
+	{
+		$data = array();
+		$code_member_status = $this->config->item('code_member_status');
+		$btn_download = '';
+		
+		if ($this->input->post('submit') == TRUE)
+		{
+			$status = $this->input->post('status');
+			$offset = $this->input->post('offset') - 1;
+			$status_name = $code_member_status[$status];
+			$param = '?status='.$status.'&offset='.$offset;
+			$btn_download = '<a href="'.$this->config->item('link_member_export').$param.'" type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg btn-block"><i class="fa fa-download"></i> Download '.$status_name.'</a>';
+		}
+		
+		$data['btn_download'] = $btn_download;
+		$data['code_member_status'] = $code_member_status;
+		$data['view_content'] = 'member/member_download';
+        $this->display_view('templates/frame', $data);
+	}
 
     function member_edit()
     {
@@ -448,6 +469,77 @@ class Member extends MY_Controller {
             echo "Data not found";
         }
     }
+	
+	function member_export()
+	{
+		$param = array();
+		$param['status'] = $this->input->get('status');
+		$param['offset'] = $this->input->get('offset');
+		$param['limit'] = 100;
+		$param['order'] = 'member_number';
+        $param['sort'] = 'desc';
+		$query = $this->member_model->lists($param);
+		
+		if ($query->code == 200)
+		{
+			$code_member_status = $this->config->item('code_member_status');
+			$code_member_shirt_size = $this->config->item('code_member_shirt_size');
+			$status = $code_member_status[$param['status']];
+			$counter = $param['offset'] + 100;
+			$offset = $param['offset'] + 1;
+			
+			require_once(APPPATH.'libraries/PHPExcel.php');
+		
+			$objPHPExcel = new PHPExcel();
+			
+			$objPHPExcel->getProperties()->setCreator("NEZindaCLUB Server")
+			->setLastModifiedBy("NEZindaCLUB Server")
+			->setTitle("Member Export")
+			->setSubject("Member Export")
+			->setDescription("Member Export");
+			
+			$objPHPExcel->setActiveSheetIndex(0);
+			$objPHPExcel->getActiveSheet()
+			->setCellValue('A1', 'No')
+			->setCellValue('B1', 'Nama')
+			->setCellValue('C1', 'Member Card')
+			->setCellValue('D1', 'Shirt Size')
+			->setCellValue('E1', 'Status')
+			->setCellValue('F1', 'Shipment Cost')
+			->setCellValue('G1', 'Shipment Address');
+			
+			$i = 2;
+			$j = 1;
+			
+			foreach ($query->result as $item)
+			{
+				// Ongkos kirim
+				$query2 = $this->kota_model->info(array('id_kota' => $item->id_kota));
+				
+				// Gabungin alamat
+				$alamat = $item->shipment_address.' KODE POS: '.$item->postal_code.'. KOTA: '.$query2->result->kota.'. PROVINSI: '.$query2->result->provinsi->provinsi;
+				
+				$shirt_size = $code_member_shirt_size[$item->shirt_size];
+				
+				$objPHPExcel->getActiveSheet(0)
+				->setCellValue('A'.$i, $j)
+				->setCellValue('B'.$i, strtoupper($item->name))
+				->setCellValue('C'.$i, $item->member_card)
+				->setCellValue('D'.$i, $shirt_size)
+				->setCellValue('E'.$i, $status)
+				->setCellValue('F'.$i, $query2->result->price)
+				->setCellValue('G'.$i, ucwords($alamat));
+				$i++; $j++;
+			}
+			
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="member_'.$status.'_export_'.$offset.'_to_'.$counter.'('.date('Ymd').').xls"');
+			header('Cache-Control: max-age=0');
+			
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+			$objWriter->save('php://output');
+		}
+	}
 
     function member_get()
     {
