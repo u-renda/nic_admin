@@ -396,9 +396,15 @@ class Member extends MY_Controller {
 								$param2['id_member_transfer'] = $row->id_member_transfer;
 								$param2['photo'] = $this->input->post('transfer_photo2');
 								$param2['date'] = date('Y-m-d', strtotime($this->input->post('transfer_date2')));
-								$param2['resi'] = $this->input->post('resi2');
 								$param2['other_information'] = $this->input->post('other_information2');
 								$param2['account_name'] = $this->input->post('account_name2');
+								
+								if ($this->input->post('resi2') != '')
+								{
+									$param2['resi'] = $this->input->post('resi2');
+									$param2['status'] = 3;
+								}
+								
 								$query3 = $this->member_transfer_model->update($param2);
 							}
 						}

@@ -39,13 +39,14 @@ class Product extends MY_Controller {
             $this->form_validation->set_rules('description', 'description', 'required');
             $this->form_validation->set_rules('quantity', 'quantity', 'required|numeric');
             $this->form_validation->set_rules('status', 'status', 'required');
+            $this->form_validation->set_rules('type', 'type', 'required');
 
             if ($this->form_validation->run() == TRUE)
             {
                 $param = array();
 				if (is_array($this->input->post('other_photo')) == TRUE)
 				{
-					$param['other_photo'] = $this->input->post('other_photo');
+					$param['other_photo'] = $this->input->post('other_photo', true);
 				}
 				
                 $param['name'] = $this->input->post('name');
@@ -55,6 +56,7 @@ class Product extends MY_Controller {
                 $param['description'] = $this->input->post('description');
                 $param['quantity'] = $this->input->post('quantity');
                 $param['status'] = $this->input->post('status');
+                $param['type'] = $this->input->post('type');
                 $param['size'] = $this->input->post('size');
                 $param['colors'] = $this->input->post('colors');
                 $param['material'] = $this->input->post('material');
@@ -75,6 +77,7 @@ class Product extends MY_Controller {
         }
 
         $data['code_product_status'] = $this->config->item('code_product_status');
+        $data['code_product_type'] = $this->config->item('code_product_type');
         $data['view_content'] = 'product/product_create';
         $this->load->view('templates/frame', $data);
     }

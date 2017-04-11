@@ -612,6 +612,11 @@ $config['code_product_status'] = array(
     4 => 'Sold'
 );
 
+$config['code_product_type'] = array(
+    0 => 'All',
+    1 => 'Member Only'
+);
+
 $config['code_member_status'] = array(
     1 => 'Awaiting Review',
     2 => 'Awaiting Transfer',
