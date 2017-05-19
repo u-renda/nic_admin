@@ -43,6 +43,7 @@
 <script src="<?php echo base_url('assets/js').'/theme.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/theme.init.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/examples.mediagallery.js'; ?>"></script>
+<script src="<?php echo base_url('assets/js').'/app-origin.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app-table.js'; ?>"></script>
 <script src="<?php echo base_url('assets/js').'/app-table-btn.js'; ?>"></script>
