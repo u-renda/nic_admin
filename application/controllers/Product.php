@@ -53,6 +53,7 @@ class Product extends MY_Controller {
                 $param['image'] = $this->input->post('photo');
                 $param['price_public'] = $this->input->post('price_public');
                 $param['price_member'] = $this->input->post('price_member');
+                $param['price_sale'] = $this->input->post('price_sale');
                 $param['description'] = $this->input->post('description');
                 $param['quantity'] = $this->input->post('quantity');
                 $param['status'] = $this->input->post('status');
@@ -206,6 +207,7 @@ class Product extends MY_Controller {
             $data['description'] = replace_new_line(htmlspecialchars_decode($result->description));
             $data['price_public'] = $result->price_public;
             $data['price_member'] = $result->price_member;
+            $data['price_sale'] = $result->price_sale;
             $data['quantity'] = $result->quantity;
             $data['colors'] = $result->detail->colors;
             $data['size'] = $result->detail->size;
