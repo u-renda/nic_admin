@@ -360,25 +360,27 @@ $(function () {
         });
         
         $('#change_media').hide();
-        $('#change_image').hide();
-        $('#change_video').hide();
+        $('.image_option').hide();
+        $('.video_option').hide();
         $('#checkboxMedia').click(function(){
             if($(this).is(":checked")) {
                 $('#change_media').show();
                 $('input[type="radio"]').click(function(){
                     if($(this).attr("value")=="image"){
-                        $('#change_image').show();
-                        $('#change_video').hide();
+                        $('.image_option').show();
+                        $('.video_option').hide();
                     } else if($(this).attr("value")=="video"){
-                        $('#change_image').hide();
-                        $('#change_video').show();
+                        $('.image_option').hide();
+                        $('.video_option').show();
                     } else {
-                        $('#change_image').hide();
-                        $('#change_video').hide();
+                        $('.image_option').hide();
+                        $('.video_option').hide();
                     }
                 });
             } else {
                 $('#change_media').hide();
+                $('.video_option').hide();
+                $('.image_option').hide();
             }
         });
     }
@@ -888,6 +890,38 @@ $(function () {
 (function($) {
     // Post Create
 	if (document.getElementById('post_create_page') != null) {
+		$("#photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'true',
+				type: 'post'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="photo" id="input_photo" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+	}
+    
+    // Post Edit
+	if (document.getElementById('post_edit_page') != null) {
 		$("#photo").fileinput({
 			'showUpload':false,
 			'showRemove': false,

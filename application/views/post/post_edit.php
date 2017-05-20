@@ -66,7 +66,7 @@
                                     <iframe width="420" height="315" src="<?php echo 'https://www.youtube.com/embed/'.$post->video; ?>"></iframe>
                                     <?php } else { echo "<strong>No Media</strong>"; } ?>
                                     <div class="checkbox-custom checkbox-default">
-                                        <input type="checkbox" id="checkboxMedia" value="yes">
+                                        <input type="checkbox" id="checkboxMedia" name="change_media" value="yes">
                                         <label for="checkboxMedia">Change media</label>
                                     </div>
                                     <span id="change_media">
@@ -82,8 +82,16 @@
                                             </label>
                                         </div>
                                     </span>
-                                    <input type="file" class="form-control" name="change_image" id="change_image">
-                                    <input type="text" class="form-control" name="change_video" id="change_video" placeholder="http://www.youtube.com/watch?v=5lPWMx4pNdU" value="<?php echo set_value('change_video'); ?>">
+                                    <div class="image_option margintop10">
+                                        <div class="col-sm-12 paddingleft0" id="div_photo">
+                                            <input name="image" id="photo" class="file" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="video_option margintop10">
+                                        <input type="text" class="form-control" placeholder="http://www.youtube.com/watch?v=5lPWMx4pNdU" name="change_video" id="change_video" value="<?php echo set_value('change_video'); ?>">
+                                    </div>
+                                    <!--<input type="file" class="file" name="change_image" id="change_image">-->
+                                    <!--<input type="text" class="form-control" name="change_video" id="change_video" placeholder="http://www.youtube.com/watch?v=5lPWMx4pNdU" value="<?php echo set_value('change_video'); ?>">-->
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">

@@ -156,4 +156,30 @@ class Imagemanipulation
 			return TRUE;
 		}
 	}
+	
+	function watermark($image, $param)
+	{
+		$CI =& get_instance();
+		$CI->load->library('image_lib');
+		
+		$fpath = UPLOAD_FOLDER;
+		
+		$config['image_library'] = 'gd2';
+		$config['wm_type'] = 'overlay';
+		$config['source_image'] = $image['tmp_name'];
+		$config['wm_overlay_path'] = 'assets/images/watermark_white_128.png';
+		$config['wm_vrt_alignment'] = 'middle';
+		$config['new_image'] = $fpath.$param['type'].'/'.$param['rename_files']."_watermark.".$param['extension'];
+		
+		$CI->image_lib->initialize($config);
+		
+		if ( ! $CI->image_lib->watermark())
+		{
+			return $CI->image_lib->display_errors();
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
 }

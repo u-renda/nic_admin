@@ -519,7 +519,7 @@ else
 {
 	define('API_HOST', 'http://api.nezindaclub.com/');
     define('WEB_HOST', 'http://nezindaclub.com/');
-    define('UPLOAD_HOST', 'http://upload.nezindaclub.com/');
+    define('UPLOAD_HOST', 'http://nezindaclub.com/upload_nic/');
     define('UPLOAD_FOLDER', '/home/nezind45/public_html/upload_nic/');
 }
 
@@ -658,7 +658,8 @@ $config['code_post_type'] = array(
 
 $config['code_post_media_type'] = array(
     1 => 'Video',
-    2 => 'Image'
+    2 => 'Image',
+    3 => 'No Media'
 );
 
 $config['code_yes_no'] = array(

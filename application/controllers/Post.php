@@ -18,9 +18,6 @@ class Post extends MY_Controller {
             $imageFileType = strtolower(pathinfo($param["name"],PATHINFO_EXTENSION));
 
             $param2 = array();
-/*
-            $param2['target_file'] = '/var/www/html/uploads/' . $name . '.' . $imageFileType;
-*/
             $param2['target_file'] = '../uploads/' . $name . '.' . $imageFileType;
             $param2['imageFileType'] = $imageFileType;
             $param2['tmp_name'] = $param["tmp_name"];
@@ -166,7 +163,7 @@ class Post extends MY_Controller {
                 {
                     $media = $get->result->media;
                     $media_type = $get->result->media_type;
-                    if ($this->input->post('change_media') == 'true')
+                    if ($this->input->post('change_media') == TRUE)
                     {
                         if ($this->input->post('media') == 'image')
 						{
@@ -177,6 +174,11 @@ class Post extends MY_Controller {
 						{
 							$media = $this->input->post('video');
 							$media_type = 1;
+						}
+						else
+						{
+							$media = '';
+							$media_type = 3;
 						}
                     }
 
@@ -190,7 +192,7 @@ class Post extends MY_Controller {
                     $param['media_type'] = $media_type;
                     $param['media'] = $media;
                     $param['created_date'] = date('Y-m-d H:i:s', strtotime($this->input->post('created_date')));
-                    $query = $this->post_model->update($param);
+					$query = $this->post_model->update($param);
 
                     if ($query->code == 200)
                     {

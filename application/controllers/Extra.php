@@ -302,6 +302,9 @@ class Extra extends MY_Controller {
 					// resize foto
 					if ($type == 'post')
 					{
+						// foto original dikasih watermark
+						$save_watermark = $this->imagemanipulation->watermark($image, $param);
+						
 						$param['resize'] = $this->config->item('code_1349x600');
 						$resize_1349x600 = $this->imagemanipulation->resize($param, $image, $watermark);
 					}
