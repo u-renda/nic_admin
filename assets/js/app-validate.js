@@ -226,10 +226,10 @@ $(function () {
                     url: form.action,
                     data: $(form).serialize(), 
                     cache: false,
-                    success: function(data)
+                    success: function(result)
                     {
                         $('#myModal').modal('hide');
-                        var response = $.parseJSON(data);
+                        var response = $.parseJSON(result);
                         
                         noty({dismissQueue: true, force: true, layout: 'top', theme: 'defaultTheme', text: response.msg, type: response.type, timeout: 2000});
                         if (response.type == 'success')
@@ -1131,6 +1131,42 @@ $(function () {
 		}).on('fileclear', function(event) {
 			$("#input_photo").remove();
 		});
+		
+		$("#transfer_photo").fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'uploadUrl': newPathname + 'upload_image',
+			'previewZoomSettings': {
+				image: { width: "auto", height: "auto" }
+			},
+			'previewZoomButtonIcons': {
+				prev: '',
+				next: '',
+			},
+			'uploadExtraData': {
+				watermark: 'false',
+				type: 'member'
+			},
+			'allowedFileTypes': ['image'],
+			'dropZoneEnabled': false,
+			'uploadAsync': true,
+			'maxFileCount': 1,
+            'autoReplace': true,
+		}).on('fileuploaded', function(event, data, previewId, index) {
+			var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+			var div = $('#div_photo');
+			div.append('<input type="hidden" name="transfer_photo" id="input_transfer" value="'+response.image+'">');
+		}).on('fileclear', function(event) {
+			$("#input_photo").remove();
+		});
+        
+        $('.date-picker').datepicker({
+            orientation: "auto left",
+            format: "dd M yyyy",
+            autoclose: true,
+            todayHighlight: true
+        });
 		
 		$("#transfer_photo2").fileinput({
 			'showUpload':false,

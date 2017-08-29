@@ -335,27 +335,20 @@ class Member extends MY_Controller {
 				
 				if ($this->input->post('status') == 3)
 				{
-					$this->form_validation->set_rules('transfer_photo', 'transfer photo', 'callback_check_transfer_photo');
+					$this->form_validation->set_rules('transfer_photo', 'transfer photo', 'required', array('required' => '%s harus diisi. Pastikan Anda sudah membaca cara upload foto.'));
 					$this->form_validation->set_rules('transfer_date', 'transfer date', 'required');
 					$this->form_validation->set_rules('account_name', 'account name', 'required');
 				}
 				
                 if ($this->form_validation->run() == FALSE)
                 {
-					validation_errors();
+					$response =  array('msg' => validation_errors(), 'type' => 'error');
+					echo json_encode($response);
+					exit();
 				}
 				else
 				{
                     $param = array();
-					
-					//if ($this->input->post('status') == 3)
-					//{
-					//	$param['other_information'] = $this->input->post('other_information');
-					//	$param['account_name'] = $this->input->post('account_name');
-					//	$param['transfer_date'] = date('Y-m-d', strtotime($this->input->post('transfer_date')));
-					//	$param['transfer_photo'] = $this->input->post('transfer_photo');
-					//}
-
                     $param['id_member'] = $data['id'];
                     $param['id_admin'] = $this->session->userdata('id_admin');
                     $param['id_kota'] = $this->input->post('id_kota');
@@ -388,7 +381,21 @@ class Member extends MY_Controller {
                     if ($query->code == 200)
                     {
 						// update member transfer
-						if ($query2->code == 200 && $query2->count > 0)
+						if ($query2->code == 200 && $query2->count > 0 && $this->input->post('status') == 3)
+						{
+							foreach ($query2->result as $row)
+							{
+								$param2 = array();
+								$param2['id_member_transfer'] = $row->id_member_transfer;
+								$param2['other_information'] = $this->input->post('other_information');
+								$param2['account_name'] = $this->input->post('account_name');
+								$param2['date'] = date('Y-m-d', strtotime($this->input->post('transfer_date')));
+								$param2['photo'] = $this->input->post('transfer_photo');
+								
+								$query3 = $this->member_transfer_model->update($param2);
+							}
+						}
+						elseif ($query2->code == 200 && $query2->count > 0 && $get->result->status == 4)
 						{
 							foreach ($query2->result as $row)
 							{
@@ -415,60 +422,62 @@ class Member extends MY_Controller {
                     {
                         $response =  array('msg' => 'Edit data failed', 'type' => 'error');
                     }
-				
+					
 					echo json_encode($response);
 					exit();
                 }
             }
-			
-			// Get provinsi from id_kota
-			$kota_info = '';
-			$query6 = $this->kota_model->info(array('id_kota' => $get->result->kota->id_kota));
-			
-			if ($query6->code == 200)
-			{
-				$kota_info = $query6->result;
-			}
-			
-			// Get member transfer
-			$member_transfer = array();
-			
-			if ($query2->code == 200 && $query2->count > 0)
-			{
-				foreach ($query2->result as $row)
-				{
-					$member_transfer['id_member_transfer'] = $row->id_member_transfer;
-					$member_transfer['total'] = $row->total;
-					$member_transfer['resi'] = $row->resi;
-					$member_transfer['photo'] = $row->photo;
-					$member_transfer['other_information'] = $row->other_information;
-					$member_transfer['date'] = $row->date;
-					$member_transfer['account_name'] = $row->account_name;
-				}
-			}
 			else
 			{
-				$member_transfer['total'] = 0;
-				$member_transfer['resi'] = '-';
-				$member_transfer['photo'] = '';
-				$member_transfer['other_information'] = '';
-				$member_transfer['date'] = '';
-				$member_transfer['account_name'] = '';
+				// Get provinsi from id_kota
+				$kota_info = '';
+				$query6 = $this->kota_model->info(array('id_kota' => $get->result->kota->id_kota));
+				
+				if ($query6->code == 200)
+				{
+					$kota_info = $query6->result;
+				}
+				
+				// Get member transfer
+				$member_transfer = array();
+				
+				if ($query2->code == 200 && $query2->count > 0)
+				{
+					foreach ($query2->result as $row)
+					{
+						$member_transfer['id_member_transfer'] = $row->id_member_transfer;
+						$member_transfer['total'] = $row->total;
+						$member_transfer['resi'] = $row->resi;
+						$member_transfer['photo'] = $row->photo;
+						$member_transfer['other_information'] = $row->other_information;
+						$member_transfer['date'] = $row->date;
+						$member_transfer['account_name'] = $row->account_name;
+					}
+				}
+				else
+				{
+					$member_transfer['total'] = 0;
+					$member_transfer['resi'] = '-';
+					$member_transfer['photo'] = '';
+					$member_transfer['other_information'] = '';
+					$member_transfer['date'] = '';
+					$member_transfer['account_name'] = '';
+				}
+				
+				$data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
+				$data['code_member_gender'] = $this->config->item('code_member_gender');
+				$data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
+				$data['code_member_religion'] = $this->config->item('code_member_religion');
+				$data['code_member_status'] = $this->config->item('code_member_status');
+				$data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
+				$data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
+				$data['member'] = $get->result;
+				$data['kota'] = $kota_info;
+				$data['kota_lists'] = get_kota(array('limit' => 700, 'id_provinsi' => $data['kota']->provinsi->id_provinsi))->result;
+				$data['member_transfer'] = (object) $member_transfer;
+				$data['view_content'] = 'member/member_edit';
+				$this->display_view('templates/frame', $data);
 			}
-			
-            $data['code_member_idcard_type'] = $this->config->item('code_member_idcard_type');
-            $data['code_member_gender'] = $this->config->item('code_member_gender');
-            $data['code_member_marital_status'] = $this->config->item('code_member_marital_status');
-            $data['code_member_religion'] = $this->config->item('code_member_religion');
-            $data['code_member_status'] = $this->config->item('code_member_status');
-            $data['code_member_shirt_size'] = $this->config->item('code_member_shirt_size');
-            $data['provinsi_lists'] = get_provinsi(array('limit' => 40))->result;
-            $data['member'] = $get->result;
-            $data['kota'] = $kota_info;
-            $data['kota_lists'] = get_kota(array('limit' => 700, 'id_provinsi' => $data['kota']->provinsi->id_provinsi))->result;
-			$data['member_transfer'] = (object) $member_transfer;
-            $data['view_content'] = 'member/member_edit';
-            $this->display_view('templates/frame', $data);
         }
         else
         {

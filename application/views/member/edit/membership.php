@@ -96,12 +96,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 marginbottom15">
+                    <div class="col-sm-6 marginbottom15" id="div_photo">
+                        <label class="control-label">Bukti Transfer <span class="required">*</span></label>
+                        <input name="image" id="transfer_photo" class="file" type="file">
+                    </div>
+                    
+                    <!--<div class="col-sm-6 marginbottom15">
                         <label>Bukti Transfer</label><span class="fontred">*</span>
                         <div class="col-sm-12 paddinglr0">
                             <input type="file" class="form-control" name="transfer_photo" id="transfer_photo">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="col-sm-6 marginbottom15">
                         <label>Other Information</label>
                         <div class="col-sm-12 paddinglr0">
