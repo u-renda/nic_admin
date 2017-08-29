@@ -33,6 +33,7 @@
 						<div class="row">
 							<div class="col-sm-12 marginbottom15" id="div_photo">
 								<label class="control-label">Photos <span class="required">*</span></label>
+								<span id="helpBlock" class="help-block text-danger">(Bisa memilih banyak foto sekaligus)</span>
 								<input name="image[]" multiple id="photo" class="file" type="file">
 							</div>
 						</div>

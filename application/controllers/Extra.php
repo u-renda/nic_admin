@@ -271,7 +271,9 @@ class Extra extends MY_Controller {
 		if (isset($_FILES["image"]))
 		{
 			$image = $_FILES["image"];
-			if (is_array($image["name"]) == TRUE && $image['error'] == 0)
+			
+			// Checking untuk image gallery (karena yang di upload lebih dari 1 foto)
+			if (is_array($image["name"]) == TRUE && $image['error'][0] == 0)
 			{
 				$temp = array();
 				$temp['name'] = $image["name"][0];

@@ -109,6 +109,7 @@ class Imagemanipulation
 						$config['source_image'] = $fpath.$param['type'].'/'.$param['rename_files'].$resize['extra'].".".$param['extension'];
 						$config['wm_overlay_path'] = 'assets/images/watermark_white_128.png';
 						$config['wm_vrt_alignment'] = 'middle';
+						$config['wm_opacity'] = 1;
 						
 						$CI->image_lib->initialize($config);
 						
@@ -169,6 +170,7 @@ class Imagemanipulation
 		$config['source_image'] = $image['tmp_name'];
 		$config['wm_overlay_path'] = 'assets/images/watermark_white_128.png';
 		$config['wm_vrt_alignment'] = 'middle';
+		$config['wm_opacity'] = 1;
 		$config['new_image'] = $fpath.$param['type'].'/'.$param['rename_files']."_watermark.".$param['extension'];
 		
 		$CI->image_lib->initialize($config);
