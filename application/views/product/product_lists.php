@@ -33,6 +33,30 @@
                                         } ?>
                                     </select>
                                 </div>
+                                <div class="col-sm-3 marginbottom15">
+                                    <select class="form-control" name="type" id="type">
+                                        <option value="">-- All Type --</option>
+                                        <?php
+                                        foreach ($code_product_type as $key => $val)
+                                        {
+                                            if (isset($type) == TRUE)
+                                            {
+                                                if ($type == $key)
+                                                {
+                                                    echo '<option value="'.$key.'"'.set_select('type', $key, TRUE).'>'.$val.'</option>';
+                                                }
+                                                else
+                                                {
+                                                    echo '<option value="'.$key.'"'.set_select('type', $key).'>'.$val.'</option>';
+                                                }
+                                            }
+                                            else
+                                            {
+                                                echo '<option value="'.$key.'"'.set_select('type', $key).'>'.$val.'</option>';
+                                            }
+                                        } ?>
+                                    </select>
+                                </div>
                                 <div class="col-sm-1">
                                     <input type="submit" class="btn btn-primary" value="Submit" />
                                 </div>

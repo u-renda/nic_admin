@@ -445,7 +445,6 @@ $(function () {
                     }
                 },
                 price_public: {
-                    required: true,
                     digits: true
                 },
                 price_member: {

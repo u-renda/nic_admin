@@ -26,14 +26,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 marginbottom15">
-                                <label>Price public</label><span class="fontred"> *</span>
-                                <div class="col-sm-12 paddinglr0">
-                                    <input type="text" class="form-control" placeholder="100000" name="price_public" id="price_public" value="<?php echo set_value('price_public'); ?>">
-                                    <div class="fontred" id="errorbox_price_public"></div>
-									<?php echo form_error('price_public', '<div class="fontred">', '</div>'); ?>
-                                </div>
-                            </div>
+							<div class="col-sm-6 marginbottom15">
+								<label>Type</label><span class="fontred"> *</span>
+								<div class="input-group col-sm-12">
+									<?php
+									foreach ($code_product_type as $key => $val)
+									{
+										echo '<div class="radio-inline radio-custom">';
+										echo '<input type="radio" name="type" id="type_'.$key.'" value="'.$key.'" '.set_radio('type', $key); if ($key == 0) { echo 'checked'; } echo '/>';
+										echo '<label for="type_'.$key.'">'.$val.'</label></div>';
+									}
+									?>
+								</div>
+								<?php echo form_error('type', '<div class="fontred">', '</div>'); ?>
+							</div>
                             <div class="col-sm-6 marginbottom15">
                                 <label>Price member</label><span class="fontred"> *</span>
                                 <div class="col-sm-12 paddinglr0">
@@ -58,20 +64,14 @@
 								<div class="fontred" id="errorbox_status"></div>
 								<?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
 							</div>
-							<div class="col-sm-6 marginbottom15">
-								<label>Type</label><span class="fontred"> *</span>
-								<div class="input-group col-sm-12">
-									<?php
-									foreach ($code_product_type as $key => $val)
-									{
-										echo '<div class="radio-inline radio-custom">';
-										echo '<input type="radio" name="type" id="type_'.$key.'" value="'.$key.'" '.set_radio('type', $key); if ($key == 0) { echo 'checked'; } echo '/>';
-										echo '<label for="type_'.$key.'">'.$val.'</label></div>';
-									}
-									?>
-								</div>
-								<?php echo form_error('type', '<div class="fontred">', '</div>'); ?>
-							</div>
+                            <div class="col-sm-6 marginbottom15">
+                                <label>Price public</label>
+                                <div class="col-sm-12 paddinglr0">
+                                    <input type="text" class="form-control" placeholder="100000" name="price_public" id="price_public" value="<?php echo set_value('price_public'); ?>">
+                                    <div class="fontred" id="errorbox_price_public"></div>
+									<?php echo form_error('price_public', '<div class="fontred">', '</div>'); ?>
+                                </div>
+                            </div>
 						</div>
 						<div class="row">
 							<div class="col-sm-6 marginbottom15" id="div_photo">

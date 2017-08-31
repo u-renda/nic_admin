@@ -937,7 +937,8 @@ function resubmit_product(grid) {
                     dataType: "json",
                     type: "POST",
                     data: {
-                        status : $('#status').val()
+                        status : $('#status').val(),
+                        type : $('#type').val()
                     }
                 }
             },
@@ -1004,6 +1005,13 @@ function resubmit_product(grid) {
             filterable: false,
             width: 70,
             template: "#= data.Status #"
+        },
+        {
+            field: "Type",
+            sortable: false,
+            filterable: false,
+            width: 70,
+            template: "#= data.Type #"
         },
         {
             field: "Action",

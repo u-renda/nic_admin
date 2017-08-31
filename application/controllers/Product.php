@@ -133,6 +133,7 @@ class Product extends MY_Controller {
         $sort = 'asc';
         $q = '';
 		$status = $this->input->post('status');
+		$type = $this->input->post('type');
         $sort_post = $this->input->post('sort');
         $filter = $this->input->post('filter');
 
@@ -154,13 +155,14 @@ class Product extends MY_Controller {
             }
         }
 
-        $get = get_product(array('status' => $status, 'q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
+        $get = get_product(array('status' => $status, 'type' => $type, 'q' => $q, 'limit' => $pageSize, 'offset' => $offset, 'order' => $order, 'sort' => $sort));
         $jsonData = array('total' => $get->total, 'results' => array());
         
         foreach ($get->result as $row)
         {
             $status_template = color_product_status($row->status);
-            
+            $code_product_type = $this->config->item('code_product_type');
+			
             $action = '<a title="View Detail" id="'.$row->id_product.'" class="view '.$row->id_product.'-view" href="#"><i class="fa fa-folder-open fontblue font18"></i></a>&nbsp;
                         <a title="Edit" href="product_edit?id='.$row->id_product.'" id="'.$row->id_product.'" class="edit '.$row->id_product.'-edit"><i class="fa fa-pencil fontorange font18"></i></a>&nbsp;
                         <a title="Delete" id="'.$row->id_product.'" class="delete '.$row->id_product.'-delete" href="#"><i class="fa fa-times fontred font18"></i></a>';
@@ -172,6 +174,7 @@ class Product extends MY_Controller {
                 'PriceMember' => number_format($row->price_member, 0, ',', '.'),
                 'Quantity' => $row->quantity,
                 'Status' => $status_template,
+                'Type' => $code_product_type[$row->type],
                 'Action' => $action
             );
 
@@ -186,7 +189,9 @@ class Product extends MY_Controller {
 	{
         $data = array();
 		$data['code_product_status'] = $this->config->item('code_product_status');
+		$data['code_product_type'] = $this->config->item('code_product_type');
 		$data['status'] = $this->input->get_post('status');
+		$data['type'] = $this->input->get_post('type');
         $data['view_content'] = 'product/product_lists';
         $this->display_view('templates/frame', $data);
 	}
