@@ -333,7 +333,7 @@ class Member extends MY_Controller {
                 $this->form_validation->set_rules('shirt_size', 'shirt size', 'required');
                 $this->form_validation->set_rules('status', 'status', 'required');
 				
-				if ($this->input->post('status') == 3)
+				if ($this->input->post('status') == 3 && $get->result->status != 3)
 				{
 					$this->form_validation->set_rules('transfer_photo', 'transfer photo', 'required', array('required' => '%s harus diisi. Pastikan Anda sudah membaca cara upload foto.'));
 					$this->form_validation->set_rules('transfer_date', 'transfer date', 'required');

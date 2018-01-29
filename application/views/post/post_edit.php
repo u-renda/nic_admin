@@ -38,7 +38,7 @@
                                 <div class="input-group col-sm-12">
                                     <?php foreach ($code_post_type as $key => $val) { ?>
                                         <label class="radio-inline radio-custom">
-                                            <input type="radio" name="type" id="type" value="<?php echo $key; ?>" <?php if ($post->type == $key) { echo 'checked="checked"'; } echo set_radio('type', $key) .'><label>'. $val . '</label>'; ?>
+                                            <input type="radio" name="type" id="type_<?php echo $key; ?>" value="<?php echo $key; ?>" <?php if ($post->type == $key) { echo 'checked="checked"'; } echo set_radio('type', $key) .'><label>'. $val . '</label>'; ?>
                                         </label>
                                     <?php } ?>
                                 </div>

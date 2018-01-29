@@ -220,7 +220,8 @@ class Post extends MY_Controller {
 				}
             }
 			
-			$new_data['new_content'] = html_entity_decode($new_data['content']);
+			//$new_data['new_content'] = html_entity_decode($new_data['content']);
+			$new_data['new_content'] = $new_data['content'];
 			
             $data['code_post_status'] = $this->config->item('code_post_status');
             $data['code_post_type'] = $this->config->item('code_post_type');

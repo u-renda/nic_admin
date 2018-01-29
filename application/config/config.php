@@ -359,7 +359,7 @@ $config['encryption_key'] = 'ke94G3o';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'nic_admin';
+$config['sess_cookie_name'] = 'agnation_admin';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
@@ -517,17 +517,17 @@ if(is_bool(LOCALHOST) || LOCALHOST == 'localhost')
 }
 else
 {
-	define('API_HOST', 'http://api.nezindaclub.com/');
-    define('WEB_HOST', 'http://nezindaclub.com/');
-    define('UPLOAD_HOST', 'http://nezindaclub.com/upload_nic/');
+	define('API_HOST', 'http://api.theagnation.com/');
+    define('WEB_HOST', 'http://theagnation.com/');
+    define('UPLOAD_HOST', 'http://theagnation.com/upload_nic/'); // http://upload.theagnation.com/
     define('UPLOAD_FOLDER', '/home/nezind45/public_html/upload_nic/');
 }
 
 $config['development_mode'] = FALSE;
-$config['title'] = 'NEZindaCLUB';
+$config['title'] = 'AGnation';
 $config['nic_api'] = API_HOST;
 $config['nic_key'] = 'bd6fb882067e6896c1c193376cd411ee';
-$config['email_admin'] = 'nezindaclub.official@gmail.com';
+$config['email_admin'] = 'officialagnation@gmail.com';
 $config['registration_fee'] = 150000;
 $config['logo_nic'] = WEB_HOST.'assets/images/logo.png';
 
@@ -652,7 +652,7 @@ $config['code_post_status'] = array(
 );
 
 $config['code_post_type'] = array(
-    1 => 'NEZindaCLUB',
+    1 => 'AGnation',
     2 => 'Agnez Mo'
 );
 
@@ -744,7 +744,7 @@ $config['code_event_status'] = array(
 
 $config['code_faq_category'] = array(
     1 => 'Website',
-    2 => 'NIC'
+    2 => 'AGnation'
 );
 
 $config['code_member_point_status'] = array(

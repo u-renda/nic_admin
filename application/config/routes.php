@@ -151,6 +151,7 @@ $route['order_lists'] = 'order/order_lists';
 // PRODUCT
 $route['product_create'] = 'product/product_create';
 $route['product_delete'] = 'product/product_delete';
+$route['product_edit'] = 'product/product_edit';
 $route['product_get'] = 'product/product_get';
 $route['product_lists'] = 'product/product_lists';
 $route['product_view'] = 'product/product_view';
