@@ -860,7 +860,7 @@ if ( ! function_exists('send_email')) {
         $CI =& get_instance();
 		$CI->load->library('email');
 		
-        $config['useragent'] = 'nezindaclub.com';
+        $config['useragent'] = 'theagnation.com';
         $config['wordwrap'] = FALSE;
         $config['mailtype'] = 'html';
         $CI->email->initialize($config);
