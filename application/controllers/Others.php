@@ -15,8 +15,8 @@ class Others extends MY_Controller {
 
     function check_kota()
 	{
-		$selfname = $this->input->post('selfkota');
-		$name = $this->input->post('kota');
+		$selfname = strtolower($this->input->post('selfkota'));
+		$name = strtolower($this->input->post('kota'));
 		$id = $this->input->post('id_provinsi');
 		$get = $this->kota_model->info(array('kota' => $name, 'id_provinsi' => $id));
 		
@@ -33,8 +33,8 @@ class Others extends MY_Controller {
 
     function check_provinsi()
 	{
-		$selfname = $this->input->post('selfprovinsi');
-		$name = $this->input->post('provinsi');
+		$selfname = strtolower($this->input->post('selfprovinsi'));
+		$name = strtolower($this->input->post('provinsi'));
 		$get = $this->provinsi_model->info(array('provinsi' => $name));
 		
         if ($get->code == 200 && $selfname != $name)
@@ -256,6 +256,45 @@ class Others extends MY_Controller {
         else
         {
             echo "Data Not Found";
+        }
+    }
+
+    function kota_edit()
+    {
+		$data = array();
+        $data['id'] = $this->input->get_post('id');
+        $get = $this->kota_model->info(array('id_kota' => $data['id']));
+		
+        if ($get->code == 200)
+        {
+            if ($this->input->post('submit'))
+            {
+                $this->load->library('form_validation');
+				$this->form_validation->set_rules('kota', 'kota', 'required|callback_check_kota');
+				$this->form_validation->set_rules('price', 'price', 'required');
+				
+                if ($this->form_validation->run() == TRUE)
+                {
+                    $param = array();
+                    $param['id_kota'] = $data['id'];
+                    $param['kota'] = $this->input->post('kota');
+					$param['price'] = $this->input->post('price');
+					$query = $this->kota_model->update($param);
+					
+                    if ($query->code == 200)
+                    {
+                        redirect($this->config->item('link_kota_lists').'?id='.$get->result->provinsi->id_provinsi);
+                    }
+                    else
+                    {
+                        $data['error'] = $query->result;
+                    }
+                }
+            }
+
+            $data['kota'] = $get->result;
+            $data['view_content'] = 'others/kota/kota_edit';
+            $this->display_view('templates/frame', $data);
         }
     }
 
@@ -533,21 +572,21 @@ class Others extends MY_Controller {
 
     function provinsi_edit()
     {
-        $id = $this->input->get_post('id');
-        $get = $this->provinsi_model->info(array('id_provinsi' => $id));
+		$data = array();
+        $data['id'] = $this->input->get_post('id');
+        $get = $this->provinsi_model->info(array('id_provinsi' => $data['id']));
 		
         if ($get->code == 200)
         {
             if ($this->input->post('submit'))
             {
                 $this->load->library('form_validation');
-                $this->form_validation->set_rules('provinsi', 'provinsi', 'required');
+                $this->form_validation->set_rules('provinsi', 'provinsi', 'required|callback_check_provinsi');
 				
                 if ($this->form_validation->run() == TRUE)
                 {
-					
                     $param = array();
-                    $param['id_provinsi'] = $id;
+                    $param['id_provinsi'] = $data['id'];
                     $param['provinsi'] = $this->input->post('provinsi');
                     $query = $this->provinsi_model->update($param);
 					

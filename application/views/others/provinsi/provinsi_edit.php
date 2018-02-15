@@ -5,8 +5,8 @@
                 <h3 class="panel-title">Provinsi - Edit</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_provinsi_edit'); ?>" method="post">
-                    <input type="hidden" name="id" id="id" value="<?php echo $provinsi->id_provinsi; ?>">
+                <form action="<?php echo $this->config->item('link_provinsi_edit').'?id='.$id; ?>" method="post">
+                    <input type="hidden" name="selfprovinsi" id="selfprovinsi" value="<?php echo $provinsi->provinsi; ?>">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-sm-6 marginbottom15">

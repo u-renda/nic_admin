@@ -549,6 +549,7 @@ $config['link_help_member_awaiting_review'] = $config['base_url'].'help_member_a
 $config['link_image_album_create'] = $config['base_url'].'image_album_create';
 $config['link_image_album_lists'] = $config['base_url'].'image_album_lists';
 $config['link_kota_create'] = $config['base_url'].'kota_create';
+$config['link_kota_lists'] = $config['base_url'].'kota_lists';
 $config['link_login'] = $config['base_url'].'index';
 $config['link_logout'] = $config['base_url'].'logout';
 $config['link_member_approved'] = $config['base_url'].'member_approved';

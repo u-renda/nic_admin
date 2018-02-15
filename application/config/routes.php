@@ -111,6 +111,7 @@ $route['faq_get'] = 'others/faq_get';
 $route['faq_lists'] = 'others/faq_lists';
 $route['kota_create'] = 'others/kota_create';
 $route['kota_delete'] = 'others/kota_delete';
+$route['kota_edit'] = 'others/kota_edit';
 $route['kota_get'] = 'others/kota_get';
 $route['kota_lists'] = 'others/kota_lists';
 $route['preferences_create'] = 'others/preferences_create';
