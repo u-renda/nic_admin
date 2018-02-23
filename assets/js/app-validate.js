@@ -444,14 +444,7 @@ $(function () {
                         }
                     }
                 },
-                price_public: {
-                    digits: true
-                },
-                price_member: {
-                    required: true,
-                    digits: true
-                },
-                quantity: {
+                price: {
                     required: true,
                     digits: true
                 }
@@ -467,6 +460,7 @@ $(function () {
                 error.appendTo($('#errorbox_'+id));
             },
             submitHandler: function(form) {
+                tinyMCE.triggerSave();
                 $('.modal-title').text('Please wait...');
                 $('.modal-body').html('<i class="fa fa-spinner fa-spin" style="font-size: 34px;"></i>');
                 $('.modal-dialog').addClass('modal-sm');

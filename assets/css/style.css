@@ -258,6 +258,9 @@ body .btn-primary:hover {
 .radio-inline.radio-custom:last-of-type {
     margin-bottom: 7px;
 }
+.checkbox-custom:last-child, .checkbox-custom:last-of-type {
+    margin-bottom: 7px;
+}
 
 /*
  * Main Content

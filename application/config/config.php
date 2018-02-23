@@ -605,12 +605,18 @@ $config['code_member_religion'] = array(
     7 => 'Lainnya'
 );
 
+$config['code_product_sizable'] = array(
+    0 => 'No',
+    1 => 'Yes'
+);
+
 $config['code_product_status'] = array(
     0 => 'Normal',
-    1 => 'Sale',
+    1 => 'Sale!',
     2 => 'Limited',
     3 => 'Pre Order',
-    4 => 'Sold'
+    4 => 'Sold Out!',
+    5 => 'Stock'
 );
 
 $config['code_product_type'] = array(
@@ -765,14 +771,6 @@ $config['code_member_transfer_status'] = array(
     1 => 'Waiting Transfer',
     2 => 'Paid',
     3 => 'Sent'
-);
-
-$config['code_product_status'] = array(
-    0 => 'Normal',
-    1 => 'Sale',
-    2 => 'Limited',
-    3 => 'Pre-order',
-    4 => 'Sold'
 );
 
 $config['code_product_image_status'] = array(

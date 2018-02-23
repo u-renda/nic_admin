@@ -546,6 +546,16 @@ $(function () {
 				$(".image_option").hide();
 			}
         });
+        
+        $(".sizable_option").hide();
+        $('.sizable').change(function() {
+            if (this.value == 'yes') {
+                $(".sizable_option").show();
+            }
+			else {
+				$(".sizable_option").hide();
+			}
+        });
 	}
     
     // Event - Lists
@@ -983,19 +993,8 @@ function resubmit_product(grid) {
             width: 200
         },
         {
-            field: "PricePublic",
-            title: "Public (Rp)",
-            filterable: false,
-            width: 100
-        },
-        {
-            field: "PriceMember",
-            title: "Member (Rp)",
-            filterable: false,
-            width: 100
-        },
-        {
-            field: "Quantity",
+            field: "Price",
+            title: "Price (Rp)",
             filterable: false,
             width: 100
         },

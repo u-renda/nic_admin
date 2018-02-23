@@ -123,7 +123,7 @@ class Member extends MY_Controller {
 
 				if ($update->code == 200)
 				{
-					// send email invalid
+					// send email
 					$param = array();
 					$param['id_member'] = $id;
 					$param['email_content'] = $this->input->post('email_content');

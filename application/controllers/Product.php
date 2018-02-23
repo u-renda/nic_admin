@@ -7,6 +7,7 @@ class Product extends MY_Controller {
     {
         parent::__construct();
         $this->load->model('product_model');
+        $this->load->model('product_size_model');
     }
 
     function check_product_name()
@@ -34,11 +35,11 @@ class Product extends MY_Controller {
             $this->load->library('form_validation');
             $this->form_validation->set_rules('name', 'name', 'required|callback_check_product_name');
             $this->form_validation->set_rules('photo', 'photo', 'required', array('required' => '%s harus diisi. Pastikan Anda sudah membaca cara upload foto.'));
-            $this->form_validation->set_rules('price_member', 'price member', 'required|numeric');
+            $this->form_validation->set_rules('price', 'price', 'required|numeric');
             $this->form_validation->set_rules('description', 'description', 'required');
-            $this->form_validation->set_rules('quantity', 'quantity', 'required|numeric');
             $this->form_validation->set_rules('status', 'status', 'required');
             $this->form_validation->set_rules('type', 'type', 'required');
+            $this->form_validation->set_rules('sizable', 'type', 'required');
 
             if ($this->form_validation->run() == FALSE)
 			{
@@ -49,27 +50,67 @@ class Product extends MY_Controller {
 			else
 			{
                 $param = array();
+				$param['sizable'] = 0;
+				
 				if (is_array($this->input->post('other_photo')) == TRUE)
 				{
 					$param['other_photo'] = $this->input->post('other_photo', true);
 				}
 				
+				if ($this->input->post('sizable') == 'yes')
+				{
+					$param['sizable'] = 1;
+				}
+				
                 $param['name'] = $this->input->post('name');
                 $param['image'] = $this->input->post('photo');
-                $param['price_public'] = $this->input->post('price_public');
-                $param['price_member'] = $this->input->post('price_member');
-                $param['price_sale'] = $this->input->post('price_sale');
+                $param['price'] = $this->input->post('price');
                 $param['description'] = $this->input->post('description');
-                $param['quantity'] = $this->input->post('quantity');
                 $param['status'] = $this->input->post('status');
                 $param['type'] = $this->input->post('type');
-                $param['size'] = $this->input->post('size');
-                $param['colors'] = $this->input->post('colors');
-                $param['material'] = $this->input->post('material');
                 $query = $this->product_model->create($param);
 				
                 if ($query->code == 200)
                 {
+					if ($this->input->post('sizable') == 'yes')
+					{
+						if ($this->input->post('size_s') == TRUE)
+						{
+							$param2 = array();
+							$param2['id_product'] = $query->result->id_product;
+							$param2['size'] = 'S';
+							$param2['quantity'] = $this->input->post('quantity_s');
+							$query2 = $this->product_size_model->create($param2);
+						}
+						
+						if ($this->input->post('size_m') == TRUE)
+						{
+							$param2 = array();
+							$param2['id_product'] = $query->result->id_product;
+							$param2['size'] = 'M';
+							$param2['quantity'] = $this->input->post('quantity_m');
+							$query2 = $this->product_size_model->create($param2);
+						}
+						
+						if ($this->input->post('size_l') == TRUE)
+						{
+							$param2 = array();
+							$param2['id_product'] = $query->result->id_product;
+							$param2['size'] = 'L';
+							$param2['quantity'] = $this->input->post('quantity_l');
+							$query2 = $this->product_size_model->create($param2);
+						}
+						
+						if ($this->input->post('size_xl') == TRUE)
+						{
+							$param2 = array();
+							$param2['id_product'] = $query->result->id_product;
+							$param2['size'] = 'XL';
+							$param2['quantity'] = $this->input->post('quantity_xl');
+							$query2 = $this->product_size_model->create($param2);
+						}
+					}
+					
 					$response =  array('msg' => 'Create data success', 'type' => 'success', 'location' => $this->config->item('link_product_lists'));
                 }
                 else
@@ -82,6 +123,7 @@ class Product extends MY_Controller {
             }
         }
 
+        $data['code_product_sizable'] = $this->config->item('code_product_sizable');
         $data['code_product_status'] = $this->config->item('code_product_status');
         $data['code_product_type'] = $this->config->item('code_product_type');
         $data['view_content'] = 'product/product_create';
@@ -246,9 +288,7 @@ class Product extends MY_Controller {
             $entry = array(
                 'No' => $i,
                 'Name' => ucwords($row->name),
-                'PricePublic' => number_format($row->price_public, 0, ',', '.'),
-                'PriceMember' => number_format($row->price_member, 0, ',', '.'),
-                'Quantity' => $row->quantity,
+                'Price' => number_format($row->price, 0, ',', '.'),
                 'Status' => $status_template,
                 'Type' => $code_product_type[$row->type],
                 'Action' => $action

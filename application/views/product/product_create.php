@@ -17,11 +17,11 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 marginbottom15">
-                                <label>Quantity</label><span class="fontred"> *</span>
+                                <label>Price</label><span class="fontred"> *</span>
                                 <div class="col-sm-12 paddinglr0">
-                                    <input type="text" class="form-control" placeholder="10" name="quantity" id="quantity" value="<?php echo set_value('quantity'); ?>">
-                                    <div class="fontred" id="errorbox_quantity"></div>
-									<?php echo form_error('quantity', '<div class="fontred">', '</div>'); ?>
+                                    <input type="text" class="form-control" placeholder="100000" name="price" id="price" value="<?php echo set_value('price'); ?>">
+                                    <div class="fontred" id="errorbox_price"></div>
+									<?php echo form_error('price', '<div class="fontred">', '</div>'); ?>
                                 </div>
                             </div>
                         </div>
@@ -40,16 +40,6 @@
 								</div>
 								<?php echo form_error('type', '<div class="fontred">', '</div>'); ?>
 							</div>
-                            <div class="col-sm-6 marginbottom15">
-                                <label>Price member</label><span class="fontred"> *</span>
-                                <div class="col-sm-12 paddinglr0">
-                                    <input type="text" class="form-control" placeholder="100000" name="price_member" id="price_member" value="<?php echo set_value('price_member'); ?>">
-                                    <div class="fontred" id="errorbox_price_member"></div>
-									<?php echo form_error('price_member', '<div class="fontred">', '</div>'); ?>
-                                </div>
-                            </div>
-                        </div>
-						<div class="row">
 							<div class="col-sm-6 marginbottom15">
 								<label>Status</label><span class="fontred"> *</span>
 								<select class="form-control" name="status" id="status">
@@ -64,15 +54,7 @@
 								<div class="fontred" id="errorbox_status"></div>
 								<?php echo form_error('status', '<div class="fontred">', '</div>'); ?>
 							</div>
-                            <div class="col-sm-6 marginbottom15">
-                                <label>Price public</label>
-                                <div class="col-sm-12 paddinglr0">
-                                    <input type="text" class="form-control" placeholder="100000" name="price_public" id="price_public" value="<?php echo set_value('price_public'); ?>">
-                                    <div class="fontred" id="errorbox_price_public"></div>
-									<?php echo form_error('price_public', '<div class="fontred">', '</div>'); ?>
-                                </div>
-                            </div>
-						</div>
+                        </div>
 						<div class="row">
 							<div class="col-sm-6 marginbottom15" id="div_photo">
 								<label class="control-label">Main Photo <span class="required">*</span></label>
@@ -81,7 +63,7 @@
 							<div class="col-sm-6 marginbottom15">
 								<label>Description</label><span class="fontred"> *</span>
 								<div class="col-sm-12 paddinglr0">
-									<textarea class="form-control height150" name="description" id="description"><?php echo set_value('description'); ?></textarea>
+									<textarea class="form-control height150 mceEditor" name="description" id="description"><?php echo set_value('description'); ?></textarea>
 									<div class="fontred" id="errorbox_description"></div>
 									<?php echo form_error('description', '<div class="fontred">', '</div>'); ?>
 								</div>
@@ -89,30 +71,63 @@
 						</div>
 						<div class="well well-sm dark mt-lg">Aditional Information</div>
 						<div class="row">
-                            <div class="col-sm-6 marginbottom15">
-                                <label>Size</label>
-                                <div class="col-sm-12 paddinglr0">
-                                    <input type="text" class="form-control" placeholder="XL, M, 25x12 cm" name="size" id="size" value="<?php echo set_value('size'); ?>">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 marginbottom15">
-                                <label>Colors</label>
-                                <div class="col-sm-12 paddinglr0">
-                                    <input type="text" class="form-control" placeholder="hitam, merah" name="colors" id="colors" value="<?php echo set_value('colors'); ?>">
-                                </div>
-                            </div>
-						</div>
-						<div class="row">
-                            <div class="col-sm-6 marginbottom15">
-								<label>Material</label>
-								<div class="col-sm-12 paddinglr0">
-									<textarea class="form-control height150" name="material" id="material"><?php echo set_value('material'); ?></textarea>
+							<div class="col-sm-6 marginbottom15">
+								<label>Ada ukurannya?</label><span class="fontred"> *</span>
+								<div class="input-group col-sm-12">
+									<div class="radio-inline radio-custom">
+										<input type="radio" name="sizable" class="sizable" id="yes" value="yes" <?php echo set_radio('sizable', 'yes'); ?>>
+										<label for="yes">Yes</label>
+									</div>
+									<div class="radio-inline radio-custom">
+										<input type="radio" name="sizable" class="sizable" id="no" value="no" checked <?php echo set_radio('sizable', 'no'); ?>>
+										<label for="no">No</label>
+									</div>
 								</div>
+								<?php echo form_error('sizable', '<div class="fontred">', '</div>'); ?>
+								
+                                <div class="sizable_option margintop10">
+									<div class="col-sm-12 paddinglr0 form-inline">
+										<div class="checkbox-custom checkbox-default checkbox-inline mt-sm mr-md">
+											<input type="checkbox" name="size_s" id="size_s">
+											<label for="size_s">S</label>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="quantity" name="quantity_s">
+										</div>
+									</div>
+									<div class="col-sm-12 paddinglr0 form-inline">
+										<div class="checkbox-custom checkbox-default checkbox-inline mt-sm mr-md">
+											<input type="checkbox" name="size_m" id="size_m">
+											<label for="size_m">M</label>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="quantity" name="quantity_m">
+										</div>
+									</div>
+									<div class="col-sm-12 paddinglr0 form-inline">
+										<div class="checkbox-custom checkbox-default checkbox-inline mt-sm mr-md">
+											<input type="checkbox" name="size_l" id="size_l">
+											<label for="size_l">L</label>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="quantity" name="quantity_l">
+										</div>
+									</div>
+									<div class="col-sm-12 paddinglr0 form-inline">
+										<div class="checkbox-custom checkbox-default checkbox-inline mt-sm mr-md">
+											<input type="checkbox" name="size_xl" id="size_xl">
+											<label for="size_xl">XL</label>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="quantity" name="quantity_xl">
+										</div>
+									</div>
+                                </div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-12 marginbottom15">
-                                <label>Add other photo</label>
+                                <label>Add another photo</label>
                                 <div class="input-group col-sm-12">
 									<div class="radio-inline radio-custom">
 										<input type="radio" name="media" class="media" id="yes" value="yes" <?php echo set_radio('other_photo', 'yes'); ?>>
