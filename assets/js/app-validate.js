@@ -895,7 +895,7 @@ $(function () {
 				next: '',
 			},
 			'uploadExtraData': {
-				watermark: 'true',
+				watermark: 'false',
 				type: 'post'
 			},
 			'allowedFileTypes': ['image'],
@@ -927,7 +927,7 @@ $(function () {
 				next: '',
 			},
 			'uploadExtraData': {
-				watermark: 'true',
+				watermark: 'false',
 				type: 'post'
 			},
 			'allowedFileTypes': ['image'],

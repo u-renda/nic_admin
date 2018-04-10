@@ -113,7 +113,7 @@ class Admin extends MY_Controller {
                     $param = array();
                     if ($this->input->post('password') != '')
                     {
-                        $data['password'] = $this->input->post('password');
+                        $param['password'] = $this->input->post('password');
                     }
 
                     $param['id_admin'] = $id;

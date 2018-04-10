@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Admin - Edit</h3>
             </div>
             <div class="panel-body">
-                <form action="<?php echo $this->config->item('link_admin_edit').'?id='.$admin->id_admin; ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $this->config->item('link_admin_edit').'?id='.$admin->id_admin; ?>" method="post">
                     <input type="hidden" name="id" id="id" value="<?php echo $admin->id_admin; ?>">
                     <input type="hidden" name="selfemail" id="selfemail" value="<?php echo $admin->email; ?>">
                     <input type="hidden" name="selfinitial" id="selfinitial" value="<?php echo $admin->admin_initial; ?>">
