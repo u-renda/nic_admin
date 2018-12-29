@@ -110,6 +110,19 @@
                 </div>
             </div>
             <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup11" aria-expanded="false" aria-controls="collapseListGroup11">
+                    <div class="panel-heading" role="tab" id="collapseListGroupHeading11">
+                        <h4 class="panel-title">Forms</h4>
+                    </div>
+                </a>
+                <div id="collapseListGroup11" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading11">
+                    <ul class="list-group">
+                        <a href="<?php echo $this->config->item('link_forms_create'); ?>"><li class="list-group-item">Create</li></a>
+                        <a href="<?php echo $this->config->item('link_forms_lists'); ?>"><li class="list-group-item">Lists</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapseListGroup5" aria-expanded="false" aria-controls="collapseListGroup5">
                     <div class="panel-heading" role="tab" id="collapseListGroupHeading5">
                         <h4 class="panel-title">Others</h4>

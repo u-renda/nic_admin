@@ -165,3 +165,10 @@ $route['event_lists'] = 'event/event_lists';
 
 // HELP
 $route['help_member_awaiting_review'] = 'help/help_member_awaiting_review';
+
+// FORMS
+$route['forms_create'] = 'forms/forms_create';
+$route['forms_delete'] = 'forms/forms_delete';
+$route['forms_edit'] = 'forms/forms_edit';
+$route['forms_get'] = 'forms/forms_get';
+$route['forms_lists'] = 'forms/forms_lists';

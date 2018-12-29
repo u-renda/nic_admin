@@ -1,6 +1,6 @@
 $(function () {
     // Member Lists
-    if (document.getElementById('member_lists_page') != null) {
+    if (document.getElementById('member_lists_page') !== null) {
         grid = '#grid_member';
         resubmit_member(grid);
         
@@ -12,14 +12,14 @@ $(function () {
     }
     
     // Member - Request Transfer
-    if (document.getElementById('member_request_transfer_page') != null) {
+    if (document.getElementById('member_request_transfer_page') !== null) {
         $('#submit_member_request_transfer').click(function () {
             $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
         });
     }
     
     // Preferences Lists
-    if (document.getElementById('preferences_lists_page') != null) {
+    if (document.getElementById('preferences_lists_page') !== null) {
         $("#grid_preferences").kendoGrid({
             dataSource: {
                 transport: {
@@ -94,7 +94,7 @@ $(function () {
     }
     
     // API Debug - API Admin
-    if (document.getElementById('api_admin_page') != null) {
+    if (document.getElementById('api_admin_page') !== null) {
         $('#submit_api_admin').click(function () {
             $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
         });
@@ -121,21 +121,21 @@ $(function () {
     }
     
     // API Debug - API Member
-    if (document.getElementById('api_member_page') != null) {
+    if (document.getElementById('api_member_page') !== null) {
         $('#submit_api_member').click(function () {
             $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
         });
     }
     
     // API Debug - API Post
-    if (document.getElementById('api_post_page') != null) {
+    if (document.getElementById('api_post_page') !== null) {
         $('#submit_api_post').click(function () {
             $(this).html('<i class="fa fa-spinner fa-spin font26"></i>');
         });
     }
     
     // Post Lists
-    if (document.getElementById('post_lists_page') != null) {
+    if (document.getElementById('post_lists_page') !== null) {
         grid = '#grid_post';
         resubmit_post(grid);
         
@@ -147,7 +147,7 @@ $(function () {
     }
     
     // Admin Lists
-    if (document.getElementById('admin_lists_page') != null) {
+    if (document.getElementById('admin_lists_page') !== null) {
         grid = '#grid_admin';
         
         $(grid).kendoGrid({
@@ -236,7 +236,7 @@ $(function () {
     }
     
     // FAQ - Lists
-    if (document.getElementById('faq_lists_page') != null) {
+    if (document.getElementById('faq_lists_page') !== null) {
         grid = '#grid_faq';
         
         $(grid).kendoGrid({
@@ -307,7 +307,7 @@ $(function () {
     }
     
     // Provinsi - Lists
-    if (document.getElementById('provinsi_lists_page') != null) {
+    if (document.getElementById('provinsi_lists_page') !== null) {
         grid = '#grid_provinsi';
         
         $(grid).kendoGrid({
@@ -374,7 +374,7 @@ $(function () {
     }
     
     // Kota - Lists
-    if (document.getElementById('kota_lists_page') != null) {
+    if (document.getElementById('kota_lists_page') !== null) {
         grid = '#grid_kota';
         id_provinsi = $(grid).data("provinsi");
         
@@ -444,7 +444,7 @@ $(function () {
     }
     
     // Image Album - Lists
-    if (document.getElementById('image_album_lists_page') != null) {
+    if (document.getElementById('image_album_lists_page') !== null) {
         grid = '#grid_image_album';
         
         $(grid).kendoGrid({
@@ -514,7 +514,7 @@ $(function () {
     }
     
     // Image Album - Create
-    if (document.getElementById('image_album_create_page') != null) {
+    if (document.getElementById('image_album_create_page') !== null) {
         $('.date-picker').datepicker({
             orientation: "auto left",
             format: "dd M yyyy",
@@ -524,7 +524,7 @@ $(function () {
     }
     
     // Product - Lists
-    if (document.getElementById('product_lists_page') != null) {
+    if (document.getElementById('product_lists_page') !== null) {
         grid = '#grid_product';
         resubmit_product(grid);
         
@@ -536,7 +536,7 @@ $(function () {
     }
     
     // Product - Create
-    if (document.getElementById('product_create_page') != null) {
+    if (document.getElementById('product_create_page') !== null) {
         $(".image_option").hide();
         $('.media').change(function() {
             if (this.value == 'yes') {
@@ -546,20 +546,10 @@ $(function () {
 				$(".image_option").hide();
 			}
         });
-        
-        $(".sizable_option").hide();
-        $('.sizable').change(function() {
-            if (this.value == 'yes') {
-                $(".sizable_option").show();
-            }
-			else {
-				$(".sizable_option").hide();
-			}
-        });
 	}
     
     // Event - Lists
-    if (document.getElementById('event_lists_page') != null) {
+    if (document.getElementById('event_lists_page') !== null) {
         grid = '#grid_event';
         resubmit_event(grid);
         
@@ -571,7 +561,7 @@ $(function () {
     }
     
     // Event - Create
-    if (document.getElementById('event_create_page') != null) {
+    if (document.getElementById('event_create_page') !== null) {
         $('.date-picker').datepicker({
             orientation: "auto left",
             format: "dd M yyyy",
@@ -582,7 +572,7 @@ $(function () {
 	}
     
     // Order - Lists
-    if (document.getElementById('order_lists_page') != null) {
+    if (document.getElementById('order_lists_page') !== null) {
         grid = '#grid_order';
         resubmit_order(grid);
         
@@ -592,7 +582,93 @@ $(function () {
             return false;
         });
     }
+    
+    // Forms - Lists
+    if (document.getElementById('forms_lists_page') !== null) {
+        grid = '#grid_forms';
+        resubmit_forms(grid);
+        
+        $('#forms_lists').submit(function (){
+            resubmit_forms(grid);
+            $(grid).data('kendoGrid').refresh();
+            return false;
+        });
+    }
 });
+
+function resubmit_forms(grid) {
+    $(grid).kendoGrid({
+        dataSource: {
+            transport: {
+                read: {
+                    url: "forms_get",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        status : $('#status').val()
+                    }
+                }
+            },
+            schema: {
+                data: "results",
+                total: "total"
+            },
+            pageSize: 20,
+            serverPaging: true,
+            serverSorting: true,
+            serverFiltering: false,
+            cache: false
+        },
+        sortable: {
+            mode: "single",
+            allowUnsort: true
+        },
+        pageable: {
+            buttonCount: 5,
+            input: true,
+            pageSizes: true,
+            refresh: true
+        },
+        filterable: {
+            extra: false,
+            operators: {
+                string: {
+                    contains: "Mengandung kata"
+                }
+            }
+        },
+        selectable: "row",
+        resizable: true,
+        columns: [{
+            field: "No",
+            sortable: false,
+            filterable: false,
+            width: 50
+        },
+        {
+            field: "Title",
+            width: 200
+        },
+        {
+            field: "Description",
+            filterable: false,
+            width: 200
+        },
+        {
+            field: "Status",
+            filterable: false,
+            width: 50,
+            template: "#= data.Status #"
+        },
+        {
+            field: "Action",
+            sortable: false,
+            filterable: false,
+            width: 50,
+            template: "#= data.Action #"
+        }]
+    });
+}
 
 function resubmit_event(grid) {
     $(grid).kendoGrid({
@@ -947,8 +1023,7 @@ function resubmit_product(grid) {
                     dataType: "json",
                     type: "POST",
                     data: {
-                        status : $('#status').val(),
-                        type : $('#type').val()
+                        status : $('#status').val()
                     }
                 }
             },
@@ -993,8 +1068,19 @@ function resubmit_product(grid) {
             width: 200
         },
         {
-            field: "Price",
-            title: "Price (Rp)",
+            field: "PricePublic",
+            title: "Public (Rp)",
+            filterable: false,
+            width: 100
+        },
+        {
+            field: "PriceMember",
+            title: "Member (Rp)",
+            filterable: false,
+            width: 100
+        },
+        {
+            field: "Quantity",
             filterable: false,
             width: 100
         },
@@ -1004,13 +1090,6 @@ function resubmit_product(grid) {
             filterable: false,
             width: 70,
             template: "#= data.Status #"
-        },
-        {
-            field: "Type",
-            sortable: false,
-            filterable: false,
-            width: 70,
-            template: "#= data.Type #"
         },
         {
             field: "Action",

@@ -17,6 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
+date_default_timezone_set('Asia/Jakarta');
+
 $root = "http://".$_SERVER['HTTP_HOST'];
 $root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 
@@ -545,6 +547,9 @@ $config['link_event_create'] = $config['base_url'].'event_create';
 $config['link_event_lists'] = $config['base_url'].'event_lists';
 $config['link_faq_create'] = $config['base_url'].'faq_create';
 $config['link_faq_lists'] = $config['base_url'].'faq_lists';
+$config['link_forms_create'] = $config['base_url'].'forms_create';
+$config['link_forms_edit'] = $config['base_url'].'forms_edit';
+$config['link_forms_lists'] = $config['base_url'].'forms_lists';
 $config['link_help_member_awaiting_review'] = $config['base_url'].'help_member_awaiting_review';
 $config['link_image_album_create'] = $config['base_url'].'image_album_create';
 $config['link_image_album_lists'] = $config['base_url'].'image_album_lists';
@@ -605,18 +610,12 @@ $config['code_member_religion'] = array(
     7 => 'Lainnya'
 );
 
-$config['code_product_sizable'] = array(
-    0 => 'No',
-    1 => 'Yes'
-);
-
 $config['code_product_status'] = array(
     0 => 'Normal',
-    1 => 'Sale!',
+    1 => 'Sale',
     2 => 'Limited',
     3 => 'Pre Order',
-    4 => 'Sold Out!',
-    5 => 'Stock'
+    4 => 'Sold'
 );
 
 $config['code_product_type'] = array(
@@ -649,7 +648,10 @@ $config['code_member_marital_status'] = array(
 
 $config['code_member_shirt_size'] = array(
     0 => 'M',
-    1 => 'XL'
+    1 => 'XL',
+    2 => 'S',
+    3 => 'L',
+    4 => 'XXL'
 );
 
 $config['code_post_status'] = array(
@@ -773,6 +775,14 @@ $config['code_member_transfer_status'] = array(
     3 => 'Sent'
 );
 
+$config['code_product_status'] = array(
+    0 => 'Normal',
+    1 => 'Sale',
+    2 => 'Limited',
+    3 => 'Pre-order',
+    4 => 'Sold'
+);
+
 $config['code_product_image_status'] = array(
     0 => 'Not Available',
     1 => 'Available'
@@ -808,4 +818,14 @@ $config['code_350x350'] = array(
     'width' => '350',
     'height' => '350',
     'extra' => '_350x350'
+);
+
+$config['code_forms_status'] = array(
+    '0' => 'Closed',
+    '1' => 'Open'
+);
+
+$config['code_answer_type'] = array(
+    '1' => 'Text',
+    '2' => 'Multiple Choice'
 );
